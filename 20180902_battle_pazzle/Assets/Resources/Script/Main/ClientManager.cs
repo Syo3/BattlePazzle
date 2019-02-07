@@ -6,63 +6,66 @@ using System.Linq;
 
 public class ClientManager : MonoBehaviour {
 
-	private PhotonPlayer m_player;
-	private PhotonView m_photonview;
+	#region SerializeField
 	[SerializeField]
-	private GameObject panel;
-	[SerializeField]
-	private GameObject block_prefab;
-	[SerializeField]
-	private Range m_range;
+	private GameObject _PanelObjectParent;
+	#endregion
 
-
-	[SerializeField]
-	private GameObject m_panel_object_parent;
-	private int m_turn_cnt;
-	private Common.Const.PLAYER_TYPE m_player_type;
-	private int m_color_type;
+	#region private field
+	private MainManager _mainManager;
+	private Range _range;
+	private PhotonView _photonView;
+	private PhotonPlayer _Player;
+	private int _turnCnt;
+	private Common.Const.PLAYER_TYPE _PlayerType;
+	private int mColorType;
 	private List<List<int>> m_block_list;
+	#endregion
+
+
 
 	#region アクセサ
 	public int PlayerType{
-		get{ return (int)m_player_type; }
+		get{ return (int)_PlayerType; }
 	}
 	public Range Range{
-		set{ m_range = value; }
+		set{ _range = value; }
 	}
 	#endregion
 
-	void Awake() {
-	
+	void Awake()
+	{
 		BlockSerializer.Register();
 	}
 
-	// Use this for initialization
-	void Start () {
-
-		//BlockSerializer.Register();
-
+	/// <summary>
+	/// 初期設定
+	/// </summary>
+	/// <param name="mainManager"></param>
+	public void Init(MainManager mainManager)
+	{
+		_mainManager = mainManager;
 		// ターン数
-		m_turn_cnt = 0;
-
+		_turnCnt    = 0;
 		// プレイヤー情報取得
-		m_player     = PhotonNetwork.player;
-		m_photonview = GetComponent<PhotonView> ();
+		_Player     = PhotonNetwork.player;
+		_photonView = GetComponent<PhotonView>();
 
 		//
 		List<int> panel_object_list;
 		// マスタークライアント
-		if( m_player.isMasterClient ) {
+		if(_Player.isMasterClient){
 			Debug.Log( "Master" );
-			m_player_type     = Common.Const.PLAYER_TYPE.MASTER;
+			_PlayerType     = Common.Const.PLAYER_TYPE.MASTER;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.MASTER, (int)Common.Const.PLAYER_TYPE.GUEST };
 			// 配置範囲を有効化
-			m_range.State     = 1;
+			_range.State     = 1;
 
 		}
+		// ゲスト
 		else{
 			Debug.Log( "Not Master" );
-			m_player_type     = Common.Const.PLAYER_TYPE.GUEST;
+			_PlayerType     = Common.Const.PLAYER_TYPE.GUEST;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.GUEST, (int)Common.Const.PLAYER_TYPE.MASTER };
 		}
 		List<List<int>> panel_list = new List<List<int>>();
@@ -84,20 +87,35 @@ public class ClientManager : MonoBehaviour {
 		Debug.Log( Common.Const.START_POS_X );
 		// 陣地作成
 //		GameObject panel_obj;
-		for( i = 0; i < panel_list.Count; ++i ) {
+		var parentTransform = _mainManager.PanelParentTransform;
+		for(i = 0; i < panel_list.Count; ++i){
 
-			for( j = 0; j < panel_list[i].Count; ++j ) {
+			for(j = 0; j < panel_list[i].Count; ++j){
 
-				var panel_obj = Instantiate( panel, new Vector3( j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f ), Quaternion.identity, transform );
-				panel_obj.GetComponent<Panel> ().SetState( panel_list[i][j] );
+				var panel_obj = Instantiate(_mainManager.PanelPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.4f, Quaternion.identity, parentTransform);
+				panel_obj.GetComponent<Panel> ().SetState(panel_list[i][j]);
 			}
 		}
+
+		for(i = 0; i < 3; ++i){
+
+			var holdBlock = Instantiate(_mainManager.HoldBlockPrefab, new Vector3(2.0f * i - 2.0f, -4.0f, 0.0f), Quaternion.identity, _mainManager.HoldParentTransform).GetComponent<HoldBlock>();
+			holdBlock.Init(_mainManager);
+		}
+
+	}
+
+	// Use this for initialization
+	void Start () {
+
+		//BlockSerializer.Register();
+
 	}
 	
 	// Update is called once per frame
-	void Update () {
-
-		if( m_turn_cnt == (int)m_player_type - 1 ) {
+	void Update ()
+	{
+		if( _turnCnt == (int)_PlayerType - 1 ) {
 			if( Input.GetKey( KeyCode.D ) ) {
 				// if キー操作とか色々
 				//UpdateBlockList();
@@ -110,7 +128,7 @@ public class ClientManager : MonoBehaviour {
 	private void UpdateBlock( List<List<int>> list ) {
 
 		// プレイヤー2は反転して描画
-		if( m_player_type != Common.Const.PLAYER_TYPE.MASTER ) {
+		if( _PlayerType != Common.Const.PLAYER_TYPE.MASTER ) {
 
 			for( var i = 0; i < Common.Const.NUM_HEIGHT; ++i ) {
 				list[i].Reverse();
@@ -130,7 +148,7 @@ public class ClientManager : MonoBehaviour {
 				if( m_block_list[i][j] != list[i][j] ) {
 
 					Debug.Log( "create" );
-					block_obj = Instantiate( block_prefab, new Vector3( j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f ), Quaternion.identity, transform );
+					block_obj = Instantiate(_mainManager.BlockPrefab, new Vector3( j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f ), Quaternion.identity, transform );
 					block_obj.GetComponent<Block> ().SetState( m_block_list[i][j] );
 				}
 			}
@@ -162,7 +180,7 @@ public class ClientManager : MonoBehaviour {
 		//frame_block_list[0][0] = m_color_type + 1;
 		//frame_block_list[0][1] = m_color_type + 1;
 //		object[] arg = new object[]{ frame_block_list };
-		m_photonview.RPC( "UpdateBlock", PhotonTargets.All, range_list );
+		_photonView.RPC( "UpdateBlock", PhotonTargets.All, range_list );
 
 	}
 

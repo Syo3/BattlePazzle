@@ -5,23 +5,24 @@ using System.Linq;
 
 public class Block : MonoBehaviour {
 
+	#region SerializeField
+	[SerializeField, Tooltip("スプライト")]
+	private SpriteRenderer _sprite;
+	#endregion
+
 	private int m_state;
 	private Color m_color;
-	private SpriteRenderer m_sprite;
-	private Vector3 m_dist_vec;
-	private Vector3 m_screen_block_pos;
 
-	private ClientManager m_client_manager;
+	#region acceess
+	public SpriteRenderer SpriteRenderer{
+		get{return _sprite;}
+	}
+	#endregion
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 		m_state  = 0;
-		m_sprite = GetComponent<SpriteRenderer> ();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
 
 	/// <summary>
@@ -42,7 +43,7 @@ public class Block : MonoBehaviour {
 			m_color = new Color( 131.0f, 255.0f, 255.0f, 1.0f );
 			break;
 		}
-		m_sprite.color = m_color;
+		_sprite.color = m_color;
 	}
 
 }

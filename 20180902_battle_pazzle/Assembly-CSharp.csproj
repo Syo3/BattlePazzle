@@ -126,11 +126,13 @@
      <Compile Include="Assets\Resources\Script\Main\Block.cs" />
      <Compile Include="Assets\Resources\Script\Main\BlockSerializer.cs" />
      <Compile Include="Assets\Resources\Script\Main\ClientManager.cs" />
+     <Compile Include="Assets\Resources\Script\Main\HoldBlock.cs" />
      <Compile Include="Assets\Resources\Script\Main\MainManager.cs" />
      <Compile Include="Assets\Resources\Script\Main\NetworkManager.cs" />
      <Compile Include="Assets\Resources\Script\Main\Panel.cs" />
      <Compile Include="Assets\Resources\Script\Main\Range.cs" />
      <None Include="Assets\Photon Unity Networking\link.xml" />
+     <None Include="Assets\Resources\Data\BlockList.txt" />
      <None Include="Assets\Photon Unity Networking\readme.txt" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>/Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>

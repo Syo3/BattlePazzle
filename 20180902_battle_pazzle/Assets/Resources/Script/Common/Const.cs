@@ -2,8 +2,8 @@
 
 	public static class Const {
 
-		public const int NUM_WIDTH  = 8;
-		public const int NUM_HEIGHT = 8;
+		public const int NUM_WIDTH  = 10;
+		public const int NUM_HEIGHT = 10;
 
 		public const float BLOCK_SIZE = 1.0f;
 		public const float BLOCK_SIZE_HALF = BLOCK_SIZE / 2.0f;

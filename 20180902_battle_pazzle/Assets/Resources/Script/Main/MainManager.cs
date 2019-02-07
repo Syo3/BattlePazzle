@@ -4,26 +4,62 @@ using UnityEngine;
 
 public class MainManager : MonoBehaviour {
 
-	[SerializeField]
-	private NetworkManager m_network_mgr;
-	[SerializeField]
-	private Range m_range;
+	#region SerializeFiled
+	[SerializeField, Tooltip("ネットワークマネージャ")]
+	private NetworkManager _network_mgr;
+	[SerializeField, Tooltip("掴み範囲")]
+	private Range _range;
+	[SerializeField, Tooltip("パネルプレハブ")]
+	private GameObject _panelPrefab;
+	[SerializeField, Tooltip("ブロックプレハブ")]
+	private GameObject _blockPrefab;
+	[SerializeField, Tooltip("掴むブロックプレハブ")]
+	private GameObject _holdBlockPrefab;
+	[SerializeField, Tooltip("パネル親行列")]
+	private Transform _panelParent;
+	[SerializeField, Tooltip("掴みブロック親")]
+	private Transform _holdParent;
+	#endregion
 
+	#region private field
+	private List<List<List<int>>> _holdBlockData;
 	private int tmp = 0;
+	#endregion
 
-	// Use this for initialization
-	void Start () {
-		
+	#region access
+	public GameObject PanelPrefab{
+		get{return _panelPrefab;}
 	}
-	
+	public GameObject BlockPrefab{
+		get{return _blockPrefab;}
+	}
+	public GameObject HoldBlockPrefab{
+		get{return _holdBlockPrefab;}
+	}
+	public Transform PanelParentTransform{
+		get{return _panelParent;}
+	}
+	public Transform HoldParentTransform{
+		get{return _holdParent;}
+	}
+	public List<List<List<int>>> HoldBlockData{
+		get{return _holdBlockData;}
+	}
+	#endregion
+
+	void Awake()
+	{
+		LoadBlockListFile();
+	}
+
 	// Update is called once per frame
 	void Update () {
 
-		int network_state = m_network_mgr.State;
+		int network_state = _network_mgr.State;
 		switch( network_state ) {
 		case 1:
 			CreateGame();
-			m_network_mgr.State = 2;
+			_network_mgr.State = 2;
 			break;
 
 		}
@@ -37,12 +73,40 @@ public class MainManager : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// マッチ完了してゲーム作成
+	/// ゲーム開始
 	/// </summary>
-	void CreateGame() {
+	private void CreateGame()
+	{
+		var clientManager    = PhotonNetwork.Instantiate("Prefab/ClientManager", Vector3.zero, Quaternion.identity, 0).GetComponent<ClientManager>();
+		_range.ClientManager = clientManager;
+		clientManager.Range  = _range;
+		clientManager.Init(this);
+	}
 
-		var game_obj = PhotonNetwork.Instantiate( "Prefab/ClientManager", Vector3.zero, Quaternion.identity, 0 );
-		m_range.ClientManager = game_obj.GetComponent<ClientManager> ();
-		game_obj.GetComponent<ClientManager>().Range = m_range;
+	/// <summary>
+	/// 
+	/// </summary>
+	private void LoadBlockListFile()
+	{
+		var textAsset = Resources.Load("Data/BlockList") as TextAsset;
+		var fileLine  = textAsset.text.Split('\n');
+		_holdBlockData    = new List<List<List<int>>>();
+		for(var i = 0; i < fileLine.Length; ++i){
+
+			if(fileLine[i] == ""){
+				break;
+			}
+			_holdBlockData.Add(new List<List<int>>());
+			var blockLineList = fileLine[i].Split(',');
+			for(var j = 0; j < blockLineList.Length; ++j){
+
+				_holdBlockData[i].Add(new List<int>());
+				var blockLine = blockLineList[j].Split(':');
+				for(var n = 0; n < blockLine.Length; ++n){
+					Debug.Log(blockLine[n]);
+					_holdBlockData[i][j].Add(int.Parse(blockLine[n]));
+				}
+			}
+		}
 	}
 }
