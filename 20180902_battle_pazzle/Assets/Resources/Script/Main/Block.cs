@@ -10,40 +10,29 @@ public class Block : MonoBehaviour {
 	private SpriteRenderer _sprite;
 	#endregion
 
-	private int m_state;
-	private Color m_color;
-
-	#region acceess
-	public SpriteRenderer SpriteRenderer{
-		get{return _sprite;}
-	}
+	#region private field
+	private int _state;
+	private Color _color;
 	#endregion
 
-	// Use this for initialization
-	void Start ()
-	{
-		m_state  = 0;
-	}
-
+	#region private function
 	/// <summary>
-	/// Sets the state.
+	/// 初期設定
 	/// </summary>
 	/// <param name="set_state">Set state.</param>
-	public void SetState( int set_state ) {
-
-		if( set_state == m_state ) {
-			return;
-		}
-		m_state = set_state;
-		switch( m_state ) {
+	public void Init(int set_state)
+	{
+		_state = set_state;
+		switch(_state){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:
-			m_color = new Color( 255.0f, 131.0f, 131.0f, 1.0f );
+			_color = Color.black;
 			break;
 		case (int)Common.Const.PLAYER_TYPE.GUEST:
-			m_color = new Color( 131.0f, 255.0f, 255.0f, 1.0f );
+			_color = Color.white;
 			break;
 		}
-		_sprite.color = m_color;
+		Debug.Log(_color);
+		_sprite.color = _color;
 	}
-
+	#endregion
 }

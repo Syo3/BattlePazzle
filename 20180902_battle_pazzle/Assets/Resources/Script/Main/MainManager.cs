@@ -7,18 +7,20 @@ public class MainManager : MonoBehaviour {
 	#region SerializeFiled
 	[SerializeField, Tooltip("ネットワークマネージャ")]
 	private NetworkManager _network_mgr;
-	[SerializeField, Tooltip("掴み範囲")]
-	private Range _range;
 	[SerializeField, Tooltip("パネルプレハブ")]
 	private GameObject _panelPrefab;
 	[SerializeField, Tooltip("ブロックプレハブ")]
 	private GameObject _blockPrefab;
 	[SerializeField, Tooltip("掴むブロックプレハブ")]
 	private GameObject _holdBlockPrefab;
+	[SerializeField, Tooltip("掴みブロック子要素プレハブ")]
+	private GameObject _placementBlockPrefab;
 	[SerializeField, Tooltip("パネル親行列")]
 	private Transform _panelParent;
 	[SerializeField, Tooltip("掴みブロック親")]
 	private Transform _holdParent;
+	[SerializeField, Tooltip("client manager")]
+	private ClientManager _clientManager;
 	#endregion
 
 	#region private field
@@ -36,6 +38,9 @@ public class MainManager : MonoBehaviour {
 	public GameObject HoldBlockPrefab{
 		get{return _holdBlockPrefab;}
 	}
+	public GameObject PlacementBlockPrefab{
+		get{return _placementBlockPrefab;}
+	}
 	public Transform PanelParentTransform{
 		get{return _panelParent;}
 	}
@@ -44,6 +49,9 @@ public class MainManager : MonoBehaviour {
 	}
 	public List<List<List<int>>> HoldBlockData{
 		get{return _holdBlockData;}
+	}
+	public ClientManager ClientManager{
+		get{return _clientManager;}
 	}
 	#endregion
 
@@ -77,10 +85,8 @@ public class MainManager : MonoBehaviour {
 	/// </summary>
 	private void CreateGame()
 	{
-		var clientManager    = PhotonNetwork.Instantiate("Prefab/ClientManager", Vector3.zero, Quaternion.identity, 0).GetComponent<ClientManager>();
-		_range.ClientManager = clientManager;
-		clientManager.Range  = _range;
-		clientManager.Init(this);
+		//var clientManager    = PhotonNetwork.Instantiate("Prefab/ClientManager", Vector3.zero, Quaternion.identity, 0).GetComponent<ClientManager>();
+		_clientManager.Init(this);
 	}
 
 	/// <summary>

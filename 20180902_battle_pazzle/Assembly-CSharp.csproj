@@ -130,6 +130,7 @@
      <Compile Include="Assets\Resources\Script\Main\MainManager.cs" />
      <Compile Include="Assets\Resources\Script\Main\NetworkManager.cs" />
      <Compile Include="Assets\Resources\Script\Main\Panel.cs" />
+     <Compile Include="Assets\Resources\Script\Main\PlacementBlock.cs" />
      <Compile Include="Assets\Resources\Script\Main\Range.cs" />
      <None Include="Assets\Photon Unity Networking\link.xml" />
      <None Include="Assets\Resources\Data\BlockList.txt" />

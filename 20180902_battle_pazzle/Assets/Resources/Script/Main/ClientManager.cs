@@ -7,17 +7,16 @@ using System.Linq;
 public class ClientManager : MonoBehaviour {
 
 	#region SerializeField
-	[SerializeField]
-	private GameObject _PanelObjectParent;
+	//[SerializeField]
+	//private GameObject _PanelObjectParent;
 	#endregion
 
 	#region private field
 	private MainManager _mainManager;
-	private Range _range;
 	private PhotonView _photonView;
 	private PhotonPlayer _Player;
 	private int _turnCnt;
-	private Common.Const.PLAYER_TYPE _PlayerType;
+	private Common.Const.PLAYER_TYPE _playerType;
 	private int mColorType;
 	private List<List<int>> m_block_list;
 	#endregion
@@ -26,10 +25,7 @@ public class ClientManager : MonoBehaviour {
 
 	#region アクセサ
 	public int PlayerType{
-		get{ return (int)_PlayerType; }
-	}
-	public Range Range{
-		set{ _range = value; }
+		get{ return (int)_playerType; }
 	}
 	#endregion
 
@@ -56,16 +52,13 @@ public class ClientManager : MonoBehaviour {
 		// マスタークライアント
 		if(_Player.isMasterClient){
 			Debug.Log( "Master" );
-			_PlayerType     = Common.Const.PLAYER_TYPE.MASTER;
+			_playerType     = Common.Const.PLAYER_TYPE.MASTER;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.MASTER, (int)Common.Const.PLAYER_TYPE.GUEST };
-			// 配置範囲を有効化
-			_range.State     = 1;
-
 		}
 		// ゲスト
 		else{
 			Debug.Log( "Not Master" );
-			_PlayerType     = Common.Const.PLAYER_TYPE.GUEST;
+			_playerType     = Common.Const.PLAYER_TYPE.GUEST;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.GUEST, (int)Common.Const.PLAYER_TYPE.MASTER };
 		}
 		List<List<int>> panel_list = new List<List<int>>();
@@ -85,8 +78,7 @@ public class ClientManager : MonoBehaviour {
 		Debug.Log( "count:"+panel_list.Count );
 		Debug.Log( Common.Const.BLOCK_SIZE );
 		Debug.Log( Common.Const.START_POS_X );
-		// 陣地作成
-//		GameObject panel_obj;
+		// ステージ作成
 		var parentTransform = _mainManager.PanelParentTransform;
 		for(i = 0; i < panel_list.Count; ++i){
 
@@ -96,26 +88,18 @@ public class ClientManager : MonoBehaviour {
 				panel_obj.GetComponent<Panel> ().SetState(panel_list[i][j]);
 			}
 		}
-
+		// 掴むブロック作成
 		for(i = 0; i < 3; ++i){
 
 			var holdBlock = Instantiate(_mainManager.HoldBlockPrefab, new Vector3(2.0f * i - 2.0f, -4.0f, 0.0f), Quaternion.identity, _mainManager.HoldParentTransform).GetComponent<HoldBlock>();
 			holdBlock.Init(_mainManager);
 		}
-
-	}
-
-	// Use this for initialization
-	void Start () {
-
-		//BlockSerializer.Register();
-
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		if( _turnCnt == (int)_PlayerType - 1 ) {
+		if( _turnCnt == (int)_playerType - 1 ) {
 			if( Input.GetKey( KeyCode.D ) ) {
 				// if キー操作とか色々
 				//UpdateBlockList();
@@ -125,12 +109,16 @@ public class ClientManager : MonoBehaviour {
 
 
 	[PunRPC]
-	private void UpdateBlock( List<List<int>> list ) {
+	private void UpdateBlock(List<List<int>> list, Common.Const.PLAYER_TYPE playerType)
+	{
+		Debug.Log( "PunRPC start" );
+		Debug.Log(list);
+		Debug.Log(list.Count);
 
 		// プレイヤー2は反転して描画
-		if( _PlayerType != Common.Const.PLAYER_TYPE.MASTER ) {
+		if(_playerType != playerType){
 
-			for( var i = 0; i < Common.Const.NUM_HEIGHT; ++i ) {
+			for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 				list[i].Reverse();
 			}
 			list.Reverse();
@@ -139,17 +127,19 @@ public class ClientManager : MonoBehaviour {
 		Debug.Log( "PunRPC start" );
 
 		Debug.Log( list[0][0] );
-		GameObject block_obj;
 		for( var i = 0; i < Common.Const.NUM_HEIGHT; ++i ) {
 
 			for( var j = 0; j < Common.Const.NUM_WIDTH; ++j ) {
 
-				Debug.Log( i+","+j+":"+m_block_list[i][j]+"-"+list[i][j] );
 				if( m_block_list[i][j] != list[i][j] ) {
 
-					Debug.Log( "create" );
-					block_obj = Instantiate(_mainManager.BlockPrefab, new Vector3( j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f ), Quaternion.identity, transform );
-					block_obj.GetComponent<Block> ().SetState( m_block_list[i][j] );
+					Debug.Log( "create:"+i+","+j );
+
+//								Instantiate(_mainManager.PanelPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.4f, Quaternion.identity, parentTransform);
+
+					var block = Instantiate(_mainManager.BlockPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.4f, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<Block>();
+					block.Init(list[i][j]);
+					m_block_list[i][j] = list[i][j];
 				}
 			}
 		}
@@ -180,8 +170,11 @@ public class ClientManager : MonoBehaviour {
 		//frame_block_list[0][0] = m_color_type + 1;
 		//frame_block_list[0][1] = m_color_type + 1;
 //		object[] arg = new object[]{ frame_block_list };
-		_photonView.RPC( "UpdateBlock", PhotonTargets.All, range_list );
+		var obj = new object[]{range_list, _playerType};
 
+
+		//_photonView.RPC( "UpdateBlock", PhotonTargets.All, range_list );
+		_photonView.RPC("UpdateBlock", PhotonTargets.All, obj);
 	}
 
 
