@@ -17,6 +17,7 @@ public class Area : MonoBehaviour {
 	}
 	public Block Block{
 		get{return _block;}
+		set{_block = value;}
 	}
 	public int PanelState{
 		get{return _panelState;}
@@ -29,6 +30,7 @@ public class Area : MonoBehaviour {
 	#region public function
 	public void Init(Panel panel, int panelState, int blockState)
 	{
+		_block      = null;
 		_panel      = panel;
 		_panelState = panelState;
 		_blockState = blockState;

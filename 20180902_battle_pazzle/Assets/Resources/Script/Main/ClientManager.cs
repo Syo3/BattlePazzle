@@ -80,7 +80,7 @@ public class ClientManager : MonoBehaviour {
 		Debug.Log( Common.Const.START_POS_X );
 		// ステージ作成
 		var parentTransform = _mainManager.PanelParentTransform;
-		var _areaList       = new List<List<Area>>();
+		_areaList           = new List<List<Area>>();
 		for(i = 0; i < state_list.Count; ++i){
 
 			_areaList.Add(new List<Area>());
@@ -121,7 +121,7 @@ public class ClientManager : MonoBehaviour {
 		Debug.Log(list);
 		Debug.Log(list.Count);
 
-		// プレイヤー2は反転して描画
+		// 受信側プレイヤーは反転表示
 		if(_playerType != playerType){
 
 			for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
@@ -137,14 +137,19 @@ public class ClientManager : MonoBehaviour {
 
 			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
 
-				if(_areaList[i][j].BlockState != list[i][j]){
+				Debug.Log(_areaList.Count);
+				Debug.Log(_areaList[i].Count);
+				Debug.Log(_areaList[i][j]);
+				Debug.Log(_areaList[i][j].Block);
+				if(list[i][j] > 0 && _areaList[i][j].Block == null){
 
 					Debug.Log( "create:"+i+","+j );
 //								Instantiate(_mainManager.PanelPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.4f, Quaternion.identity, parentTransform);
 
 					var block = Instantiate(_mainManager.BlockPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.4f, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<Block>();
 					block.Init(list[i][j]);
-					_blockList[i][j] = list[i][j];
+					//_blockList[i][j] = list[i][j];
+					_areaList[i][j].Block = block;
 				}
 			}
 		}
@@ -153,9 +158,50 @@ public class ClientManager : MonoBehaviour {
 		//m_turn_cnt = ++m_turn_cnt % 2;
 		// 敵と味方でY軸が逆になるのがネックよねー
 		if(playerType == _playerType){
-			Invoke("AreaUpdateCheck", 1.0f);
+			Invoke("AreaUpdateCheck", 0.5f);
 		}
 	}
+
+	[PunRPC]
+	/// <summary>
+	/// ブロック削除処理
+	/// </summary>
+	/// <param name="list"></param>
+	/// <param name="playerType"></param>
+	private void DeleteBlock(List<List<int>> list, List<List<int>> panelList,Common.Const.PLAYER_TYPE playerType)
+	{
+		// 受信側プレイヤーは反転表示
+		Debug.Log("reverse check:"+(_playerType != playerType));
+		if(_playerType != playerType){
+			for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
+				panelList[i].Reverse();
+			}
+			panelList.Reverse();
+		}
+		// ブロック削除
+		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
+
+			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
+
+				if(list[i][j] > 0 && _areaList[i][j].Block != null){
+					Destroy(_areaList[i][j].Block.gameObject);
+					_areaList[i][j].Block = null;
+				}
+			}
+		}
+		// パネル更新
+		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
+
+			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
+
+				if(panelList[i][j] != _areaList[i][j].Panel.State){
+					_areaList[i][j].Panel.SetState(panelList[i][j]);
+//					_areaList[i][j].PanelState = panelList[i][j];
+				}
+			}
+		}
+	}
+
 
 	/// <summary>
 	/// ブロック更新処理
@@ -172,7 +218,57 @@ public class ClientManager : MonoBehaviour {
 	/// </summary>
 	public void AreaUpdateCheck()
 	{
+		var deleteList = new List<List<int>>();
+		var lineCnt    = 0;
+		for(var i = 0; i < _areaList.Count; ++i){
 
+			deleteList.Add(Enumerable.Repeat(0, _areaList[i].Count).ToList());
+			var j = 0;
+			for(; j < _areaList[i].Count; ++j){
+
+				if(_areaList[i][j].Block == null || _areaList[i][j].Block.State != (int)_playerType){
+					break;
+				}
+			}
+			// ライン全部埋まったか
+			if(j == _areaList[i].Count){
+				for(j = 0; j < _areaList[i].Count; ++j){
+					Destroy(_areaList[i][j].Block.gameObject);
+					_areaList[i][j].Block = null;
+					deleteList[i][j]      = 1;
+				}
+				++lineCnt;
+			}
+		}
+		// パネル更新判定
+		if(lineCnt > 0){
+			var checkLineCnt    = lineCnt;
+			var updatePanelList = new List<List<int>>();			
+			for(var i = 0; i < _areaList.Count; ++i){
+
+				updatePanelList.Add(new List<int>());
+				for(var j = 0; j < _areaList[i].Count; ++j){
+					updatePanelList[i].Add(_areaList[i][j].Panel.State);
+				}
+			}
+
+
+			for(var i = 0; i < _areaList.Count; ++i){
+
+				if(updatePanelList[i][0] != (int)_playerType){
+					Debug.Log("delete check:"+i);
+					for(var j = 0; j < _areaList[i].Count; ++j){
+						updatePanelList[i][j] = (int)_playerType;
+					}
+					--checkLineCnt;
+					if(checkLineCnt == 0){
+						break;
+					}
+				}
+			}
+			var obj = new object[]{deleteList, updatePanelList, _playerType};
+			_photonView.RPC("DeleteBlock", PhotonTargets.All, obj);
+		}
 	}
 }
 

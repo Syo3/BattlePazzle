@@ -15,6 +15,12 @@ public class Block : MonoBehaviour {
 	private Color _color;
 	#endregion
 
+	#region access
+	public int State{
+		get{return _state;}
+	}
+	#endregion
+
 	#region private function
 	/// <summary>
 	/// 初期設定

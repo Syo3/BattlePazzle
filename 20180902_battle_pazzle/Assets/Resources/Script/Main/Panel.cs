@@ -4,8 +4,20 @@ using UnityEngine;
 
 public class Panel : MonoBehaviour {
 
+	#region SerializeField
 	[SerializeField, Tooltip("スプライト")]
 	private SpriteRenderer _sprite;
+	#endregion
+
+	#region private field
+	private int _state;
+	#endregion
+
+	#region access
+	public int State{
+		get{return _state;}
+	}
+	#endregion
 
 	/// <summary>
 	/// Sets the state.
@@ -25,5 +37,6 @@ public class Panel : MonoBehaviour {
 			_sprite.color = Color.black;
 			break;
 		}
+		_state = state;
 	}
 }
