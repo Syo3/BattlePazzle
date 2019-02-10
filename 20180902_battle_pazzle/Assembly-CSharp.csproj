@@ -123,6 +123,7 @@
      <Compile Include="Assets\PhotonChatApi\ChatUserStatus.cs" />
      <Compile Include="Assets\PhotonChatApi\IChatClientListener.cs" />
      <Compile Include="Assets\Resources\Script\Common\Const.cs" />
+     <Compile Include="Assets\Resources\Script\Main\Area.cs" />
      <Compile Include="Assets\Resources\Script\Main\Block.cs" />
      <Compile Include="Assets\Resources\Script\Main\BlockSerializer.cs" />
      <Compile Include="Assets\Resources\Script\Main\ClientManager.cs" />

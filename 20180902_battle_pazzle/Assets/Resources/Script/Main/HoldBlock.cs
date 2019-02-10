@@ -144,6 +144,5 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler {
 		_mainManager.ClientManager.UpdateBlockList(_sendBlockContainer);
 		Reset();
 	}
-
 	#endregion
 }

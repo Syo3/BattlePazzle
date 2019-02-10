@@ -177,7 +177,7 @@ ee8540d1efea9148410a914295c889e3 Assembly-CSharp.dll:.OnJoinedInstantiate
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.NetworkManager
 6b7f3b627f03aa2dae54ad0ecb0a7d7a Assembly-CSharp.dll:.PhotonLagSimulationGui
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
-f046a4693b518dba527e80d29d41421b Assembly-CSharp.dll:.MainManager
+ac2fdd075bd3d3454598baf3d668d77e Assembly-CSharp.dll:.MainManager
 ec0082b40adf3b0930cd87250ffdbf1d Assembly-CSharp.dll:.SupportLogger
 1356b4a6096c35c829823b7e28399030 Assembly-CSharp.dll:.ShowStatusWhenConnecting
 298901e5fd6ccf8cd5b55cb6018e6abe Assembly-CSharp.dll:.PickupItemSimple

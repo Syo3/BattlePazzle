@@ -62,8 +62,6 @@ public static class BlockSerializer{
 				get_list[i].Add( set_box );
 			}
 		}
-
-
 		return get_list;
 	}
 

@@ -7,6 +7,8 @@ public class MainManager : MonoBehaviour {
 	#region SerializeFiled
 	[SerializeField, Tooltip("ネットワークマネージャ")]
 	private NetworkManager _network_mgr;
+	[SerializeField, Tooltip("エリアプレハブ")]
+	private GameObject _areaPrefab;
 	[SerializeField, Tooltip("パネルプレハブ")]
 	private GameObject _panelPrefab;
 	[SerializeField, Tooltip("ブロックプレハブ")]
@@ -29,6 +31,9 @@ public class MainManager : MonoBehaviour {
 	#endregion
 
 	#region access
+	public GameObject AreaPrefab{
+		get{return _areaPrefab;}
+	}
 	public GameObject PanelPrefab{
 		get{return _panelPrefab;}
 	}
