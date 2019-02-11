@@ -82,8 +82,7 @@ public class Range : MonoBehaviour {
 		Debug.Log( list_x+","+list_y );
 
 		var range_list = new List<List<int>>();
-		int i,j;
-		for( i = 0; i < Common.Const.NUM_HEIGHT; ++i ) {
+		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i ) {
 			range_list.Add( Enumerable.Repeat( 0, Common.Const.NUM_WIDTH ).ToList() );
 		}
 

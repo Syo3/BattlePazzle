@@ -9,15 +9,15 @@ public class ClientManager : MonoBehaviour {
 	#region SerializeField
 	//[SerializeField]
 	//private GameObject _PanelObjectParent;
+	[SerializeField, Tooltip("PhotonView")]
+	private PhotonView _photonView;
 	#endregion
 
 	#region private field
 	private MainManager _mainManager;
-	private PhotonView _photonView;
-	private PhotonPlayer _Player;
+	private PhotonPlayer _player;
 	private int _turnCnt;
 	private Common.Const.PLAYER_TYPE _playerType;
-	private List<List<int>> _blockList;
 	private List<List<Area>> _areaList;
 	#endregion
 
@@ -42,13 +42,11 @@ public class ClientManager : MonoBehaviour {
 		// ターン数
 		_turnCnt    = 0;
 		// プレイヤー情報取得
-		_Player     = PhotonNetwork.player;
-		_photonView = GetComponent<PhotonView>();
-
+		_player     = PhotonNetwork.player;
 		//
 		List<int> panel_object_list;
 		// マスタークライアント
-		if(_Player.isMasterClient){
+		if(_player.IsMasterClient){
 			Debug.Log( "Master" );
 			_playerType     = Common.Const.PLAYER_TYPE.MASTER;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.MASTER, (int)Common.Const.PLAYER_TYPE.GUEST };
@@ -59,12 +57,9 @@ public class ClientManager : MonoBehaviour {
 			_playerType     = Common.Const.PLAYER_TYPE.GUEST;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.GUEST, (int)Common.Const.PLAYER_TYPE.MASTER };
 		}
-		List<List<int>> state_list = new List<List<int>>();
-		_blockList                 = new List<List<int>>();
-		
+		List<List<int>> state_list = new List<List<int>>();		
 
-		int i,j;
-		for( i = 0; i < Common.Const.NUM_HEIGHT; ++i ) {
+		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i ) {
 
 			// 上下でエリアを分ける
 			if( Common.Const.NUM_HEIGHT / 2 > i ) {
@@ -81,10 +76,10 @@ public class ClientManager : MonoBehaviour {
 		// ステージ作成
 		var parentTransform = _mainManager.PanelParentTransform;
 		_areaList           = new List<List<Area>>();
-		for(i = 0; i < state_list.Count; ++i){
+		for(var i = 0; i < state_list.Count; ++i){
 
 			_areaList.Add(new List<Area>());
-			for(j = 0; j < state_list[i].Count; ++j){
+			for(var j = 0; j < state_list[i].Count; ++j){
 
 				var area  = Instantiate(_mainManager.AreaPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.4f, Quaternion.identity, parentTransform).GetComponent<Area>();
 				var panel = Instantiate(_mainManager.PanelPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.4f, Quaternion.identity, area.transform).GetComponent<Panel>();
@@ -95,7 +90,7 @@ public class ClientManager : MonoBehaviour {
 			}
 		}
 		// 掴むブロック作成
-		for(i = 0; i < 3; ++i){
+		for(var i = 0; i < 3; ++i){
 
 			var holdBlock = Instantiate(_mainManager.HoldBlockPrefab, new Vector3(2.0f * i - 2.0f, -4.0f, 0.0f), Quaternion.identity, _mainManager.HoldParentTransform).GetComponent<HoldBlock>();
 			holdBlock.Init(_mainManager);
@@ -115,6 +110,11 @@ public class ClientManager : MonoBehaviour {
 
 
 	[PunRPC]
+	/// <summary>
+	/// ブロック生成RPC
+	/// </summary>
+	/// <param name="list"></param>
+	/// <param name="playerType"></param>
 	private void UpdateBlock(List<List<int>> list, Common.Const.PLAYER_TYPE playerType)
 	{
 		Debug.Log( "PunRPC start" );
@@ -141,7 +141,7 @@ public class ClientManager : MonoBehaviour {
 				Debug.Log(_areaList[i].Count);
 				Debug.Log(_areaList[i][j]);
 				Debug.Log(_areaList[i][j].Block);
-				if(list[i][j] > 0 && _areaList[i][j].Block == null){
+				if(list[i][j] > 0 && _areaList[i][j].Block == null && _areaList[i][j].Panel.State == list[i][j]){
 
 					Debug.Log( "create:"+i+","+j );
 //								Instantiate(_mainManager.PanelPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.4f, Quaternion.identity, parentTransform);
@@ -164,7 +164,7 @@ public class ClientManager : MonoBehaviour {
 
 	[PunRPC]
 	/// <summary>
-	/// ブロック削除処理
+	/// ブロック削除RPC
 	/// </summary>
 	/// <param name="list"></param>
 	/// <param name="playerType"></param>
@@ -175,8 +175,10 @@ public class ClientManager : MonoBehaviour {
 		if(_playerType != playerType){
 			for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 				panelList[i].Reverse();
+				list[i].Reverse();
 			}
 			panelList.Reverse();
+			list.Reverse();
 		}
 		// ブロック削除
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
@@ -197,8 +199,23 @@ public class ClientManager : MonoBehaviour {
 				if(panelList[i][j] != _areaList[i][j].Panel.State){
 					_areaList[i][j].Panel.SetState(panelList[i][j]);
 //					_areaList[i][j].PanelState = panelList[i][j];
+					// ブロックがあればブロック移動
+					if(_areaList[i][j].Block != null){
+						if(i + 1 < Common.Const.NUM_HEIGHT && _areaList[i+1][j].Block == null){
+							_areaList[i+1][j].Block = _areaList[i][j].Block;
+							_areaList[i+1][j].Block.transform.position = _areaList[i+1][j].Panel.transform.position;
+							_areaList[i][j].Block = null;
+						}
+						else{
+							Destroy(_areaList[i][j].Block.gameObject);
+						}
+					}
 				}
 			}
+		}
+		// ターン？
+		if(playerType == _playerType){
+
 		}
 	}
 
@@ -268,6 +285,9 @@ public class ClientManager : MonoBehaviour {
 			}
 			var obj = new object[]{deleteList, updatePanelList, _playerType};
 			_photonView.RPC("DeleteBlock", PhotonTargets.All, obj);
+		}
+		else{
+			// ターン？
 		}
 	}
 }
