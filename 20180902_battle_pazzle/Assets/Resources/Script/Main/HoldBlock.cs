@@ -30,6 +30,9 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler {
 	/// <param name="eventData"></param>
 	public void OnPointerClick (PointerEventData eventData)
 	{
+		if(!_mainManager.ClientManager.CheckNowTurn()){
+			return;
+		}
 		var x = (int)((transform.localPosition.x - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X;
 		var y = (int)((transform.localPosition.y - Common.Const.START_POS_Y) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y;
 		// 計算して再配置
@@ -43,6 +46,9 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler {
 	/// <param name="eventData"></param>
     public void OnDrag ( PointerEventData eventData )
     {
+		if(!_mainManager.ClientManager.CheckNowTurn()){
+			return;
+		}
         // マウスの位置に動かす
         var pos = Camera.main.ScreenToWorldPoint ( Input.mousePosition );
         pos.z = 0;

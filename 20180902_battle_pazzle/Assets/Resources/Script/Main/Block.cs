@@ -31,14 +31,12 @@ public class Block : MonoBehaviour {
 		_state = set_state;
 		switch(_state){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:
-			_color = Color.black;
+			_sprite.sprite = ResourceManager.LoadSprite("Image/panel_2");
 			break;
 		case (int)Common.Const.PLAYER_TYPE.GUEST:
-			_color = Color.white;
+			_sprite.sprite = ResourceManager.LoadSprite("Image/panel_1");
 			break;
 		}
-		Debug.Log(_color);
-		_sprite.color = _color;
 	}
 	#endregion
 }

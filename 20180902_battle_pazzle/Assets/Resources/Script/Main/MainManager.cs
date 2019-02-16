@@ -79,7 +79,7 @@ public class MainManager : MonoBehaviour {
 
 		// DEBUG
 		if( tmp == 120 ) {
-		//	CreateGame();
+			CreateGame();
 		}
 		++tmp;
 

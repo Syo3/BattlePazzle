@@ -40,7 +40,7 @@ public class ClientManager : MonoBehaviour {
 	{
 		_mainManager = mainManager;
 		// ターン数
-		_turnCnt    = 0;
+		_turnCnt    = (int)Common.Const.PLAYER_TYPE.MASTER;
 		// プレイヤー情報取得
 		_player     = PhotonNetwork.player;
 		//
@@ -50,12 +50,14 @@ public class ClientManager : MonoBehaviour {
 			Debug.Log( "Master" );
 			_playerType     = Common.Const.PLAYER_TYPE.MASTER;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.MASTER, (int)Common.Const.PLAYER_TYPE.GUEST };
+			GameObject.Find( "Text" ).GetComponent<UnityEngine.UI.Text>().text = "あなたのターン";
 		}
 		// ゲスト
 		else{
 			Debug.Log( "Not Master" );
 			_playerType     = Common.Const.PLAYER_TYPE.GUEST;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.GUEST, (int)Common.Const.PLAYER_TYPE.MASTER };
+			GameObject.Find( "Text" ).GetComponent<UnityEngine.UI.Text>().text = "あいてのターン";
 		}
 		List<List<int>> state_list = new List<List<int>>();		
 
@@ -96,6 +98,8 @@ public class ClientManager : MonoBehaviour {
 			holdBlock.Init(_mainManager);
 		}
 	}
+
+
 	
 	// Update is called once per frame
 	void Update ()
@@ -141,7 +145,7 @@ public class ClientManager : MonoBehaviour {
 				Debug.Log(_areaList[i].Count);
 				Debug.Log(_areaList[i][j]);
 				Debug.Log(_areaList[i][j].Block);
-				if(list[i][j] > 0 && _areaList[i][j].Block == null && _areaList[i][j].Panel.State == list[i][j]){
+				if(list[i][j] > 0 && _areaList[i][j].Block == null /*&& _areaList[i][j].Panel.State == list[i][j]*/){
 
 					Debug.Log( "create:"+i+","+j );
 //								Instantiate(_mainManager.PanelPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.4f, Quaternion.identity, parentTransform);
@@ -168,10 +172,13 @@ public class ClientManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="list"></param>
 	/// <param name="playerType"></param>
-	private void DeleteBlock(List<List<int>> list, List<List<int>> panelList,Common.Const.PLAYER_TYPE playerType)
+	private void DeleteBlock(List<List<int>> list, List<List<int>> panelList,Common.Const.PLAYER_TYPE playerType, int lineCnt)
 	{
 		// 受信側プレイヤーは反転表示
 		Debug.Log("reverse check:"+(_playerType != playerType));
+		var checkStartY = Common.Const.NUM_HEIGHT;
+		var checkEndY   = 0;
+		var loopAddNum  = -1;
 		if(_playerType != playerType){
 			for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 				panelList[i].Reverse();
@@ -179,8 +186,13 @@ public class ClientManager : MonoBehaviour {
 			}
 			panelList.Reverse();
 			list.Reverse();
+
+			// ブロックを移動させる関係で受信側は逆で判定
+			checkStartY = 0;
+			checkEndY   = Common.Const.NUM_HEIGHT;
+			loopAddNum  = 1;
 		}
-		// ブロック削除
+		// 列が揃ったブロック削除
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 
 			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
@@ -191,6 +203,36 @@ public class ClientManager : MonoBehaviour {
 				}
 			}
 		}
+		// ブロック移動判定
+		if(_playerType == playerType){
+			_areaList.Reverse();
+		}
+		Debug.Log("lineCnt:"+lineCnt);
+		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
+
+			if(_areaList[i][0].Panel.State == (int)playerType){
+				break;
+			}
+			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
+
+				// ブロックがあればブロック移動
+				if(_areaList[i][j].Block != null){
+					if(i - lineCnt >= 0 && _areaList[i-lineCnt][j].Block == null){
+						_areaList[i-lineCnt][j].Block = _areaList[i][j].Block;
+						_areaList[i-lineCnt][j].Block.transform.position = _areaList[i-lineCnt][j].Panel.transform.position;
+						Debug.Log("move:"+i+","+j+"->"+(i-lineCnt)+","+j);
+					}
+					else{
+						Debug.Log("destroy:"+i+","+j);
+						Destroy(_areaList[i][j].Block.gameObject);
+					}
+					_areaList[i][j].Block = null;
+				}
+			}
+		}
+		if(_playerType == playerType){
+			_areaList.Reverse();
+		}
 		// パネル更新
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 
@@ -198,27 +240,42 @@ public class ClientManager : MonoBehaviour {
 
 				if(panelList[i][j] != _areaList[i][j].Panel.State){
 					_areaList[i][j].Panel.SetState(panelList[i][j]);
-//					_areaList[i][j].PanelState = panelList[i][j];
-					// ブロックがあればブロック移動
-					if(_areaList[i][j].Block != null){
-						if(i + 1 < Common.Const.NUM_HEIGHT && _areaList[i+1][j].Block == null){
-							_areaList[i+1][j].Block = _areaList[i][j].Block;
-							_areaList[i+1][j].Block.transform.position = _areaList[i+1][j].Panel.transform.position;
-							_areaList[i][j].Block = null;
-						}
-						else{
-							Destroy(_areaList[i][j].Block.gameObject);
-						}
-					}
 				}
 			}
 		}
+
+
+
 		// ターン？
 		if(playerType == _playerType){
-
+			// ターン切り替え
+			var obj = new object[]{_playerType};
+			_photonView.RPC("TurnChange", PhotonTargets.All, obj);
 		}
 	}
 
+	[PunRPC]
+	/// <summary>
+	/// ターン変更RPC
+	/// </summary>
+	/// <param name="list"></param>
+	/// <param name="playerType"></param>
+	public void TurnChange(Common.Const.PLAYER_TYPE playerType)
+	{
+		return;
+		if(Common.Const.PLAYER_TYPE.MASTER == playerType){
+			_turnCnt = (int)Common.Const.PLAYER_TYPE.GUEST;
+		}
+		else{
+			_turnCnt = (int)Common.Const.PLAYER_TYPE.MASTER;
+		}
+		if(_turnCnt == (int)_playerType){
+			GameObject.Find( "Text" ).GetComponent<UnityEngine.UI.Text>().text = "あなたのターン";
+		}
+		else{
+			GameObject.Find( "Text" ).GetComponent<UnityEngine.UI.Text>().text = "あいてのターン";
+		}
+	}
 
 	/// <summary>
 	/// ブロック更新処理
@@ -239,11 +296,13 @@ public class ClientManager : MonoBehaviour {
 		var lineCnt    = 0;
 		for(var i = 0; i < _areaList.Count; ++i){
 
+			// ブロック削除後リスト作成
 			deleteList.Add(Enumerable.Repeat(0, _areaList[i].Count).ToList());
 			var j = 0;
+			// 列揃ったか判定
 			for(; j < _areaList[i].Count; ++j){
 
-				if(_areaList[i][j].Block == null || _areaList[i][j].Block.State != (int)_playerType){
+				if(_areaList[i][j].Block == null){
 					break;
 				}
 			}
@@ -268,8 +327,7 @@ public class ClientManager : MonoBehaviour {
 					updatePanelList[i].Add(_areaList[i][j].Panel.State);
 				}
 			}
-
-
+			// パネル更新後リスト作成
 			for(var i = 0; i < _areaList.Count; ++i){
 
 				if(updatePanelList[i][0] != (int)_playerType){
@@ -283,12 +341,23 @@ public class ClientManager : MonoBehaviour {
 					}
 				}
 			}
-			var obj = new object[]{deleteList, updatePanelList, _playerType};
+			var obj = new object[]{deleteList, updatePanelList, _playerType, lineCnt};
 			_photonView.RPC("DeleteBlock", PhotonTargets.All, obj);
 		}
 		else{
-			// ターン？
+			// ターン切り替え
+			var obj = new object[]{_playerType};
+			_photonView.RPC("TurnChange", PhotonTargets.All, obj);
 		}
+	}
+
+	/// <summary>
+	/// 現在ターン中か
+	/// </summary>
+	/// <returns>true or false</returns>
+	public bool CheckNowTurn()
+	{
+		return (int)_playerType == _turnCnt;
 	}
 }
 

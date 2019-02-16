@@ -33,10 +33,10 @@ public class PlacementBlock : MonoBehaviour {
 		_positionY = y;
 		switch(playerType){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:
-			_sprite.color = Color.black;
+			_sprite.sprite = ResourceManager.LoadSprite("Image/panel_2");
 			break;
 		case (int)Common.Const.PLAYER_TYPE.GUEST:
-			_sprite.color = Color.white;
+			_sprite.sprite = ResourceManager.LoadSprite("Image/panel_1");
 			break;
 		}
 	}

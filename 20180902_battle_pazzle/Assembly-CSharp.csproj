@@ -133,6 +133,7 @@
      <Compile Include="Assets\Resources\Script\Main\Panel.cs" />
      <Compile Include="Assets\Resources\Script\Main\PlacementBlock.cs" />
      <Compile Include="Assets\Resources\Script\Main\Range.cs" />
+     <Compile Include="Assets\Resources\Script\Main\ResourceManager.cs" />
      <None Include="Assets\Photon Unity Networking\link.xml" />
      <None Include="Assets\Resources\Data\BlockList.txt" />
      <None Include="Assets\Photon Unity Networking\readme.txt" />

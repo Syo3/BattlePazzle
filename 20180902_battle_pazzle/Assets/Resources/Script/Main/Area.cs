@@ -9,6 +9,7 @@ public class Area : MonoBehaviour {
 	private Block _block;
 	private int _panelState;
 	private int _blockState;
+	private bool _placementFlg;		// 配置できるかフラグ　ブロックと隣接しているか
 	#endregion
 
 	#region access
@@ -30,10 +31,11 @@ public class Area : MonoBehaviour {
 	#region public function
 	public void Init(Panel panel, int panelState, int blockState)
 	{
-		_block      = null;
-		_panel      = panel;
-		_panelState = panelState;
-		_blockState = blockState;
+		_block        = null;
+		_panel        = panel;
+		_panelState   = panelState;
+		_blockState   = blockState;
+		_placementFlg = false;
 	}
 	#endregion
 }

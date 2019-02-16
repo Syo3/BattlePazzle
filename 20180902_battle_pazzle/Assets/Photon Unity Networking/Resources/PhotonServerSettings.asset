@@ -38,4 +38,5 @@ MonoBehaviour:
   - RequestForPickupTimes
   - UpdateBlock
   - DeleteBlock
+  - TurnChange
   DisableAutoOpenWizard: 1
