@@ -77,14 +77,15 @@ public class ClientManager : MonoBehaviour {
 		}
 		// ステージ作成
 		var parentTransform = _mainManager.PanelParentTransform;
+		var scaleRate       = _mainManager.WorldTransform.localScale.x;
 		_areaList           = new List<List<Area>>();
 		for(var i = 0; i < state_list.Count; ++i){
 
 			_areaList.Add(new List<Area>());
 			for(var j = 0; j < state_list[i].Count; ++j){
 
-				var area  = Instantiate(_mainManager.AreaPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.8f, Quaternion.identity, parentTransform).GetComponent<Area>();
-				var panel = Instantiate(_mainManager.PanelPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.8f, Quaternion.identity, area.transform).GetComponent<Panel>();
+				var area  = Instantiate(_mainManager.AreaPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * scaleRate, Quaternion.identity, parentTransform).GetComponent<Area>();
+				var panel = Instantiate(_mainManager.PanelPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * scaleRate, Quaternion.identity, area.transform).GetComponent<Panel>();
 				//var panel = Instantiate(_mainManager.PanelPrefab, Vector3.zero, Quaternion.identity, area.transform).GetComponent<Panel>();
 				panel.SetState(state_list[i][j]);
 				area.Init(panel, state_list[i][j], 0);
@@ -140,7 +141,7 @@ public class ClientManager : MonoBehaviour {
 
 				if(list[i][j] > 0 && _areaList[i][j].Block == null /*&& _areaList[i][j].Panel.State == list[i][j]*/){
 
-					var block = Instantiate(_mainManager.BlockPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.8f, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<Block>();
+					var block = Instantiate(_mainManager.BlockPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * _mainManager.WorldTransform.localScale.x, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<Block>();
 					block.Init(list[i][j]);
 					_areaList[i][j].Block = block;
 				}

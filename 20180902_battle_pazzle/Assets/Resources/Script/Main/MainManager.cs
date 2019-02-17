@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainManager : MonoBehaviour {
 
@@ -25,6 +26,12 @@ public class MainManager : MonoBehaviour {
 	private Transform _holdParent;
 	[SerializeField, Tooltip("client manager")]
 	private ClientManager _clientManager;
+	[SerializeField, Tooltip("WorldTransform")]
+	private Transform _worldTransform;
+	[SerializeField, Tooltip("ポップアップメニュー画面")]
+	private PopupView _popupView;
+	[SerializeField, Tooltip("メニューボタン")]
+	private Button _menuButton;
 
 
 	// デバッグ用
@@ -68,11 +75,23 @@ public class MainManager : MonoBehaviour {
 	public ClientManager ClientManager{
 		get{return _clientManager;}
 	}
+	public Transform WorldTransform{
+		get{return _worldTransform;}
+	}
 	#endregion
 
 	void Awake()
 	{
 		LoadBlockListFile();
+	}
+
+	void Start()
+	{
+		_popupView.Init(this);
+
+		_menuButton.onClick.AddListener(()=>{
+			_popupView.Open();
+		});
 	}
 
 	// Update is called once per frame
