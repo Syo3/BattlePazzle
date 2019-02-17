@@ -7,6 +7,8 @@ public class Panel : MonoBehaviour {
 	#region SerializeField
 	[SerializeField, Tooltip("スプライト")]
 	private SpriteRenderer _sprite;
+	[SerializeField, Tooltip("配置可能表示")]
+	private SpriteRenderer _placementMask;
 	#endregion
 
 	#region private field
@@ -16,6 +18,9 @@ public class Panel : MonoBehaviour {
 	#region access
 	public int State{
 		get{return _state;}
+	}
+	public SpriteRenderer PlacementMask{
+		get{return _placementMask;}
 	}
 	#endregion
 

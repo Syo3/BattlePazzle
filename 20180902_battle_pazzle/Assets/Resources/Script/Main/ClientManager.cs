@@ -21,9 +21,12 @@ public class ClientManager : MonoBehaviour {
 	private List<List<Area>> _areaList;
 	#endregion
 
-	#region アクセサ
+	#region access
 	public int PlayerType{
 		get{ return (int)_playerType; }
+	}
+	public List<List<Area>> AreaList{
+		get{return _areaList;}
 	}
 	#endregion
 
@@ -90,6 +93,10 @@ public class ClientManager : MonoBehaviour {
 				area.Init(panel, state_list[i][j], 0);
 				_areaList[i].Add(area);
 			}
+		}
+		// 置ける場所設定
+		for(var i = 0; i < Common.Const.NUM_WIDTH; ++i){
+			_areaList[0][i].SetPlacementFlg(true);
 		}
 		// 掴むブロック作成
 		for(var i = 0; i < 3; ++i){
@@ -262,7 +269,11 @@ public class ClientManager : MonoBehaviour {
 	/// <param name="playerType"></param>
 	public void TurnChange(Common.Const.PLAYER_TYPE playerType)
 	{
-		return;
+		if(_mainManager._debugFlg){
+			UpdatePlacementArea();
+			return;
+		}
+
 		if(Common.Const.PLAYER_TYPE.MASTER == playerType){
 			_turnCnt = (int)Common.Const.PLAYER_TYPE.GUEST;
 		}
@@ -275,6 +286,8 @@ public class ClientManager : MonoBehaviour {
 		else{
 			GameObject.Find( "Text" ).GetComponent<UnityEngine.UI.Text>().text = "あいてのターン";
 		}
+		// 置ける範囲更新
+		UpdatePlacementArea();
 	}
 
 	/// <summary>
@@ -293,29 +306,13 @@ public class ClientManager : MonoBehaviour {
 	public void AreaUpdateCheck()
 	{
 		var deleteList = new List<List<int>>();
-		var lineCnt    = 0;
+		// ブロック削除後リスト作成
 		for(var i = 0; i < _areaList.Count; ++i){
-
-			// ブロック削除後リスト作成
 			deleteList.Add(Enumerable.Repeat(0, _areaList[i].Count).ToList());
-			var j = 0;
-			// 列揃ったか判定
-			for(; j < _areaList[i].Count; ++j){
-
-				if(_areaList[i][j].Block == null){
-					break;
-				}
-			}
-			// ライン全部埋まったか
-			if(j == _areaList[i].Count){
-				for(j = 0; j < _areaList[i].Count; ++j){
-					Destroy(_areaList[i][j].Block.gameObject);
-					_areaList[i][j].Block = null;
-					deleteList[i][j]      = 1;
-				}
-				++lineCnt;
-			}
 		}
+		var lineCnt = CheckLineDeleteNum(ref deleteList);
+
+
 		// パネル更新判定
 		if(lineCnt > 0){
 			var checkLineCnt    = lineCnt;
@@ -352,12 +349,121 @@ public class ClientManager : MonoBehaviour {
 	}
 
 	/// <summary>
+	/// 配置できる場所を更新
+	/// </summary>
+	private void UpdatePlacementArea()
+	{
+		// 初期化
+		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
+			
+			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
+
+				if(_areaList[i][j].PlacementFlg){
+					_areaList[i][j].SetPlacementFlg(false);
+				}
+			}
+		}
+		// 更新
+		var updateFlg = false;
+		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
+			
+			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
+
+				// 自分のブロックがある場合
+				if(_areaList[i][j].Block != null && _areaList[i][j].Block.State == (int)_playerType){
+
+					// 四方チェック
+					// 下
+					if(i>0 && _areaList[i-1][j].Block == null){
+						_areaList[i-1][j].SetPlacementFlg(true);
+						updateFlg = true;
+					}
+					// 上
+					if(i<Common.Const.NUM_HEIGHT-1 && _areaList[i+1][j].Block == null){
+						_areaList[i+1][j].SetPlacementFlg(true);
+						updateFlg = true;
+					}
+					// 左
+					if(j>0 && _areaList[i][j-1].Block == null){
+						_areaList[i][j-1].SetPlacementFlg(true);
+						updateFlg = true;
+					}
+					// 右
+					if(j<Common.Const.NUM_WIDTH-1 && _areaList[i][j+1].Block == null){
+						_areaList[i][j+1].SetPlacementFlg(true);						
+						updateFlg = true;
+					}
+				}
+			}
+		}
+		// 一つも置ける場所がない場合
+		if(!updateFlg){
+			for(var i = 0; i < Common.Const.NUM_WIDTH; ++i){
+				_areaList[0][i].SetPlacementFlg(true);
+			}
+		}
+	}
+
+	/// <summary>
 	/// 現在ターン中か
 	/// </summary>
 	/// <returns>true or false</returns>
 	public bool CheckNowTurn()
 	{
 		return (int)_playerType == _turnCnt;
+	}
+
+	private int CheckLineDeleteNum(ref List<List<int>> deleteList)
+	{
+		var lineCnt = 0;
+		// 列揃ったか判定
+		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
+
+			var j = 0;
+			for(; j < Common.Const.NUM_WIDTH; ++j){
+
+				if(_areaList[i][j].Block == null){
+					break;
+				}
+			}
+			// ライン全部埋まったか
+			if(j == Common.Const.NUM_WIDTH){
+				for(j = 0; j < Common.Const.NUM_WIDTH; ++j){
+					deleteList[i][j] = 1;
+				}
+				++lineCnt;
+			}
+		}
+		// 行揃ったか判定
+		for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
+
+			var i = 0;
+			for(; i < Common.Const.NUM_HEIGHT; ++i){
+
+				if(_areaList[i][j].Block == null){
+					break;
+				}
+			}
+			// ライン全部埋まったか
+			if(i == Common.Const.NUM_HEIGHT){
+				for(i = 0; i < Common.Const.NUM_HEIGHT; ++i){
+					deleteList[i][j] = 1;
+				}
+				++lineCnt;
+			}
+		}
+		// 削除
+		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
+
+			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
+
+				if(deleteList[i][j] == 1){
+					Destroy(_areaList[i][j].Block.gameObject);
+					_areaList[i][j].Block = null;
+				}
+			}
+		}
+		return lineCnt;
 	}
 }
 

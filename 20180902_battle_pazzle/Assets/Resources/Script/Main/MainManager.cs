@@ -23,6 +23,11 @@ public class MainManager : MonoBehaviour {
 	private Transform _holdParent;
 	[SerializeField, Tooltip("client manager")]
 	private ClientManager _clientManager;
+
+
+	// デバッグ用
+	[SerializeField]
+	public bool _debugFlg;
 	#endregion
 
 	#region private field
@@ -78,7 +83,7 @@ public class MainManager : MonoBehaviour {
 		}
 
 		// DEBUG
-		if( tmp == 120 ) {
+		if(_debugFlg && tmp == 120 ) {
 			CreateGame();
 		}
 		++tmp;

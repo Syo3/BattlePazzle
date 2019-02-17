@@ -72,6 +72,15 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler {
 	}
 
 	/// <summary>
+	/// 座標初期化
+	/// </summary>
+	private void PositionReset()
+	{
+		ResetBlockContainer();
+		transform.position = _defaultPosition;
+	}
+
+	/// <summary>
 	/// ブロックリストを初期化する
 	/// </summary>
 	private void ResetBlockList()
@@ -132,6 +141,9 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler {
 	/// </summary>
 	private void SendBlock()
 	{
+		var areaList     = _mainManager.ClientManager.AreaList;
+		var placementFlg = false;
+		// ブロック配置後のリスト作成
 		var baseX = (int)((transform.localPosition.x - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE);
 		var baseY = (int)((transform.localPosition.y - Common.Const.START_POS_Y) / Common.Const.BLOCK_SIZE);		
 		for(var i = 0; i < _blockList.Count; ++i){
@@ -140,12 +152,24 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler {
 
 				var x = _blockList[i][j].PositionX - Common.Const.NUM_WIDTH / 2 / 2;
 				var y = _blockList[i][j].PositionY - Common.Const.NUM_HEIGHT / 2 / 2;
+				// 配置できるか
 				if( baseX + x < 0 || baseX + x > Common.Const.NUM_WIDTH  - 1 ||
-					baseY + y < 0 || baseY + y > Common.Const.NUM_HEIGHT - 1){
-					continue;
+					baseY + y < 0 || baseY + y > Common.Const.NUM_HEIGHT - 1 ||
+					areaList[baseY+y][baseX+x].Block != null){
+					PositionReset();
+					return;
+				}
+				// 一つでも配置可能エリアに繋がっているか
+				if(areaList[baseY+y][baseX+x].PlacementFlg){
+					placementFlg = true;
 				}
 				_sendBlockContainer[baseY+y][baseX+x] = _mainManager.ClientManager.PlayerType;
 			}
+		}
+		// 置けない場所に置かれた
+		if(!placementFlg){
+			PositionReset();
+			return;
 		}
 		_mainManager.ClientManager.UpdateBlockList(_sendBlockContainer);
 		Reset();

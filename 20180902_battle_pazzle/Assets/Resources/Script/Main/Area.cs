@@ -26,9 +26,18 @@ public class Area : MonoBehaviour {
 	public int BlockState{
 		get{return _blockState;}
 	}
+	public bool PlacementFlg{
+		get{return _placementFlg;}
+	}
 	#endregion
 
 	#region public function
+	/// <summary>
+	/// 初期設定
+	/// </summary>
+	/// <param name="panel"></param>
+	/// <param name="panelState"></param>
+	/// <param name="blockState"></param>
 	public void Init(Panel panel, int panelState, int blockState)
 	{
 		_block        = null;
@@ -36,6 +45,16 @@ public class Area : MonoBehaviour {
 		_panelState   = panelState;
 		_blockState   = blockState;
 		_placementFlg = false;
+	}
+
+	/// <summary>
+	/// 配置可能フラグ設定
+	/// </summary>
+	/// <param name="flg"></param>
+	public void SetPlacementFlg(bool flg)
+	{
+		_placementFlg                = flg;
+		_panel.PlacementMask.enabled = flg;
 	}
 	#endregion
 }
