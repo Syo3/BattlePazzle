@@ -75,9 +75,6 @@ public class ClientManager : MonoBehaviour {
 			}
 			//_blockList.Add(Enumerable.Repeat(0, Common.Const.NUM_WIDTH ).ToList());
 		}
-		Debug.Log( "count:"+state_list.Count );
-		Debug.Log( Common.Const.BLOCK_SIZE );
-		Debug.Log( Common.Const.START_POS_X );
 		// ステージ作成
 		var parentTransform = _mainManager.PanelParentTransform;
 		_areaList           = new List<List<Area>>();
@@ -86,8 +83,8 @@ public class ClientManager : MonoBehaviour {
 			_areaList.Add(new List<Area>());
 			for(var j = 0; j < state_list[i].Count; ++j){
 
-				var area  = Instantiate(_mainManager.AreaPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.4f, Quaternion.identity, parentTransform).GetComponent<Area>();
-				var panel = Instantiate(_mainManager.PanelPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.4f, Quaternion.identity, area.transform).GetComponent<Panel>();
+				var area  = Instantiate(_mainManager.AreaPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.8f, Quaternion.identity, parentTransform).GetComponent<Area>();
+				var panel = Instantiate(_mainManager.PanelPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.8f, Quaternion.identity, area.transform).GetComponent<Panel>();
 				//var panel = Instantiate(_mainManager.PanelPrefab, Vector3.zero, Quaternion.identity, area.transform).GetComponent<Panel>();
 				panel.SetState(state_list[i][j]);
 				area.Init(panel, state_list[i][j], 0);
@@ -128,10 +125,6 @@ public class ClientManager : MonoBehaviour {
 	/// <param name="playerType"></param>
 	private void UpdateBlock(List<List<int>> list, Common.Const.PLAYER_TYPE playerType)
 	{
-		Debug.Log( "PunRPC start" );
-		Debug.Log(list);
-		Debug.Log(list.Count);
-
 		// 受信側プレイヤーは反転表示
 		if(_playerType != playerType){
 
@@ -141,25 +134,14 @@ public class ClientManager : MonoBehaviour {
 			list.Reverse();
 		}
 
-		Debug.Log( "PunRPC start" );
-
-		Debug.Log( list[0][0] );
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 
 			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
 
-				Debug.Log(_areaList.Count);
-				Debug.Log(_areaList[i].Count);
-				Debug.Log(_areaList[i][j]);
-				Debug.Log(_areaList[i][j].Block);
 				if(list[i][j] > 0 && _areaList[i][j].Block == null /*&& _areaList[i][j].Panel.State == list[i][j]*/){
 
-					Debug.Log( "create:"+i+","+j );
-//								Instantiate(_mainManager.PanelPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.4f, Quaternion.identity, parentTransform);
-
-					var block = Instantiate(_mainManager.BlockPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.4f, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<Block>();
+					var block = Instantiate(_mainManager.BlockPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * 0.8f, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<Block>();
 					block.Init(list[i][j]);
-					//_blockList[i][j] = list[i][j];
 					_areaList[i][j].Block = block;
 				}
 			}
@@ -182,7 +164,6 @@ public class ClientManager : MonoBehaviour {
 	private void DeleteBlock(List<List<int>> list, List<List<int>> panelList,Common.Const.PLAYER_TYPE playerType, int lineCnt)
 	{
 		// 受信側プレイヤーは反転表示
-		Debug.Log("reverse check:"+(_playerType != playerType));
 		var checkStartY = Common.Const.NUM_HEIGHT;
 		var checkEndY   = 0;
 		var loopAddNum  = -1;
@@ -205,6 +186,9 @@ public class ClientManager : MonoBehaviour {
 			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
 
 				if(list[i][j] > 0 && _areaList[i][j].Block != null){
+					Debug.Log("destroy check");
+					var effect = Instantiate(_mainManager.DestroyEffectPrefab, _areaList[i][j].Block.transform.position, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<DestroyEffect>();
+					effect.Init(_areaList[i][j].Block.State);
 					Destroy(_areaList[i][j].Block.gameObject);
 					_areaList[i][j].Block = null;
 				}
@@ -214,7 +198,6 @@ public class ClientManager : MonoBehaviour {
 		if(_playerType == playerType){
 			_areaList.Reverse();
 		}
-		Debug.Log("lineCnt:"+lineCnt);
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 
 			if(_areaList[i][0].Panel.State == (int)playerType){
@@ -227,10 +210,8 @@ public class ClientManager : MonoBehaviour {
 					if(i - lineCnt >= 0 && _areaList[i-lineCnt][j].Block == null){
 						_areaList[i-lineCnt][j].Block = _areaList[i][j].Block;
 						_areaList[i-lineCnt][j].Block.transform.position = _areaList[i-lineCnt][j].Panel.transform.position;
-						Debug.Log("move:"+i+","+j+"->"+(i-lineCnt)+","+j);
 					}
 					else{
-						Debug.Log("destroy:"+i+","+j);
 						Destroy(_areaList[i][j].Block.gameObject);
 					}
 					_areaList[i][j].Block = null;
@@ -328,7 +309,6 @@ public class ClientManager : MonoBehaviour {
 			for(var i = 0; i < _areaList.Count; ++i){
 
 				if(updatePanelList[i][0] != (int)_playerType){
-					Debug.Log("delete check:"+i);
 					for(var j = 0; j < _areaList[i].Count; ++j){
 						updatePanelList[i][j] = (int)_playerType;
 					}
@@ -458,6 +438,9 @@ public class ClientManager : MonoBehaviour {
 			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
 
 				if(deleteList[i][j] == 1){
+					var effect = Instantiate(_mainManager.DestroyEffectPrefab, _areaList[i][j].Block.transform.position, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<DestroyEffect>();
+					Debug.Log(_areaList[i][j].Block.State);
+					effect.Init(_areaList[i][j].Block.State);
 					Destroy(_areaList[i][j].Block.gameObject);
 					_areaList[i][j].Block = null;
 				}

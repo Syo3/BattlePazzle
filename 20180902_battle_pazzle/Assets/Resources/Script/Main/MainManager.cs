@@ -17,6 +17,8 @@ public class MainManager : MonoBehaviour {
 	private GameObject _holdBlockPrefab;
 	[SerializeField, Tooltip("掴みブロック子要素プレハブ")]
 	private GameObject _placementBlockPrefab;
+	[SerializeField, Tooltip("削除エフェクト")]
+	private GameObject _destroyEffectPrefab;
 	[SerializeField, Tooltip("パネル親行列")]
 	private Transform _panelParent;
 	[SerializeField, Tooltip("掴みブロック親")]
@@ -50,6 +52,9 @@ public class MainManager : MonoBehaviour {
 	}
 	public GameObject PlacementBlockPrefab{
 		get{return _placementBlockPrefab;}
+	}
+	public GameObject DestroyEffectPrefab{
+		get{return _destroyEffectPrefab;}
 	}
 	public Transform PanelParentTransform{
 		get{return _panelParent;}

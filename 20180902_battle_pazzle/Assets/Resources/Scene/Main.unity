@@ -353,7 +353,7 @@ MonoBehaviour:
   _panelParent: {fileID: 236815913}
   _holdParent: {fileID: 575633455}
   _clientManager: {fileID: 1345796381}
-  _debugFlg: 1
+  _debugFlg: 0
 --- !u!4 &717853833
 Transform:
   m_ObjectHideFlags: 0
@@ -390,7 +390,7 @@ Transform:
   m_GameObject: {fileID: 1047607011}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children:
   - {fileID: 236815913}
   - {fileID: 575633455}
@@ -482,6 +482,7 @@ GameObject:
   - component: {fileID: 1785013960}
   - component: {fileID: 1785013959}
   - component: {fileID: 1785013958}
+  - component: {fileID: 1785013961}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -565,6 +566,24 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!95 &1785013961
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1785013956}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 78ae23ae212d94649a84af35efe61e00, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2135279213
 GameObject:
   m_ObjectHideFlags: 0
@@ -607,7 +626,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.19215688, g: 0.4745098, b: 0.3352222, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0

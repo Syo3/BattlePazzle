@@ -44,4 +44,12 @@ public class Panel : MonoBehaviour {
 		}
 		_state = state;
 	}
+
+	public IEnumerator Flash()
+	{
+		while(_placementMask.enabled){
+			
+			yield return null;
+		}
+	}
 }

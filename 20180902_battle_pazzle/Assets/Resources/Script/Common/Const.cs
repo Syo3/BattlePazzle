@@ -5,7 +5,7 @@
 		public const int NUM_WIDTH  = 10;
 		public const int NUM_HEIGHT = 10;
 
-		public const float BLOCK_SIZE = 1.0f;
+		public const float BLOCK_SIZE = 0.64f;
 		public const float BLOCK_SIZE_HALF = BLOCK_SIZE / 2.0f;
 
 

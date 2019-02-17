@@ -127,6 +127,7 @@
      <Compile Include="Assets\Resources\Script\Main\Block.cs" />
      <Compile Include="Assets\Resources\Script\Main\BlockSerializer.cs" />
      <Compile Include="Assets\Resources\Script\Main\ClientManager.cs" />
+     <Compile Include="Assets\Resources\Script\Main\DestroyEffect.cs" />
      <Compile Include="Assets\Resources\Script\Main\HoldBlock.cs" />
      <Compile Include="Assets\Resources\Script\Main\MainManager.cs" />
      <Compile Include="Assets\Resources\Script\Main\NetworkManager.cs" />

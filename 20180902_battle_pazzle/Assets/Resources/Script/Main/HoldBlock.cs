@@ -103,7 +103,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler {
 			for(var j = 0; j < blcokData[i].Count;++j){
 
 				if(blcokData[i][j] == 1){
-					var block = Instantiate(_mainManager.PlacementBlockPrefab, new Vector3(j * Common.Const.BLOCK_SIZE - Common.Const.BLOCK_SIZE_HALF * (blcokData.Count-1), i * Common.Const.BLOCK_SIZE - Common.Const.BLOCK_SIZE_HALF * (blcokData.Count-1), 0.0f) * 0.4f + transform.position, Quaternion.identity, transform).GetComponent<PlacementBlock>();
+					var block = Instantiate(_mainManager.PlacementBlockPrefab, new Vector3(j * Common.Const.BLOCK_SIZE - Common.Const.BLOCK_SIZE * 2.0f, i * Common.Const.BLOCK_SIZE - Common.Const.BLOCK_SIZE * 2.0f, 0.0f) * 0.8f + transform.position, Quaternion.identity, transform).GetComponent<PlacementBlock>();
 					block.Init(j, i, _mainManager.ClientManager.PlayerType);
 					_blockList[i].Add(block);
 				}
