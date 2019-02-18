@@ -136,6 +136,7 @@
      <Compile Include="Assets\Resources\Script\Main\PopupView.cs" />
      <Compile Include="Assets\Resources\Script\Main\Range.cs" />
      <Compile Include="Assets\Resources\Script\Main\ResourceManager.cs" />
+     <Compile Include="Assets\Resources\Script\Main\Territory.cs" />
      <None Include="Assets\Photon Unity Networking\link.xml" />
      <None Include="Assets\Resources\Data\BlockList.txt" />
      <None Include="Assets\Photon Unity Networking\readme.txt" />

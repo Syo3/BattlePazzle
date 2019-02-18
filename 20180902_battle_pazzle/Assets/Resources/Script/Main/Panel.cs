@@ -39,7 +39,7 @@ public class Panel : MonoBehaviour {
 			_sprite.color = Color.white;
 			break;
 		case (int)Common.Const.PLAYER_TYPE.GUEST:
-			_sprite.color = Color.black;
+			_sprite.color = Color.white;
 			break;
 		}
 		_state = state;

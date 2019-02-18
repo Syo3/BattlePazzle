@@ -32,7 +32,8 @@ public class MainManager : MonoBehaviour {
 	private PopupView _popupView;
 	[SerializeField, Tooltip("メニューボタン")]
 	private Button _menuButton;
-
+	[SerializeField, Tooltip("陣地")]
+	private List<Territory> _territoryList;
 
 	// デバッグ用
 	[SerializeField]
@@ -77,6 +78,9 @@ public class MainManager : MonoBehaviour {
 	}
 	public Transform WorldTransform{
 		get{return _worldTransform;}
+	}
+	public List<Territory> TerritoryList{
+		get{return _territoryList;}
 	}
 	#endregion
 

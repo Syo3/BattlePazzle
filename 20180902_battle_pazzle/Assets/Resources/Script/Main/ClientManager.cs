@@ -48,20 +48,30 @@ public class ClientManager : MonoBehaviour {
 		_player     = PhotonNetwork.player;
 		//
 		List<int> panel_object_list;
+		var territoryList = _mainManager.TerritoryList;
 		// マスタークライアント
 		if(_player.IsMasterClient){
 			Debug.Log( "Master" );
 			_playerType     = Common.Const.PLAYER_TYPE.MASTER;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.MASTER, (int)Common.Const.PLAYER_TYPE.GUEST };
-			GameObject.Find( "Text" ).GetComponent<UnityEngine.UI.Text>().text = "あなたのターン";
+			GameObject.Find( "GameObject/Text" ).GetComponent<UnityEngine.UI.Text>().text = "あなたのターン";
+			for(var i = 0; i < 2; ++i){
+				territoryList[i].Init(i+1, (int)_playerType);
+				territoryList[i].SetSize(4);
+			}
 		}
 		// ゲスト
 		else{
 			Debug.Log( "Not Master" );
 			_playerType     = Common.Const.PLAYER_TYPE.GUEST;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.GUEST, (int)Common.Const.PLAYER_TYPE.MASTER };
-			GameObject.Find( "Text" ).GetComponent<UnityEngine.UI.Text>().text = "あいてのターン";
+			GameObject.Find( "GameObject/Text" ).GetComponent<UnityEngine.UI.Text>().text = "あいてのターン";
+			for(var i = 1; i >= 0; --i){
+				territoryList[i].Init(i+1, (int)_playerType);
+				territoryList[i].SetSize(4);
+			}
 		}
+
 		List<List<int>> state_list = new List<List<int>>();		
 
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i ) {
