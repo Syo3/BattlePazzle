@@ -33,8 +33,8 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler {
 		if(!_mainManager.ClientManager.CheckNowTurn()){
 			return;
 		}
-		var x = (int)((transform.localPosition.x - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X;
-		var y = (int)((transform.localPosition.y - Common.Const.START_POS_Y) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y;
+		var x = ((transform.localPosition.x - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X;
+		var y = ((transform.localPosition.y - Common.Const.START_POS_Y) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y;
 		// 計算して再配置
 		transform.localPosition = new Vector3(x, y, 0.0f);
 		SendBlock();
@@ -57,6 +57,18 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler {
 		var x = (int)((transform.localPosition.x - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X;
 		var y = (int)((transform.localPosition.y - Common.Const.START_POS_Y) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y;
 		transform.localPosition = new Vector3(x, y, 0.0f);
+
+
+		var baseX = (int)((transform.localPosition.x - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE);
+		Debug.Log(transform.localPosition.x - Common.Const.START_POS_X);
+		Debug.Log((transform.localPosition.x - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE);
+		// 7
+		Debug.Log((float)((transform.localPosition.x  - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE));
+		// 6
+		Debug.Log((int)((transform.localPosition.x    - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE));
+		// 6.99999981373548
+		Debug.Log((double)((transform.localPosition.x - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE));
+		Debug.Log(baseX);
     }
 	#endregion
 
@@ -144,18 +156,38 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler {
 		var areaList     = _mainManager.ClientManager.AreaList;
 		var placementFlg = false;
 		// ブロック配置後のリスト作成
-		var baseX = (int)((transform.localPosition.x - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE);
-		var baseY = (int)((transform.localPosition.y - Common.Const.START_POS_Y) / Common.Const.BLOCK_SIZE);		
+
+		// 座標計算に端数が含まれている可能性あり 割った際に0.000001とか足りずに値が変わる
+
+		var baseX = (int)Mathf.Round((transform.localPosition.x - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE);
+		// Debug.Log(transform.localPosition.x);
+		// Debug.Log(Common.Const.START_POS_X);
+		// Debug.Log(Common.Const.BLOCK_SIZE);
+		// Debug.Log((transform.localPosition.x - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE);
+		// Debug.Log(transform.localPosition.x - Common.Const.START_POS_X);
+
+		var baseY = (int)Mathf.Round((transform.localPosition.y - Common.Const.START_POS_Y) / Common.Const.BLOCK_SIZE);		
 		for(var i = 0; i < _blockList.Count; ++i){
 			
 			for(var j = 0; j < _blockList[i].Count; ++j){
 
-				var x = _blockList[i][j].PositionX - Common.Const.NUM_WIDTH / 2 / 2;
-				var y = _blockList[i][j].PositionY - Common.Const.NUM_HEIGHT / 2 / 2;
+//				var x = (int)(_blockList[i][j].PositionX - Common.Const.NUM_WIDTH / 2.0f / 2.0f);
+//				var y = (int)(_blockList[i][j].PositionY - Common.Const.NUM_HEIGHT / 2.0f / 2.0f);
+				var x = (int)Mathf.Round(_blockList[i][j].PositionX - Common.Const.NUM_WIDTH / 2.0f / 2.0f);
+				var y = (int)Mathf.Round(_blockList[i][j].PositionY - Common.Const.NUM_HEIGHT / 2.0f / 2.0f);
+//				Debug.Log(x);
+//				Debug.Log(_blockList[i][j].PositionX - Common.Const.NUM_WIDTH)
+
 				// 配置できるか
 				if( baseX + x < 0 || baseX + x > Common.Const.NUM_WIDTH  - 1 ||
 					baseY + y < 0 || baseY + y > Common.Const.NUM_HEIGHT - 1 ||
 					areaList[baseY+y][baseX+x].Block != null){
+
+					Debug.Log(baseX+x);
+					Debug.Log(baseY+y);
+					Debug.Log(areaList[baseY+y][baseX+x].Block != null);
+
+
 					PositionReset();
 					return;
 				}
@@ -166,7 +198,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler {
 				_sendBlockContainer[baseY+y][baseX+x] = _mainManager.ClientManager.PlayerType;
 			}
 		}
-		// 置けない場所に置かれた
+		// 配置エリアに置けていない
 		if(!placementFlg){
 			PositionReset();
 			return;
