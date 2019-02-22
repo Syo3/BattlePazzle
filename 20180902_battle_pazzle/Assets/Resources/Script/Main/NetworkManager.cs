@@ -23,7 +23,8 @@ public class NetworkManager : MonoBehaviour {
 		// ネットワーク準備
 		PhotonNetwork.ConnectUsingSettings( "v1.0.0" );
 	}
-	
+
+	#region photon function
 	/// <summary>
 	/// ロビーに入ると呼ばれる
 	/// </summary>
@@ -47,21 +48,18 @@ public class NetworkManager : MonoBehaviour {
 		}
 	}
 
-
 	/// <summary>
-	/// ルーム作成　こっちで作った関数 Photonが呼ぶことはない
+	/// 誰かがルームを退出したら呼ばれる
 	/// </summary>
-	void CreateRoom()
+	/// <param name="otherPlayer"></param>
+	void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
 	{
-		// ルームがないと入室に失敗するため、その時は自分で作る
-		// 引数でルーム名を指定できる
-		var roomOptions        = new RoomOptions();
-		roomOptions.IsVisible  = true;
-		roomOptions.IsOpen     = true;
-		roomOptions.MaxPlayers = 2;
-		// ルーム名が被ると作成できないため
-		int rand = Random.Range( 0, 100000000 );
-		PhotonNetwork.CreateRoom ( "random_room"+rand, roomOptions, null );
+		// 退出
+		PhotonNetwork.LeaveRoom();
+		// 切断
+		PhotonNetwork.Disconnect();
+		// 表示
+		GameObject.Find( "GameObject/Text" ).GetComponent<Text>().text = "あいてがルームから退出しました";
 	}
 
 	/// <summary>
@@ -96,4 +94,25 @@ public class NetworkManager : MonoBehaviour {
 			_state = 1;
 		}
 	}
+	#endregion
+
+	#region private function
+	/// <summary>
+	/// ルーム作成　こっちで作った関数 Photonが呼ぶことはない
+	/// </summary>
+	private void CreateRoom()
+	{
+		// ルームがないと入室に失敗するため、その時は自分で作る
+		// 引数でルーム名を指定できる
+		var roomOptions          = new RoomOptions();
+		roomOptions.IsVisible    = true;
+		roomOptions.IsOpen       = true;
+		roomOptions.MaxPlayers   = 2;
+		roomOptions.EmptyRoomTtl = 1000;
+		// ルーム名が被ると作成できないため
+		int rand = Random.Range( 0, 100000000 );
+		PhotonNetwork.CreateRoom ( "random_room"+rand, roomOptions, null );
+		var hashTable = new Hashtable();
+	}
+	#endregion
 }

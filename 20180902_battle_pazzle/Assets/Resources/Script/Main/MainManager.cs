@@ -42,7 +42,8 @@ public class MainManager : MonoBehaviour {
 
 	#region private field
 	private List<List<List<int>>> _holdBlockData;
-	private int tmp = 0;
+	private int debugCounter = 0;
+	private Coroutine _matchAnimationCoroutine;
 	#endregion
 
 	#region access
@@ -91,11 +92,16 @@ public class MainManager : MonoBehaviour {
 
 	void Start()
 	{
+		// デバッグフラグチェック
+		var sceneContainer = FindObjectOfType<SceneContainer>();
+		if(sceneContainer != null){
+			_debugFlg = sceneContainer.DebugFlg;
+		}
 		_popupView.Init(this);
-
 		_menuButton.onClick.AddListener(()=>{
 			_popupView.Open();
 		});
+		_matchAnimationCoroutine = StartCoroutine(MatchingAnimation());
 	}
 
 	// Update is called once per frame
@@ -111,10 +117,10 @@ public class MainManager : MonoBehaviour {
 		}
 
 		// DEBUG
-		if(_debugFlg && tmp == 120 ) {
+		if(_debugFlg && debugCounter == 120 ) {
 			CreateGame();
 		}
-		++tmp;
+		++debugCounter;
 
 	}
 
@@ -125,10 +131,13 @@ public class MainManager : MonoBehaviour {
 	{
 		//var clientManager    = PhotonNetwork.Instantiate("Prefab/ClientManager", Vector3.zero, Quaternion.identity, 0).GetComponent<ClientManager>();
 		_clientManager.Init(this);
+		// アニメーション終了
+		StopCoroutine(_matchAnimationCoroutine);
+		GameObject.Find("MatchText").GetComponent<Text>().text = "";
 	}
 
 	/// <summary>
-	/// 
+	/// ブロックリストファイル読み込み
 	/// </summary>
 	private void LoadBlockListFile()
 	{
@@ -151,6 +160,30 @@ public class MainManager : MonoBehaviour {
 					_holdBlockData[i][j].Add(int.Parse(blockLine[n]));
 				}
 			}
+		}
+	}
+
+	/// <summary>
+	/// マッチングアニメーション
+	/// </summary>
+	/// <returns></returns>
+	private IEnumerator MatchingAnimation()
+	{
+		var text = GameObject.Find("MatchText").GetComponent<Text>();
+		var cnt  = 0;
+		var dotNum = 0;
+		while(true){
+
+			text.text = "マッチング中"+new string('.', dotNum);
+			++cnt;
+			if(cnt > 19){
+				++dotNum;
+				if(dotNum > 3){
+					dotNum = 0;
+				}
+				cnt = 0;
+			}
+			yield return null;
 		}
 	}
 }

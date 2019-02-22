@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class PopupView : MonoBehaviour {
 
 	#region SerializeField
 	[SerializeField, Tooltip("CanvasGroup")]
 	private CanvasGroup _canvasGroup;
-	[SerializeField, Tooltip("")]
+	[SerializeField, Tooltip("リスタートボタン")]
 	private Button _reStartButton;
-	[SerializeField, Tooltip("")]
+	[SerializeField, Tooltip("閉じるボタン")]
 	private Button _closeButton;
+	[SerializeField, Tooltip("タイトルボタン")]
+	private Button _titleButton;
 	#endregion
 
 	#region private field
@@ -33,6 +35,14 @@ public class PopupView : MonoBehaviour {
 		// 閉じるボタン
 		_closeButton.onClick.AddListener(()=>{
 			StartCoroutine(ClosePopupView());
+		});
+		// タイトルボタン
+		_titleButton.onClick.AddListener(()=>{
+			// 退出
+			PhotonNetwork.LeaveRoom();
+			// 切断
+			PhotonNetwork.Disconnect();
+			SceneManager.LoadScene("Title");
 		});
 	}
 
