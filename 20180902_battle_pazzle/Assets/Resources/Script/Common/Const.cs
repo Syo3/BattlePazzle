@@ -13,6 +13,7 @@
 		public const float START_POS_X = NUM_WIDTH  * BLOCK_SIZE / -2.0f + BLOCK_SIZE_HALF;
 		public const float START_POS_Y = NUM_HEIGHT * BLOCK_SIZE / -2.0f + BLOCK_SIZE_HALF;
 
+		public const float TURN_TIME = 30.0f;
 
 
 		public enum PLAYER_TYPE{

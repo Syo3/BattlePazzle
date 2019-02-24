@@ -16,12 +16,15 @@ public class ClientManager : MonoBehaviour {
 	#region private field
 	private MainManager _mainManager;
 	private PhotonPlayer _player;
+	private int _turnFlg;
 	private int _turnCnt;
+	private float _turnTimeLimit;
 	private int _territoryLineNum;
 	private Common.Const.PLAYER_TYPE _playerType;
 	private List<List<Area>> _areaList;
 	private bool _gameEndFlg;
 	private List<HoldBlock> _holdBlockList;
+	private Coroutine _turnTimeLimitCoroutine;
 	#endregion
 
 	#region access
@@ -53,7 +56,10 @@ public class ClientManager : MonoBehaviour {
 		_mainManager = mainManager;
 		_gameEndFlg  = false;
 		// ターン数
-		_turnCnt     = (int)Common.Const.PLAYER_TYPE.MASTER;
+		_turnFlg       = (int)Common.Const.PLAYER_TYPE.MASTER;
+		_turnCnt       = 1;
+		_turnTimeLimit = Common.Const.TURN_TIME;
+		_turnTimeLimitCoroutine = null;
 		// プレイヤー情報取得
 		_player           = PhotonNetwork.player;
 		_territoryLineNum = Common.Const.NUM_HEIGHT / 2;
@@ -70,6 +76,7 @@ public class ClientManager : MonoBehaviour {
 				territoryList[i].Init(i+1, (int)_playerType);
 				territoryList[i].SetSize(_territoryLineNum);
 			}
+			_turnTimeLimitCoroutine = StartCoroutine(TimeLimitCount());
 		}
 		// ゲスト
 		else{
@@ -134,7 +141,7 @@ public class ClientManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		if( _turnCnt == (int)_playerType - 1 ) {
+		if( _turnFlg == (int)_playerType - 1 ) {
 			if( Input.GetKey( KeyCode.D ) ) {
 				// if キー操作とか色々
 				//UpdateBlockList();
@@ -292,19 +299,34 @@ public class ClientManager : MonoBehaviour {
 			UpdatePlacementArea();
 			return;
 		}
-
 		if(Common.Const.PLAYER_TYPE.MASTER == playerType){
-			_turnCnt = (int)Common.Const.PLAYER_TYPE.GUEST;
+			_turnFlg = (int)Common.Const.PLAYER_TYPE.GUEST;
 		}
 		else{
-			_turnCnt = (int)Common.Const.PLAYER_TYPE.MASTER;
+			_turnFlg = (int)Common.Const.PLAYER_TYPE.MASTER;
 		}
-		if(_turnCnt == (int)_playerType){
+		// ターンカウント
+		if(playerType == _playerType){
+			++_turnCnt;
+			GameObject.Find( "TurnText" ).GetComponent<UnityEngine.UI.Text>().text = "TurnText:"+_turnCnt;
+		}
+		// タイムリミット表示
+		_turnTimeLimit = Common.Const.TURN_TIME;
+		GameObject.Find( "TimeLimitText" ).GetComponent<UnityEngine.UI.Text>().text = "Limit:"+_turnTimeLimit;
+		if(_turnTimeLimitCoroutine != null){
+			StopCoroutine(_turnTimeLimitCoroutine);
+			_turnTimeLimitCoroutine = null;
+		}
+
+		// 表示
+		if(_turnFlg == (int)_playerType){
 			GameObject.Find( "Text" ).GetComponent<UnityEngine.UI.Text>().text = "あなたのターン";
+			StartCoroutine(TimeLimitCount());
 		}
 		else{
 			GameObject.Find( "Text" ).GetComponent<UnityEngine.UI.Text>().text = "あいてのターン";
 		}
+
 		// 置ける範囲更新
 		UpdatePlacementArea();
 	}
@@ -453,7 +475,7 @@ public class ClientManager : MonoBehaviour {
 	/// <returns>true or false</returns>
 	public bool CheckNowTurn()
 	{
-		return (int)_playerType == _turnCnt;
+		return (int)_playerType == _turnFlg;
 	}
 
 	/// <summary>
@@ -488,6 +510,11 @@ public class ClientManager : MonoBehaviour {
 		_mainManager.TerritoryLine.SetPos(_territoryLineNum);
 	}
 
+	/// <summary>
+	/// 列揃った判定
+	/// </summary>
+	/// <param name="deleteList"></param>
+	/// <returns></returns>
 	private int CheckLineDeleteNum(ref List<List<int>> deleteList)
 	{
 		var lineCnt = 0;
@@ -542,6 +569,28 @@ public class ClientManager : MonoBehaviour {
 			}
 		}
 		return lineCnt;
+	}
+
+	/// <summary>
+	/// ターンのタイムリミット計測コルーチン
+	/// </summary>
+	/// <returns></returns>
+	private IEnumerator TimeLimitCount()
+	{
+		// ターン計測
+		while(true){
+
+			_turnTimeLimit -= Time.deltaTime;
+			if(_turnTimeLimit < 0.0f){
+				_turnTimeLimit = 0.0f;
+				break;
+			}
+			GameObject.Find( "TimeLimitText" ).GetComponent<UnityEngine.UI.Text>().text = "Limit:"+_turnTimeLimit;
+			yield return null;
+		}
+		GameObject.Find( "TimeLimitText" ).GetComponent<UnityEngine.UI.Text>().text = "Limit:"+_turnTimeLimit;
+		// ターン変更処理
+		PassTurn();
 	}
 }
 
