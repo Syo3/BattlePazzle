@@ -17,16 +17,25 @@ public class ClientManager : MonoBehaviour {
 	private MainManager _mainManager;
 	private PhotonPlayer _player;
 	private int _turnCnt;
+	private int _territoryLineNum;
 	private Common.Const.PLAYER_TYPE _playerType;
 	private List<List<Area>> _areaList;
+	private bool _gameEndFlg;
+	private List<HoldBlock> _holdBlockList;
 	#endregion
 
 	#region access
-	public int PlayerType{
+	public int PlayerTypeint{
 		get{ return (int)_playerType; }
+	}
+	public Common.Const.PLAYER_TYPE PlayerType{
+		get{return _playerType;}
 	}
 	public List<List<Area>> AreaList{
 		get{return _areaList;}
+	}
+	public PhotonView PhotonView{
+		get{return _photonView;}
 	}
 	#endregion
 
@@ -42,11 +51,13 @@ public class ClientManager : MonoBehaviour {
 	public void Init(MainManager mainManager)
 	{
 		_mainManager = mainManager;
+		_gameEndFlg  = false;
 		// ターン数
-		_turnCnt    = (int)Common.Const.PLAYER_TYPE.MASTER;
+		_turnCnt     = (int)Common.Const.PLAYER_TYPE.MASTER;
 		// プレイヤー情報取得
-		_player     = PhotonNetwork.player;
-		//
+		_player           = PhotonNetwork.player;
+		_territoryLineNum = Common.Const.NUM_HEIGHT / 2;
+
 		List<int> panel_object_list;
 		var territoryList = _mainManager.TerritoryList;
 		// マスタークライアント
@@ -57,7 +68,7 @@ public class ClientManager : MonoBehaviour {
 			GameObject.Find( "GameObject/Text" ).GetComponent<UnityEngine.UI.Text>().text = "あなたのターン";
 			for(var i = 0; i < 2; ++i){
 				territoryList[i].Init(i+1, (int)_playerType);
-				territoryList[i].SetSize(4);
+				territoryList[i].SetSize(_territoryLineNum);
 			}
 		}
 		// ゲスト
@@ -68,9 +79,11 @@ public class ClientManager : MonoBehaviour {
 			GameObject.Find( "GameObject/Text" ).GetComponent<UnityEngine.UI.Text>().text = "あいてのターン";
 			for(var i = 1; i >= 0; --i){
 				territoryList[i].Init(i+1, (int)_playerType);
-				territoryList[i].SetSize(4);
+				territoryList[i].SetSize(_territoryLineNum);
 			}
 		}
+		_mainManager.TerritoryLine.SetPos(_territoryLineNum);
+
 
 		List<List<int>> state_list = new List<List<int>>();		
 
@@ -107,10 +120,12 @@ public class ClientManager : MonoBehaviour {
 			_areaList[0][i].SetPlacementFlg(true);
 		}
 		// 掴むブロック作成
+		_holdBlockList = new List<HoldBlock>();
 		for(var i = 0; i < 3; ++i){
 
 			var holdBlock = Instantiate(_mainManager.HoldBlockPrefab, new Vector3(2.0f * i - 2.0f, -4.0f, 0.0f), Quaternion.identity, _mainManager.HoldParentTransform).GetComponent<HoldBlock>();
 			holdBlock.Init(_mainManager);
+			_holdBlockList.Add(holdBlock);
 		}
 	}
 
@@ -190,6 +205,10 @@ public class ClientManager : MonoBehaviour {
 			checkStartY = 0;
 			checkEndY   = Common.Const.NUM_HEIGHT;
 			loopAddNum  = 1;
+			_territoryLineNum -= lineCnt;
+		}
+		else{
+			_territoryLineNum += lineCnt;
 		}
 		// 列が揃ったブロック削除
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
@@ -242,11 +261,19 @@ public class ClientManager : MonoBehaviour {
 				}
 			}
 		}
+		// 範囲更新
+		UpdateTerritory();
 
 
-
-		// ターン？
-		if(playerType == _playerType){
+		// 勝敗判定
+		if(_territoryLineNum == Common.Const.NUM_HEIGHT){
+			// 勝利ユーザー送信
+			_gameEndFlg = true;
+			var obj     = new object[]{_playerType};
+			_photonView.RPC("GameEnd", PhotonTargets.All, obj);
+		}
+		// チェック
+		if(playerType == _playerType && !_gameEndFlg){
 			// ターン切り替え
 			var obj = new object[]{_playerType};
 			_photonView.RPC("TurnChange", PhotonTargets.All, obj);
@@ -280,6 +307,31 @@ public class ClientManager : MonoBehaviour {
 		}
 		// 置ける範囲更新
 		UpdatePlacementArea();
+	}
+
+	[PunRPC]
+	/// <summary>
+	/// ゲーム終了RPC
+	/// </summary>
+	/// <param name="playerType"></param>
+	public void GameEnd(Common.Const.PLAYER_TYPE playerType)
+	{
+		if(_playerType == playerType){
+			GameObject.Find("VictoryText").GetComponent<UnityEngine.UI.Text>().text = "Win";
+		}
+		else{
+			GameObject.Find("VictoryText").GetComponent<UnityEngine.UI.Text>().text = "Lose";
+		}
+		GameObject.Find("VictoryTitleButton").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(()=>{
+			UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
+		});
+		_mainManager.VictoryView.alpha = 1.0f;
+		_mainManager.VictoryView.interactable = true;
+		_mainManager.VictoryView.blocksRaycasts = true;
+		// 退出
+		PhotonNetwork.LeaveRoom();
+		// 切断
+		PhotonNetwork.Disconnect();
 	}
 
 	/// <summary>
@@ -402,6 +454,38 @@ public class ClientManager : MonoBehaviour {
 	public bool CheckNowTurn()
 	{
 		return (int)_playerType == _turnCnt;
+	}
+
+	/// <summary>
+	/// パス
+	/// </summary>
+	public void PassTurn()
+	{
+		if(!CheckNowTurn()){
+			return;
+		}
+		for(var i = 0; i < _holdBlockList.Count; ++i){
+			_holdBlockList[i].Reset();
+		}
+		var obj = new object[]{_playerType};
+		_photonView.RPC("TurnChange", PhotonTargets.All, obj);
+
+	}
+
+	/// <summary>
+	/// 陣地更新
+	/// </summary>
+	private void UpdateTerritory()
+	{
+		if(_playerType == Common.Const.PLAYER_TYPE.MASTER){
+			_mainManager.TerritoryList[0].SetSize(_territoryLineNum);
+			_mainManager.TerritoryList[1].SetSize(Common.Const.NUM_HEIGHT-_territoryLineNum);
+		}
+		else{
+			_mainManager.TerritoryList[1].SetSize(_territoryLineNum);
+			_mainManager.TerritoryList[0].SetSize(Common.Const.NUM_HEIGHT-_territoryLineNum);
+		}
+		_mainManager.TerritoryLine.SetPos(_territoryLineNum);
 	}
 
 	private int CheckLineDeleteNum(ref List<List<int>> deleteList)

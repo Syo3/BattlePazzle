@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/libs/unity-classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="28.0.3"
+        sha1="a16f7b7cf0b99ff2155437882270a0e0c5d80495">
+        <dex dex="/Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/build/intermediates/pre-dexed/release/unity-classes_ac7d488b739789735fd0127f41fa8280c30b0641.jar" />
+    </item>
+
+</items>

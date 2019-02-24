@@ -34,6 +34,12 @@ public class MainManager : MonoBehaviour {
 	private Button _menuButton;
 	[SerializeField, Tooltip("陣地")]
 	private List<Territory> _territoryList;
+	[SerializeField, Tooltip("陣地線")]
+	private TerritotyLine _territoryLine;
+	[SerializeField, Tooltip("勝敗ビュー")]
+	private CanvasGroup _victoryView;
+	[SerializeField, Tooltip("パスボタン")]
+	private Button _passButton;
 
 	// デバッグ用
 	[SerializeField]
@@ -83,6 +89,12 @@ public class MainManager : MonoBehaviour {
 	public List<Territory> TerritoryList{
 		get{return _territoryList;}
 	}
+	public TerritotyLine TerritoryLine{
+		get{return _territoryLine;}
+	}
+	public CanvasGroup VictoryView{
+		get{return _victoryView;}
+	}
 	#endregion
 
 	void Awake()
@@ -98,8 +110,13 @@ public class MainManager : MonoBehaviour {
 			_debugFlg = sceneContainer.DebugFlg;
 		}
 		_popupView.Init(this);
+		// メニューボタン
 		_menuButton.onClick.AddListener(()=>{
 			_popupView.Open();
+		});
+		// パスボタン
+		_passButton.onClick.AddListener(()=>{
+			_clientManager.PassTurn();
 		});
 		_matchAnimationCoroutine = StartCoroutine(MatchingAnimation());
 	}

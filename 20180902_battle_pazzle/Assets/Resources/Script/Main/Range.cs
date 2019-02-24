@@ -93,7 +93,7 @@ public class Range : MonoBehaviour {
 			return;
 		}
 
-		var player_type = m_client_manager.PlayerType;
+		var player_type = m_client_manager.PlayerTypeint;
 
 
 

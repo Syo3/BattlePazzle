@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler {
+public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPointerDownHandler {
 
 	#region private field
 	private MainManager _mainManager;
@@ -58,13 +58,30 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler {
 		var y = (int)((transform.localPosition.y - Common.Const.START_POS_Y) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y;
 		transform.localPosition = new Vector3(x, y, 0.0f);
 	}
+
+	/// <summary>
+	/// 押された瞬間
+	/// </summary>
+	/// <param name="eventData"></param>
+    public void OnPointerDown(PointerEventData eventData)
+    {
+		if(!_mainManager.ClientManager.CheckNowTurn()){
+			return;
+		}
+		for(var i = 0; i < _blockList.Count; ++i){
+
+			for(var j = 0; j < _blockList[i].Count; ++j){
+				_blockList[i][j].SetDragColor();
+			}
+		}
+    }
 	#endregion
 
 	#region private function
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	private void Reset()
+	public void Reset()
 	{
 		ResetBlockList();
 		ResetBlockContainer();
@@ -104,7 +121,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler {
 
 				if(blcokData[i][j] == 1){
 					var block = Instantiate(_mainManager.PlacementBlockPrefab, new Vector3(j * Common.Const.BLOCK_SIZE - Common.Const.BLOCK_SIZE * 2.0f, i * Common.Const.BLOCK_SIZE - Common.Const.BLOCK_SIZE * 2.0f, 0.0f) * _mainManager.WorldTransform.localScale.x + transform.position, Quaternion.identity, transform).GetComponent<PlacementBlock>();
-					block.Init(j, i, _mainManager.ClientManager.PlayerType);
+					block.Init(j, i, _mainManager.ClientManager.PlayerTypeint);
 					_blockList[i].Add(block);
 				}
 			}
@@ -163,7 +180,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler {
 				if(areaList[baseY+y][baseX+x].PlacementFlg){
 					placementFlg = true;
 				}
-				_sendBlockContainer[baseY+y][baseX+x] = _mainManager.ClientManager.PlayerType;
+				_sendBlockContainer[baseY+y][baseX+x] = _mainManager.ClientManager.PlayerTypeint;
 			}
 		}
 		// 配置エリアに置けていない

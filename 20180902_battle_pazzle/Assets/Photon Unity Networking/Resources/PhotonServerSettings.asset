@@ -39,4 +39,5 @@ MonoBehaviour:
   - UpdateBlock
   - DeleteBlock
   - TurnChange
+  - GameEnd
   DisableAutoOpenWizard: 1
