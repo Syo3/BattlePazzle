@@ -48,6 +48,8 @@ public class MainManager : MonoBehaviour {
 
 	#region private field
 	private List<List<List<int>>> _holdBlockData;
+	private List<int> _holdBlockGroupList;
+	private int _blockListKey;
 	private int debugCounter = 0;
 	private Coroutine _matchAnimationCoroutine;
 	#endregion
@@ -160,14 +162,17 @@ public class MainManager : MonoBehaviour {
 	{
 		var textAsset = Resources.Load("Data/BlockList") as TextAsset;
 		var fileLine  = textAsset.text.Split('\n');
-		_holdBlockData    = new List<List<List<int>>>();
+		_holdBlockData      = new List<List<List<int>>>();
+		_holdBlockGroupList = new List<int>();
 		for(var i = 0; i < fileLine.Length; ++i){
 
 			if(fileLine[i] == ""){
 				break;
 			}
 			_holdBlockData.Add(new List<List<int>>());
-			var blockLineList = fileLine[i].Split(',');
+			var groupSplit    = fileLine[i].Split('\t');
+			_holdBlockGroupList.Add(int.Parse(groupSplit[1]));
+			var blockLineList = groupSplit[0].Split(',');
 			for(var j = 0; j < blockLineList.Length; ++j){
 
 				_holdBlockData[i].Add(new List<int>());
