@@ -7,12 +7,16 @@ public class NetworkManager : MonoBehaviour {
 
 	#region private field
 	private int _state;
+	private MainManager _mainManager;
 	#endregion
 
 	#region access
 	public int State{
 		get{ return _state; }
 		set{ _state = value; }
+	}
+	public MainManager MainManager{
+		set{_mainManager = value;}
 	}
 	#endregion
 
@@ -58,8 +62,10 @@ public class NetworkManager : MonoBehaviour {
 		PhotonNetwork.LeaveRoom();
 		// 切断
 		PhotonNetwork.Disconnect();
-		// 表示
-		GameObject.Find( "GameObject/Text" ).GetComponent<Text>().text = "あいてがルームから退出しました";
+		if(!_mainManager.ClientManager.GameEndFlg){
+			// 表示
+			GameObject.Find( "GameObject/Text" ).GetComponent<Text>().text = "あいてがルームから退出しました";
+		}
 	}
 
 	/// <summary>

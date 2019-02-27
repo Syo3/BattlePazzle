@@ -40,6 +40,12 @@ public class ClientManager : MonoBehaviour {
 	public PhotonView PhotonView{
 		get{return _photonView;}
 	}
+	public List<HoldBlock> HoldBlockList{
+		get{return _holdBlockList;}
+	}
+	public bool GameEndFlg{
+		get{return _gameEndFlg;}
+	}
 	#endregion
 
 	void Awake()
@@ -66,6 +72,7 @@ public class ClientManager : MonoBehaviour {
 
 		List<int> panel_object_list;
 		var territoryList = _mainManager.TerritoryList;
+		GameObject.Find( "TimeLimitText" ).GetComponent<UnityEngine.UI.Text>().text = "Limit:"+_turnTimeLimit;
 		// マスタークライアント
 		if(_player.IsMasterClient){
 			Debug.Log( "Master" );
@@ -274,6 +281,7 @@ public class ClientManager : MonoBehaviour {
 
 		// 勝敗判定
 		if(_territoryLineNum == Common.Const.NUM_HEIGHT){
+			Debug.Log("win");
 			// 勝利ユーザー送信
 			_gameEndFlg = true;
 			var obj     = new object[]{_playerType};
@@ -308,7 +316,7 @@ public class ClientManager : MonoBehaviour {
 		// ターンカウント
 		if(playerType == _playerType){
 			++_turnCnt;
-			GameObject.Find( "TurnText" ).GetComponent<UnityEngine.UI.Text>().text = "TurnText:"+_turnCnt;
+			GameObject.Find( "TurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "Turn:"+_turnCnt;
 		}
 		// タイムリミット表示
 		_turnTimeLimit = Common.Const.TURN_TIME;
@@ -321,7 +329,7 @@ public class ClientManager : MonoBehaviour {
 		// 表示
 		if(_turnFlg == (int)_playerType){
 			GameObject.Find( "Text" ).GetComponent<UnityEngine.UI.Text>().text = "あなたのターン";
-			StartCoroutine(TimeLimitCount());
+			_turnTimeLimitCoroutine = StartCoroutine(TimeLimitCount());
 		}
 		else{
 			GameObject.Find( "Text" ).GetComponent<UnityEngine.UI.Text>().text = "あいてのターン";
@@ -338,6 +346,7 @@ public class ClientManager : MonoBehaviour {
 	/// <param name="playerType"></param>
 	public void GameEnd(Common.Const.PLAYER_TYPE playerType)
 	{
+		_gameEndFlg = true;
 		if(_playerType == playerType){
 			GameObject.Find("VictoryText").GetComponent<UnityEngine.UI.Text>().text = "Win";
 		}
@@ -350,10 +359,7 @@ public class ClientManager : MonoBehaviour {
 		_mainManager.VictoryView.alpha = 1.0f;
 		_mainManager.VictoryView.interactable = true;
 		_mainManager.VictoryView.blocksRaycasts = true;
-		// 退出
-		PhotonNetwork.LeaveRoom();
-		// 切断
-		PhotonNetwork.Disconnect();
+		Invoke("EndGame", 1.0f);
 	}
 
 	/// <summary>
@@ -591,6 +597,14 @@ public class ClientManager : MonoBehaviour {
 		GameObject.Find( "TimeLimitText" ).GetComponent<UnityEngine.UI.Text>().text = "Limit:"+_turnTimeLimit;
 		// ターン変更処理
 		PassTurn();
+	}
+
+	private void EndGame()
+	{
+		// 退出
+		PhotonNetwork.LeaveRoom();
+		// 切断
+		PhotonNetwork.Disconnect();
 	}
 }
 

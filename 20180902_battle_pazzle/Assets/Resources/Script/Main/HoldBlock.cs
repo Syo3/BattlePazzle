@@ -10,7 +10,19 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
 	private List<List<PlacementBlock>> _blockList;
 	private List<List<int>> _sendBlockContainer;
 	private Vector3 _defaultPosition;
+	private int _blockGroupID;
 	#endregion
+
+	#region access
+	public int BlockGroupID{
+		get{return _blockGroupID;}
+	}
+	#endregion
+
+	void Awake()
+	{
+		_blockGroupID = 0;
+	}
 
 	#region public function
 	/// <summary>
@@ -21,6 +33,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
 	{
 		_mainManager     = mainManager;
 		_defaultPosition = transform.position;
+		_blockGroupID    = 0;
 		Reset();
 	}
 
@@ -110,10 +123,34 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
 				}
 			}
 		}
+		// ブロック選択
+		var holdBlockList = _mainManager.ClientManager.HoldBlockList;
+		var blockGroupID  = 0;
+		while(true){
+
+			blockGroupID = _mainManager.GetBlockGroupData();
+			var errorFlg     = false;
+			for(var i = 0; i < holdBlockList.Count; ++i){
+
+				if(blockGroupID == holdBlockList[i].BlockGroupID){
+					errorFlg = true;
+					break;
+				}
+			}
+			if(!errorFlg){
+				break;
+			}
+			// リストを進める
+			_mainManager.GetBlockData();
+		}
+		_blockGroupID = blockGroupID;
+		var blcokData = _mainManager.GetBlockData();
+
 		// 生成
 		_blockList    = new List<List<PlacementBlock>>();
-		var key       = Random.Range(0, _mainManager.HoldBlockData.Count);
-		var blcokData = _mainManager.HoldBlockData[key];
+
+
+
 		for(var i = 0; i < blcokData.Count; ++i){
 
 			_blockList.Add(new List<PlacementBlock>());

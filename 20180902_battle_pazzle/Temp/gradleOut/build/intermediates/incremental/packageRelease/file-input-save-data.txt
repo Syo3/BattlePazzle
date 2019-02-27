@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Sun Feb 24 23:09:13 JST 2019
+#Wed Feb 27 23:17:04 JST 2019
 5.base=/Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/build/intermediates/transforms/stripDebugSymbol/release/folders/2000/1f/main
 42.base=/Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/build/intermediates/assets/release
 32.set=ASSET

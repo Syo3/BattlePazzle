@@ -572,15 +572,29 @@ extern const Il2CppType Enumerator_t3836401716_gp_0_0_0_0;
 extern const Il2CppType PrimeHelper_t2385147435_gp_0_0_0_0;
 extern const Il2CppType Enumerable_Any_m909622116_gp_0_0_0_0;
 extern const Il2CppType Enumerable_Any_m1084009618_gp_0_0_0_0;
+extern const Il2CppType Enumerable_OrderBy_m3527441619_gp_0_0_0_0;
+extern const Il2CppType Enumerable_OrderBy_m3527441619_gp_1_0_0_0;
+extern const Il2CppType Enumerable_OrderBy_m3410394232_gp_0_0_0_0;
+extern const Il2CppType Enumerable_OrderBy_m3410394232_gp_1_0_0_0;
 extern const Il2CppType Enumerable_Repeat_m2524705797_gp_0_0_0_0;
 extern const Il2CppType Enumerable_CreateRepeatIterator_m538726525_gp_0_0_0_0;
 extern const Il2CppType Enumerable_Single_m2335488605_gp_0_0_0_0;
 extern const Il2CppType Enumerable_SingleOrDefault_m3552554315_gp_0_0_0_0;
+extern const Il2CppType Enumerable_ToArray_m2637675867_gp_0_0_0_0;
 extern const Il2CppType Enumerable_ToList_m742020033_gp_0_0_0_0;
 extern const Il2CppType Enumerable_Where_m264777709_gp_0_0_0_0;
 extern const Il2CppType Enumerable_CreateWhereIterator_m1255112735_gp_0_0_0_0;
 extern const Il2CppType U3CCreateRepeatIteratorU3Ec__IteratorE_1_t3530521017_gp_0_0_0_0;
 extern const Il2CppType U3CCreateWhereIteratorU3Ec__Iterator1D_1_t945640688_gp_0_0_0_0;
+extern const Il2CppType IOrderedEnumerable_1_t3318875935_gp_0_0_0_0;
+extern const Il2CppType OrderedEnumerable_1_t1372796327_gp_0_0_0_0;
+extern const Il2CppType OrderedSequence_2_t4114741689_gp_0_0_0_0;
+extern const Il2CppType OrderedSequence_2_t4114741689_gp_1_0_0_0;
+extern const Il2CppType QuickSort_1_t1667011766_gp_0_0_0_0;
+extern const Il2CppType U3CSortU3Ec__Iterator21_t3807379664_gp_0_0_0_0;
+extern const Il2CppType SortContext_1_t2773119229_gp_0_0_0_0;
+extern const Il2CppType SortSequenceContext_2_t4077189013_gp_0_0_0_0;
+extern const Il2CppType SortSequenceContext_2_t4077189013_gp_1_0_0_0;
 extern const Il2CppType AndroidJavaObject_Get_m2598258285_gp_0_0_0_0;
 extern const Il2CppType AndroidJavaObject_Set_m2653402357_gp_0_0_0_0;
 extern const Il2CppType AndroidJavaObject_GetStatic_m428222554_gp_0_0_0_0;
@@ -1730,6 +1744,8 @@ static const RuntimeType* GenInst_PlacementBlock_t1057741924_0_0_0_Types[] = { (
 extern const Il2CppGenericInst GenInst_PlacementBlock_t1057741924_0_0_0 = { 1, GenInst_PlacementBlock_t1057741924_0_0_0_Types };
 static const RuntimeType* GenInst_List_1_t1600127941_0_0_0_Types[] = { (&List_1_t1600127941_0_0_0) };
 extern const Il2CppGenericInst GenInst_List_1_t1600127941_0_0_0 = { 1, GenInst_List_1_t1600127941_0_0_0_Types };
+static const RuntimeType* GenInst_Int32_t2950945753_0_0_0_Guid_t_0_0_0_Types[] = { (&Int32_t2950945753_0_0_0), (&Guid_t_0_0_0) };
+extern const Il2CppGenericInst GenInst_Int32_t2950945753_0_0_0_Guid_t_0_0_0 = { 2, GenInst_Int32_t2950945753_0_0_0_Guid_t_0_0_0_Types };
 static const RuntimeType* GenInst_String_t_0_0_0_Sprite_t280657092_0_0_0_Types[] = { (&String_t_0_0_0), (&Sprite_t280657092_0_0_0) };
 extern const Il2CppGenericInst GenInst_String_t_0_0_0_Sprite_t280657092_0_0_0 = { 2, GenInst_String_t_0_0_0_Sprite_t280657092_0_0_0_Types };
 static const RuntimeType* GenInst_String_t_0_0_0_Sprite_t280657092_0_0_0_DictionaryEntry_t3123975638_0_0_0_Types[] = { (&String_t_0_0_0), (&Sprite_t280657092_0_0_0), (&DictionaryEntry_t3123975638_0_0_0) };
@@ -2098,6 +2114,16 @@ static const RuntimeType* GenInst_Enumerable_Any_m1084009618_gp_0_0_0_0_Types[] 
 extern const Il2CppGenericInst GenInst_Enumerable_Any_m1084009618_gp_0_0_0_0 = { 1, GenInst_Enumerable_Any_m1084009618_gp_0_0_0_0_Types };
 static const RuntimeType* GenInst_Enumerable_Any_m1084009618_gp_0_0_0_0_Boolean_t97287965_0_0_0_Types[] = { (&Enumerable_Any_m1084009618_gp_0_0_0_0), (&Boolean_t97287965_0_0_0) };
 extern const Il2CppGenericInst GenInst_Enumerable_Any_m1084009618_gp_0_0_0_0_Boolean_t97287965_0_0_0 = { 2, GenInst_Enumerable_Any_m1084009618_gp_0_0_0_0_Boolean_t97287965_0_0_0_Types };
+static const RuntimeType* GenInst_Enumerable_OrderBy_m3527441619_gp_0_0_0_0_Types[] = { (&Enumerable_OrderBy_m3527441619_gp_0_0_0_0) };
+extern const Il2CppGenericInst GenInst_Enumerable_OrderBy_m3527441619_gp_0_0_0_0 = { 1, GenInst_Enumerable_OrderBy_m3527441619_gp_0_0_0_0_Types };
+static const RuntimeType* GenInst_Enumerable_OrderBy_m3527441619_gp_0_0_0_0_Enumerable_OrderBy_m3527441619_gp_1_0_0_0_Types[] = { (&Enumerable_OrderBy_m3527441619_gp_0_0_0_0), (&Enumerable_OrderBy_m3527441619_gp_1_0_0_0) };
+extern const Il2CppGenericInst GenInst_Enumerable_OrderBy_m3527441619_gp_0_0_0_0_Enumerable_OrderBy_m3527441619_gp_1_0_0_0 = { 2, GenInst_Enumerable_OrderBy_m3527441619_gp_0_0_0_0_Enumerable_OrderBy_m3527441619_gp_1_0_0_0_Types };
+static const RuntimeType* GenInst_Enumerable_OrderBy_m3410394232_gp_0_0_0_0_Types[] = { (&Enumerable_OrderBy_m3410394232_gp_0_0_0_0) };
+extern const Il2CppGenericInst GenInst_Enumerable_OrderBy_m3410394232_gp_0_0_0_0 = { 1, GenInst_Enumerable_OrderBy_m3410394232_gp_0_0_0_0_Types };
+static const RuntimeType* GenInst_Enumerable_OrderBy_m3410394232_gp_0_0_0_0_Enumerable_OrderBy_m3410394232_gp_1_0_0_0_Types[] = { (&Enumerable_OrderBy_m3410394232_gp_0_0_0_0), (&Enumerable_OrderBy_m3410394232_gp_1_0_0_0) };
+extern const Il2CppGenericInst GenInst_Enumerable_OrderBy_m3410394232_gp_0_0_0_0_Enumerable_OrderBy_m3410394232_gp_1_0_0_0 = { 2, GenInst_Enumerable_OrderBy_m3410394232_gp_0_0_0_0_Enumerable_OrderBy_m3410394232_gp_1_0_0_0_Types };
+static const RuntimeType* GenInst_Enumerable_OrderBy_m3410394232_gp_1_0_0_0_Types[] = { (&Enumerable_OrderBy_m3410394232_gp_1_0_0_0) };
+extern const Il2CppGenericInst GenInst_Enumerable_OrderBy_m3410394232_gp_1_0_0_0 = { 1, GenInst_Enumerable_OrderBy_m3410394232_gp_1_0_0_0_Types };
 static const RuntimeType* GenInst_Enumerable_Repeat_m2524705797_gp_0_0_0_0_Types[] = { (&Enumerable_Repeat_m2524705797_gp_0_0_0_0) };
 extern const Il2CppGenericInst GenInst_Enumerable_Repeat_m2524705797_gp_0_0_0_0 = { 1, GenInst_Enumerable_Repeat_m2524705797_gp_0_0_0_0_Types };
 static const RuntimeType* GenInst_Enumerable_CreateRepeatIterator_m538726525_gp_0_0_0_0_Types[] = { (&Enumerable_CreateRepeatIterator_m538726525_gp_0_0_0_0) };
@@ -2110,6 +2136,8 @@ static const RuntimeType* GenInst_Enumerable_SingleOrDefault_m3552554315_gp_0_0_
 extern const Il2CppGenericInst GenInst_Enumerable_SingleOrDefault_m3552554315_gp_0_0_0_0 = { 1, GenInst_Enumerable_SingleOrDefault_m3552554315_gp_0_0_0_0_Types };
 static const RuntimeType* GenInst_Enumerable_SingleOrDefault_m3552554315_gp_0_0_0_0_Boolean_t97287965_0_0_0_Types[] = { (&Enumerable_SingleOrDefault_m3552554315_gp_0_0_0_0), (&Boolean_t97287965_0_0_0) };
 extern const Il2CppGenericInst GenInst_Enumerable_SingleOrDefault_m3552554315_gp_0_0_0_0_Boolean_t97287965_0_0_0 = { 2, GenInst_Enumerable_SingleOrDefault_m3552554315_gp_0_0_0_0_Boolean_t97287965_0_0_0_Types };
+static const RuntimeType* GenInst_Enumerable_ToArray_m2637675867_gp_0_0_0_0_Types[] = { (&Enumerable_ToArray_m2637675867_gp_0_0_0_0) };
+extern const Il2CppGenericInst GenInst_Enumerable_ToArray_m2637675867_gp_0_0_0_0 = { 1, GenInst_Enumerable_ToArray_m2637675867_gp_0_0_0_0_Types };
 static const RuntimeType* GenInst_Enumerable_ToList_m742020033_gp_0_0_0_0_Types[] = { (&Enumerable_ToList_m742020033_gp_0_0_0_0) };
 extern const Il2CppGenericInst GenInst_Enumerable_ToList_m742020033_gp_0_0_0_0 = { 1, GenInst_Enumerable_ToList_m742020033_gp_0_0_0_0_Types };
 static const RuntimeType* GenInst_Enumerable_Where_m264777709_gp_0_0_0_0_Types[] = { (&Enumerable_Where_m264777709_gp_0_0_0_0) };
@@ -2126,6 +2154,28 @@ static const RuntimeType* GenInst_U3CCreateWhereIteratorU3Ec__Iterator1D_1_t9456
 extern const Il2CppGenericInst GenInst_U3CCreateWhereIteratorU3Ec__Iterator1D_1_t945640688_gp_0_0_0_0 = { 1, GenInst_U3CCreateWhereIteratorU3Ec__Iterator1D_1_t945640688_gp_0_0_0_0_Types };
 static const RuntimeType* GenInst_U3CCreateWhereIteratorU3Ec__Iterator1D_1_t945640688_gp_0_0_0_0_Boolean_t97287965_0_0_0_Types[] = { (&U3CCreateWhereIteratorU3Ec__Iterator1D_1_t945640688_gp_0_0_0_0), (&Boolean_t97287965_0_0_0) };
 extern const Il2CppGenericInst GenInst_U3CCreateWhereIteratorU3Ec__Iterator1D_1_t945640688_gp_0_0_0_0_Boolean_t97287965_0_0_0 = { 2, GenInst_U3CCreateWhereIteratorU3Ec__Iterator1D_1_t945640688_gp_0_0_0_0_Boolean_t97287965_0_0_0_Types };
+static const RuntimeType* GenInst_IOrderedEnumerable_1_t3318875935_gp_0_0_0_0_Types[] = { (&IOrderedEnumerable_1_t3318875935_gp_0_0_0_0) };
+extern const Il2CppGenericInst GenInst_IOrderedEnumerable_1_t3318875935_gp_0_0_0_0 = { 1, GenInst_IOrderedEnumerable_1_t3318875935_gp_0_0_0_0_Types };
+static const RuntimeType* GenInst_OrderedEnumerable_1_t1372796327_gp_0_0_0_0_Types[] = { (&OrderedEnumerable_1_t1372796327_gp_0_0_0_0) };
+extern const Il2CppGenericInst GenInst_OrderedEnumerable_1_t1372796327_gp_0_0_0_0 = { 1, GenInst_OrderedEnumerable_1_t1372796327_gp_0_0_0_0_Types };
+static const RuntimeType* GenInst_OrderedSequence_2_t4114741689_gp_0_0_0_0_Types[] = { (&OrderedSequence_2_t4114741689_gp_0_0_0_0) };
+extern const Il2CppGenericInst GenInst_OrderedSequence_2_t4114741689_gp_0_0_0_0 = { 1, GenInst_OrderedSequence_2_t4114741689_gp_0_0_0_0_Types };
+static const RuntimeType* GenInst_OrderedSequence_2_t4114741689_gp_0_0_0_0_OrderedSequence_2_t4114741689_gp_1_0_0_0_Types[] = { (&OrderedSequence_2_t4114741689_gp_0_0_0_0), (&OrderedSequence_2_t4114741689_gp_1_0_0_0) };
+extern const Il2CppGenericInst GenInst_OrderedSequence_2_t4114741689_gp_0_0_0_0_OrderedSequence_2_t4114741689_gp_1_0_0_0 = { 2, GenInst_OrderedSequence_2_t4114741689_gp_0_0_0_0_OrderedSequence_2_t4114741689_gp_1_0_0_0_Types };
+static const RuntimeType* GenInst_OrderedSequence_2_t4114741689_gp_1_0_0_0_Types[] = { (&OrderedSequence_2_t4114741689_gp_1_0_0_0) };
+extern const Il2CppGenericInst GenInst_OrderedSequence_2_t4114741689_gp_1_0_0_0 = { 1, GenInst_OrderedSequence_2_t4114741689_gp_1_0_0_0_Types };
+static const RuntimeType* GenInst_QuickSort_1_t1667011766_gp_0_0_0_0_Types[] = { (&QuickSort_1_t1667011766_gp_0_0_0_0) };
+extern const Il2CppGenericInst GenInst_QuickSort_1_t1667011766_gp_0_0_0_0 = { 1, GenInst_QuickSort_1_t1667011766_gp_0_0_0_0_Types };
+static const RuntimeType* GenInst_U3CSortU3Ec__Iterator21_t3807379664_gp_0_0_0_0_Types[] = { (&U3CSortU3Ec__Iterator21_t3807379664_gp_0_0_0_0) };
+extern const Il2CppGenericInst GenInst_U3CSortU3Ec__Iterator21_t3807379664_gp_0_0_0_0 = { 1, GenInst_U3CSortU3Ec__Iterator21_t3807379664_gp_0_0_0_0_Types };
+static const RuntimeType* GenInst_SortContext_1_t2773119229_gp_0_0_0_0_Types[] = { (&SortContext_1_t2773119229_gp_0_0_0_0) };
+extern const Il2CppGenericInst GenInst_SortContext_1_t2773119229_gp_0_0_0_0 = { 1, GenInst_SortContext_1_t2773119229_gp_0_0_0_0_Types };
+static const RuntimeType* GenInst_SortSequenceContext_2_t4077189013_gp_0_0_0_0_Types[] = { (&SortSequenceContext_2_t4077189013_gp_0_0_0_0) };
+extern const Il2CppGenericInst GenInst_SortSequenceContext_2_t4077189013_gp_0_0_0_0 = { 1, GenInst_SortSequenceContext_2_t4077189013_gp_0_0_0_0_Types };
+static const RuntimeType* GenInst_SortSequenceContext_2_t4077189013_gp_0_0_0_0_SortSequenceContext_2_t4077189013_gp_1_0_0_0_Types[] = { (&SortSequenceContext_2_t4077189013_gp_0_0_0_0), (&SortSequenceContext_2_t4077189013_gp_1_0_0_0) };
+extern const Il2CppGenericInst GenInst_SortSequenceContext_2_t4077189013_gp_0_0_0_0_SortSequenceContext_2_t4077189013_gp_1_0_0_0 = { 2, GenInst_SortSequenceContext_2_t4077189013_gp_0_0_0_0_SortSequenceContext_2_t4077189013_gp_1_0_0_0_Types };
+static const RuntimeType* GenInst_SortSequenceContext_2_t4077189013_gp_1_0_0_0_Types[] = { (&SortSequenceContext_2_t4077189013_gp_1_0_0_0) };
+extern const Il2CppGenericInst GenInst_SortSequenceContext_2_t4077189013_gp_1_0_0_0 = { 1, GenInst_SortSequenceContext_2_t4077189013_gp_1_0_0_0_Types };
 static const RuntimeType* GenInst_AndroidJavaObject_Get_m2598258285_gp_0_0_0_0_Types[] = { (&AndroidJavaObject_Get_m2598258285_gp_0_0_0_0) };
 extern const Il2CppGenericInst GenInst_AndroidJavaObject_Get_m2598258285_gp_0_0_0_0 = { 1, GenInst_AndroidJavaObject_Get_m2598258285_gp_0_0_0_0_Types };
 static const RuntimeType* GenInst_AndroidJavaObject_Set_m2653402357_gp_0_0_0_0_Types[] = { (&AndroidJavaObject_Set_m2653402357_gp_0_0_0_0) };
@@ -2252,7 +2302,7 @@ static const RuntimeType* GenInst_List_1_t3009893961_0_0_0_Types[] = { (&List_1_
 extern const Il2CppGenericInst GenInst_List_1_t3009893961_0_0_0 = { 1, GenInst_List_1_t3009893961_0_0_0_Types };
 static const RuntimeType* GenInst_ObjectPool_1_t892185599_gp_0_0_0_0_Types[] = { (&ObjectPool_1_t892185599_gp_0_0_0_0) };
 extern const Il2CppGenericInst GenInst_ObjectPool_1_t892185599_gp_0_0_0_0 = { 1, GenInst_ObjectPool_1_t892185599_gp_0_0_0_0_Types };
-extern const Il2CppGenericInst* const g_Il2CppGenericInstTable[801] = 
+extern const Il2CppGenericInst* const g_Il2CppGenericInstTable[819] = 
 {
 	&GenInst_RuntimeObject_0_0_0,
 	&GenInst_Int32_t2950945753_0_0_0,
@@ -2794,6 +2844,7 @@ extern const Il2CppGenericInst* const g_Il2CppGenericInstTable[801] =
 	&GenInst_List_1_t2529816666_0_0_0,
 	&GenInst_PlacementBlock_t1057741924_0_0_0,
 	&GenInst_List_1_t1600127941_0_0_0,
+	&GenInst_Int32_t2950945753_0_0_0_Guid_t_0_0_0,
 	&GenInst_String_t_0_0_0_Sprite_t280657092_0_0_0,
 	&GenInst_String_t_0_0_0_Sprite_t280657092_0_0_0_DictionaryEntry_t3123975638_0_0_0,
 	&GenInst_KeyValuePair_2_t2463585558_0_0_0,
@@ -2978,12 +3029,18 @@ extern const Il2CppGenericInst* const g_Il2CppGenericInstTable[801] =
 	&GenInst_Enumerable_Any_m909622116_gp_0_0_0_0,
 	&GenInst_Enumerable_Any_m1084009618_gp_0_0_0_0,
 	&GenInst_Enumerable_Any_m1084009618_gp_0_0_0_0_Boolean_t97287965_0_0_0,
+	&GenInst_Enumerable_OrderBy_m3527441619_gp_0_0_0_0,
+	&GenInst_Enumerable_OrderBy_m3527441619_gp_0_0_0_0_Enumerable_OrderBy_m3527441619_gp_1_0_0_0,
+	&GenInst_Enumerable_OrderBy_m3410394232_gp_0_0_0_0,
+	&GenInst_Enumerable_OrderBy_m3410394232_gp_0_0_0_0_Enumerable_OrderBy_m3410394232_gp_1_0_0_0,
+	&GenInst_Enumerable_OrderBy_m3410394232_gp_1_0_0_0,
 	&GenInst_Enumerable_Repeat_m2524705797_gp_0_0_0_0,
 	&GenInst_Enumerable_CreateRepeatIterator_m538726525_gp_0_0_0_0,
 	&GenInst_Enumerable_Single_m2335488605_gp_0_0_0_0,
 	&GenInst_Enumerable_Single_m2335488605_gp_0_0_0_0_Boolean_t97287965_0_0_0,
 	&GenInst_Enumerable_SingleOrDefault_m3552554315_gp_0_0_0_0,
 	&GenInst_Enumerable_SingleOrDefault_m3552554315_gp_0_0_0_0_Boolean_t97287965_0_0_0,
+	&GenInst_Enumerable_ToArray_m2637675867_gp_0_0_0_0,
 	&GenInst_Enumerable_ToList_m742020033_gp_0_0_0_0,
 	&GenInst_Enumerable_Where_m264777709_gp_0_0_0_0,
 	&GenInst_Enumerable_Where_m264777709_gp_0_0_0_0_Boolean_t97287965_0_0_0,
@@ -2992,6 +3049,17 @@ extern const Il2CppGenericInst* const g_Il2CppGenericInstTable[801] =
 	&GenInst_U3CCreateRepeatIteratorU3Ec__IteratorE_1_t3530521017_gp_0_0_0_0,
 	&GenInst_U3CCreateWhereIteratorU3Ec__Iterator1D_1_t945640688_gp_0_0_0_0,
 	&GenInst_U3CCreateWhereIteratorU3Ec__Iterator1D_1_t945640688_gp_0_0_0_0_Boolean_t97287965_0_0_0,
+	&GenInst_IOrderedEnumerable_1_t3318875935_gp_0_0_0_0,
+	&GenInst_OrderedEnumerable_1_t1372796327_gp_0_0_0_0,
+	&GenInst_OrderedSequence_2_t4114741689_gp_0_0_0_0,
+	&GenInst_OrderedSequence_2_t4114741689_gp_0_0_0_0_OrderedSequence_2_t4114741689_gp_1_0_0_0,
+	&GenInst_OrderedSequence_2_t4114741689_gp_1_0_0_0,
+	&GenInst_QuickSort_1_t1667011766_gp_0_0_0_0,
+	&GenInst_U3CSortU3Ec__Iterator21_t3807379664_gp_0_0_0_0,
+	&GenInst_SortContext_1_t2773119229_gp_0_0_0_0,
+	&GenInst_SortSequenceContext_2_t4077189013_gp_0_0_0_0,
+	&GenInst_SortSequenceContext_2_t4077189013_gp_0_0_0_0_SortSequenceContext_2_t4077189013_gp_1_0_0_0,
+	&GenInst_SortSequenceContext_2_t4077189013_gp_1_0_0_0,
 	&GenInst_AndroidJavaObject_Get_m2598258285_gp_0_0_0_0,
 	&GenInst_AndroidJavaObject_Set_m2653402357_gp_0_0_0_0,
 	&GenInst_AndroidJavaObject_GetStatic_m428222554_gp_0_0_0_0,

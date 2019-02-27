@@ -8992,6 +8992,7 @@ extern "C" void Action_BeginInvoke_m2907948038 ();
 extern "C" void Action_EndInvoke_m1690492879 ();
 extern "C" void Check_Source_m4098695967 ();
 extern "C" void Check_SourceAndPredicate_m2332465641 ();
+extern "C" void Check_SourceAndKeySelector_m1202955589 ();
 extern "C" void MonoTODOAttribute__ctor_m2619396706 ();
 extern "C" void ExtensionAttribute__ctor_m1708143005 ();
 extern "C" void Aes__ctor_m178909601 ();
@@ -13631,6 +13632,8 @@ extern "C" void ClientManager_get_PlayerTypeint_m4179438457 ();
 extern "C" void ClientManager_get_PlayerType_m1629681824 ();
 extern "C" void ClientManager_get_AreaList_m1735493727 ();
 extern "C" void ClientManager_get_PhotonView_m1287607619 ();
+extern "C" void ClientManager_get_HoldBlockList_m409360157 ();
+extern "C" void ClientManager_get_GameEndFlg_m3751564300 ();
 extern "C" void ClientManager_Awake_m3204135862 ();
 extern "C" void ClientManager_Init_m158821783 ();
 extern "C" void ClientManager_Update_m1142467452 ();
@@ -13645,7 +13648,15 @@ extern "C" void ClientManager_CheckNowTurn_m2014237637 ();
 extern "C" void ClientManager_PassTurn_m4010444866 ();
 extern "C" void ClientManager_UpdateTerritory_m3545507007 ();
 extern "C" void ClientManager_CheckLineDeleteNum_m2891801724 ();
+extern "C" void ClientManager_TimeLimitCount_m2911158367 ();
+extern "C" void ClientManager_EndGame_m2655219176 ();
 extern "C" void ClientManager_U3CGameEndU3Em__0_m870168109 ();
+extern "C" void U3CTimeLimitCountU3Ec__Iterator0__ctor_m4058259920 ();
+extern "C" void U3CTimeLimitCountU3Ec__Iterator0_MoveNext_m3078323659 ();
+extern "C" void U3CTimeLimitCountU3Ec__Iterator0_System_Collections_Generic_IEnumeratorU3CobjectU3E_get_Current_m3199430447 ();
+extern "C" void U3CTimeLimitCountU3Ec__Iterator0_System_Collections_IEnumerator_get_Current_m2643812028 ();
+extern "C" void U3CTimeLimitCountU3Ec__Iterator0_Dispose_m977246637 ();
+extern "C" void U3CTimeLimitCountU3Ec__Iterator0_Reset_m3593715275 ();
 extern "C" void ConnectAndJoinRandom__ctor_m1317103142 ();
 extern "C" void ConnectAndJoinRandom_Start_m2784327638 ();
 extern "C" void ConnectAndJoinRandom_Update_m3335936354 ();
@@ -13859,6 +13870,8 @@ extern "C" void FriendInfo_ToString_m467958063 ();
 extern "C" void GameObjectExtensions_GetActive_m886718199 ();
 extern "C" void GamePropertyKey__ctor_m2482160486 ();
 extern "C" void HoldBlock__ctor_m2668388005 ();
+extern "C" void HoldBlock_get_BlockGroupID_m1734340885 ();
+extern "C" void HoldBlock_Awake_m1885703885 ();
 extern "C" void HoldBlock_Init_m129195479 ();
 extern "C" void HoldBlock_OnPointerClick_m3803421126 ();
 extern "C" void HoldBlock_OnDrag_m270699640 ();
@@ -13924,11 +13937,15 @@ extern "C" void MainManager_get_VictoryView_m880894243 ();
 extern "C" void MainManager_Awake_m106624373 ();
 extern "C" void MainManager_Start_m3405710411 ();
 extern "C" void MainManager_Update_m583919134 ();
+extern "C" void MainManager_GetBlockData_m3564069844 ();
+extern "C" void MainManager_GetBlockGroupData_m2471499188 ();
 extern "C" void MainManager_CreateGame_m1167031360 ();
 extern "C" void MainManager_LoadBlockListFile_m2661727909 ();
 extern "C" void MainManager_MatchingAnimation_m2574833296 ();
 extern "C" void MainManager_U3CStartU3Em__0_m357717570 ();
 extern "C" void MainManager_U3CStartU3Em__1_m2314032706 ();
+extern "C" void MainManager_U3CGetBlockDataU3Em__2_m3549076228 ();
+extern "C" void MainManager_U3CLoadBlockListFileU3Em__3_m456426059 ();
 extern "C" void U3CMatchingAnimationU3Ec__Iterator0__ctor_m3975478348 ();
 extern "C" void U3CMatchingAnimationU3Ec__Iterator0_MoveNext_m3261995878 ();
 extern "C" void U3CMatchingAnimationU3Ec__Iterator0_System_Collections_Generic_IEnumeratorU3CobjectU3E_get_Current_m1794305339 ();
@@ -14085,6 +14102,7 @@ extern "C" void U3COnOperationResponseU3Ec__AnonStorey0_U3CU3Em__0_m2335187984 (
 extern "C" void NetworkManager__ctor_m4113642442 ();
 extern "C" void NetworkManager_get_State_m3298344514 ();
 extern "C" void NetworkManager_set_State_m3273508836 ();
+extern "C" void NetworkManager_set_MainManager_m936496667 ();
 extern "C" void NetworkManager_Start_m789837098 ();
 extern "C" void NetworkManager_OnJoinedLobby_m598152453 ();
 extern "C" void NetworkManager_OnJoinedRoom_m2765561516 ();
@@ -14802,7 +14820,7 @@ extern "C" void WebRpcResponse_set_DebugMessage_m3578678403 ();
 extern "C" void WebRpcResponse_get_Parameters_m77974431 ();
 extern "C" void WebRpcResponse_set_Parameters_m3975464742 ();
 extern "C" void WebRpcResponse_ToStringFull_m3199251698 ();
-extern const Il2CppMethodPointer g_MethodPointers[14783] = 
+extern const Il2CppMethodPointer g_MethodPointers[14801] = 
 {
 	Locale_GetText_m3374010885,
 	Locale_GetText_m1601577974,
@@ -23777,6 +23795,7 @@ extern const Il2CppMethodPointer g_MethodPointers[14783] =
 	Action_EndInvoke_m1690492879,
 	Check_Source_m4098695967,
 	Check_SourceAndPredicate_m2332465641,
+	Check_SourceAndKeySelector_m1202955589,
 	MonoTODOAttribute__ctor_m2619396706,
 	ExtensionAttribute__ctor_m1708143005,
 	Aes__ctor_m178909601,
@@ -28416,6 +28435,8 @@ extern const Il2CppMethodPointer g_MethodPointers[14783] =
 	ClientManager_get_PlayerType_m1629681824,
 	ClientManager_get_AreaList_m1735493727,
 	ClientManager_get_PhotonView_m1287607619,
+	ClientManager_get_HoldBlockList_m409360157,
+	ClientManager_get_GameEndFlg_m3751564300,
 	ClientManager_Awake_m3204135862,
 	ClientManager_Init_m158821783,
 	ClientManager_Update_m1142467452,
@@ -28430,7 +28451,15 @@ extern const Il2CppMethodPointer g_MethodPointers[14783] =
 	ClientManager_PassTurn_m4010444866,
 	ClientManager_UpdateTerritory_m3545507007,
 	ClientManager_CheckLineDeleteNum_m2891801724,
+	ClientManager_TimeLimitCount_m2911158367,
+	ClientManager_EndGame_m2655219176,
 	ClientManager_U3CGameEndU3Em__0_m870168109,
+	U3CTimeLimitCountU3Ec__Iterator0__ctor_m4058259920,
+	U3CTimeLimitCountU3Ec__Iterator0_MoveNext_m3078323659,
+	U3CTimeLimitCountU3Ec__Iterator0_System_Collections_Generic_IEnumeratorU3CobjectU3E_get_Current_m3199430447,
+	U3CTimeLimitCountU3Ec__Iterator0_System_Collections_IEnumerator_get_Current_m2643812028,
+	U3CTimeLimitCountU3Ec__Iterator0_Dispose_m977246637,
+	U3CTimeLimitCountU3Ec__Iterator0_Reset_m3593715275,
 	ConnectAndJoinRandom__ctor_m1317103142,
 	ConnectAndJoinRandom_Start_m2784327638,
 	ConnectAndJoinRandom_Update_m3335936354,
@@ -28644,6 +28673,8 @@ extern const Il2CppMethodPointer g_MethodPointers[14783] =
 	GameObjectExtensions_GetActive_m886718199,
 	GamePropertyKey__ctor_m2482160486,
 	HoldBlock__ctor_m2668388005,
+	HoldBlock_get_BlockGroupID_m1734340885,
+	HoldBlock_Awake_m1885703885,
 	HoldBlock_Init_m129195479,
 	HoldBlock_OnPointerClick_m3803421126,
 	HoldBlock_OnDrag_m270699640,
@@ -28709,11 +28740,15 @@ extern const Il2CppMethodPointer g_MethodPointers[14783] =
 	MainManager_Awake_m106624373,
 	MainManager_Start_m3405710411,
 	MainManager_Update_m583919134,
+	MainManager_GetBlockData_m3564069844,
+	MainManager_GetBlockGroupData_m2471499188,
 	MainManager_CreateGame_m1167031360,
 	MainManager_LoadBlockListFile_m2661727909,
 	MainManager_MatchingAnimation_m2574833296,
 	MainManager_U3CStartU3Em__0_m357717570,
 	MainManager_U3CStartU3Em__1_m2314032706,
+	MainManager_U3CGetBlockDataU3Em__2_m3549076228,
+	MainManager_U3CLoadBlockListFileU3Em__3_m456426059,
 	U3CMatchingAnimationU3Ec__Iterator0__ctor_m3975478348,
 	U3CMatchingAnimationU3Ec__Iterator0_MoveNext_m3261995878,
 	U3CMatchingAnimationU3Ec__Iterator0_System_Collections_Generic_IEnumeratorU3CobjectU3E_get_Current_m1794305339,
@@ -28870,6 +28905,7 @@ extern const Il2CppMethodPointer g_MethodPointers[14783] =
 	NetworkManager__ctor_m4113642442,
 	NetworkManager_get_State_m3298344514,
 	NetworkManager_set_State_m3273508836,
+	NetworkManager_set_MainManager_m936496667,
 	NetworkManager_Start_m789837098,
 	NetworkManager_OnJoinedLobby_m598152453,
 	NetworkManager_OnJoinedRoom_m2765561516,

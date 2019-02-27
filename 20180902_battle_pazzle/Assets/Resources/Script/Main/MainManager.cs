@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class MainManager : MonoBehaviour {
 
 	#region SerializeFiled
@@ -49,6 +50,7 @@ public class MainManager : MonoBehaviour {
 	#region private field
 	private List<List<List<int>>> _holdBlockData;
 	private List<int> _holdBlockGroupList;
+	private List<int> _blockSelectedList;
 	private int _blockListKey;
 	private int debugCounter = 0;
 	private Coroutine _matchAnimationCoroutine;
@@ -106,6 +108,8 @@ public class MainManager : MonoBehaviour {
 
 	void Start()
 	{
+		_blockListKey = 0;
+
 		// デバッグフラグチェック
 		var sceneContainer = FindObjectOfType<SceneContainer>();
 		if(sceneContainer != null){
@@ -121,6 +125,7 @@ public class MainManager : MonoBehaviour {
 			_clientManager.PassTurn();
 		});
 		_matchAnimationCoroutine = StartCoroutine(MatchingAnimation());
+		_blockListKey = 0;
 	}
 
 	// Update is called once per frame
@@ -141,6 +146,22 @@ public class MainManager : MonoBehaviour {
 		}
 		++debugCounter;
 
+	}
+
+	public List<List<int>> GetBlockData()
+	{
+		var blockData = _holdBlockData[_blockSelectedList[_blockListKey]];
+		++_blockListKey;
+		if(_blockListKey >= _holdBlockData.Count){
+			_blockSelectedList = _blockSelectedList.OrderBy(a => Guid.NewGuid()).ToList();
+			_blockListKey      = 0;
+		}
+		return blockData;
+	}
+
+	public int GetBlockGroupData()
+	{
+		return _holdBlockGroupList[_blockSelectedList[_blockListKey]];
 	}
 
 	/// <summary>
@@ -164,6 +185,7 @@ public class MainManager : MonoBehaviour {
 		var fileLine  = textAsset.text.Split('\n');
 		_holdBlockData      = new List<List<List<int>>>();
 		_holdBlockGroupList = new List<int>();
+		_blockSelectedList  = new List<int>();
 		for(var i = 0; i < fileLine.Length; ++i){
 
 			if(fileLine[i] == ""){
@@ -182,6 +204,28 @@ public class MainManager : MonoBehaviour {
 					_holdBlockData[i][j].Add(int.Parse(blockLine[n]));
 				}
 			}
+			_blockSelectedList.Add(i);
+		}
+		_blockSelectedList = _blockSelectedList.OrderBy(a => Guid.NewGuid()).ToList();
+		// 初回のリストのみ最初の方を被らないように整列させる 最初の方にくそ強いのを出さないようにするため
+		var checkList = new List<int>(){0};
+		var swapKey = 5;
+		for(var i = 0; i < 5; ++i){
+
+			for(var j = 0; j < checkList.Count; ++j){
+
+				if(_holdBlockGroupList[_blockSelectedList[i]] == checkList[j] || _holdBlockGroupList[_blockSelectedList[i]] == 3){
+					var swap                    = _blockSelectedList[i];
+					_blockSelectedList[i]       = _blockSelectedList[swapKey];
+					_blockSelectedList[swapKey] = swap;
+					++swapKey;
+					if(swapKey >= _blockSelectedList.Count){
+						return;
+					}
+					j = 0;
+				}
+			}
+			checkList.Add(_holdBlockGroupList[_blockSelectedList[i]]);
 		}
 	}
 
