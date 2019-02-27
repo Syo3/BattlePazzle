@@ -104,6 +104,7 @@ public class MainManager : MonoBehaviour {
 	void Awake()
 	{
 		LoadBlockListFile();
+		_network_mgr.MainManager = this;
 	}
 
 	void Start()
