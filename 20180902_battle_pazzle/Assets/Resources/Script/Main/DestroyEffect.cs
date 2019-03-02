@@ -12,6 +12,7 @@ public class DestroyEffect : MonoBehaviour {
 	#endregion
 
 	#region private field
+    private SoundManager _soundManager;
 	private AnimatorStateInfo _stateInfo;
 	private float _animationStartTime;
 	#endregion
@@ -22,8 +23,9 @@ public class DestroyEffect : MonoBehaviour {
 	/// </summary>
 	/// <param name="playerType"></param>
 	/// <param name="animationStart"></param>
-	public void Init(int playerType, float animationStart=0.0f)
+	public void Init(int playerType,SoundManager soundManager, float animationStart=0.0f)
 	{
+        _soundManager       = soundManager;
 		_animationStartTime = animationStart;
 		switch(playerType){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:
@@ -46,6 +48,7 @@ public class DestroyEffect : MonoBehaviour {
 	private IEnumerator Animation(){
 
 		yield return new WaitForSeconds(_animationStartTime);
+        _soundManager.PlayOnShot(0);
 		_animator.Play("DestroyEffect");
 		yield return null;
 		_stateInfo = _animator.GetCurrentAnimatorStateInfo(0);

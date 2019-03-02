@@ -42,7 +42,10 @@ public class PopupView : MonoBehaviour {
 			PhotonNetwork.LeaveRoom();
 			// 切断
 			PhotonNetwork.Disconnect();
-			SceneManager.LoadScene("Title");
+            _mainManager.FadeManager.SetCallBack(()=>{
+    			SceneManager.LoadScene("Title");
+            });
+            StartCoroutine(_mainManager.FadeManager.FadeOut());
 		});
 	}
 

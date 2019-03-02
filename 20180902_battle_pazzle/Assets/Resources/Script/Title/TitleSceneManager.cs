@@ -13,6 +13,8 @@ public class TitleSceneManager : MonoBehaviour {
 	private Button _startButton;
 	[SerializeField, Tooltip("開始ボタン")]
 	private Button _startButtonDebug;
+    [SerializeField, Tooltip("フェード管理")]
+    private FadeManager _fadeManager;
 	#endregion
 
 	void Start()
@@ -23,15 +25,30 @@ public class TitleSceneManager : MonoBehaviour {
 			sceneContainer = Instantiate(_sceneContainer).GetComponent<SceneContainer>();
 			DontDestroyOnLoad(sceneContainer);
 		}
+        // フェードイン
+        StartCoroutine(_fadeManager.FadeIn());
 		// 開始 通常
 		_startButton.onClick.AddListener(()=>{
 			sceneContainer.DebugFlg = false;
-			SceneManager.LoadScene("Main");
+            StartGame();
 		});
 		// 開始 デバッグ
 		_startButtonDebug.onClick.AddListener(()=>{
 			sceneContainer.DebugFlg = true;
-			SceneManager.LoadScene("Main");
+            StartGame();
 		});
 	}
+
+    /// <summary>
+    /// Mainシーン遷移
+    /// </summary>
+    private void StartGame()
+    {
+        _startButton.interactable      = false;
+        _startButtonDebug.interactable = false;
+        _fadeManager.SetCallBack(()=>{
+            SceneManager.LoadScene("Main");
+        });
+        StartCoroutine(_fadeManager.FadeOut());
+    }
 }

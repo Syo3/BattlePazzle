@@ -259,6 +259,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
             return;
         }
         _mainManager.ClientManager.UpdateBlockList(_sendBlockContainer);
+        _mainManager.SoundManager.PlayOnShot(0);
         Reset();
     }
     #endregion

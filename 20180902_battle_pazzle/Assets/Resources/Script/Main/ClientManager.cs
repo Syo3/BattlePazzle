@@ -235,7 +235,7 @@ public class ClientManager : MonoBehaviour {
 						destroyStart = i + j;
 					}
 					var effect = Instantiate(_mainManager.DestroyEffectPrefab, _areaList[i][j].Block.transform.position, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<DestroyEffect>();
-					effect.Init(_areaList[i][j].Block.State, (i+j-destroyStart)*0.1f);
+					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (i+j-destroyStart)*0.1f);
 					Destroy(_areaList[i][j].Block.gameObject);
 					_areaList[i][j].Block = null;
 				}
@@ -374,7 +374,10 @@ public class ClientManager : MonoBehaviour {
 		// 終了表示
 		// タイトルボタン
 		GameObject.Find("VictoryTitleButton").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(()=>{
-			UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
+            _mainManager.FadeManager.SetCallBack(()=>{
+    			UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
+            });
+            StartCoroutine(_mainManager.FadeManager.FadeOut());
 		});
 		_mainManager.VictoryView.alpha = 1.0f;
 		_mainManager.VictoryView.interactable = true;
@@ -593,7 +596,7 @@ public class ClientManager : MonoBehaviour {
 					}
 					var effect = Instantiate(_mainManager.DestroyEffectPrefab, _areaList[i][j].Block.transform.position, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<DestroyEffect>();
 					Debug.Log(_areaList[i][j].Block.State);
-					effect.Init(_areaList[i][j].Block.State, (i+j-destroyStart)*0.1f);
+					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (i+j-destroyStart)*0.1f);
 					Destroy(_areaList[i][j].Block.gameObject);
 					_areaList[i][j].Block = null;
 				}

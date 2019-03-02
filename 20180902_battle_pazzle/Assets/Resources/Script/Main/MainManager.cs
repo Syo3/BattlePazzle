@@ -43,6 +43,10 @@ public class MainManager : MonoBehaviour {
 	private Button _passButton;
 	[SerializeField, Tooltip("通話プレハブ")]
 	private GameObject _voiceManagerPrefab;
+    [SerializeField, Tooltip("フェード管理")]
+    private FadeManager _fadeManager;
+    [SerializeField, Tooltip("サウンド管理")]
+    private SoundManager _soundManager;
 
 	// デバッグ用
 	[SerializeField]
@@ -101,12 +105,19 @@ public class MainManager : MonoBehaviour {
 	public CanvasGroup VictoryView{
 		get{return _victoryView;}
 	}
+    public FadeManager FadeManager{
+        get{return _fadeManager;}
+    }
+    public SoundManager SoundManager{
+        get{return _soundManager;}
+    }
 	#endregion
 
 	void Awake()
 	{
 		LoadBlockListFile();
 		_network_mgr.MainManager = this;
+        StartCoroutine(_fadeManager.FadeIn());
 	}
 
 	void Start()

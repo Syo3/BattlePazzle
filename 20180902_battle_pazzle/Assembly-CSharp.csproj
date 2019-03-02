@@ -136,6 +136,7 @@
      <Compile Include="Assets\PUNVoice\TestVoice\ToneAudioReader.cs" />
      <Compile Include="Assets\PUNVoice\TestVoice\ViewDrag.cs" />
      <Compile Include="Assets\Resources\Script\Common\Const.cs" />
+     <Compile Include="Assets\Resources\Script\Common\FadeManager.cs" />
      <Compile Include="Assets\Resources\Script\Common\SceneContainer.cs" />
      <Compile Include="Assets\Resources\Script\Main\Area.cs" />
      <Compile Include="Assets\Resources\Script\Main\Block.cs" />
@@ -150,6 +151,7 @@
      <Compile Include="Assets\Resources\Script\Main\PopupView.cs" />
      <Compile Include="Assets\Resources\Script\Main\Range.cs" />
      <Compile Include="Assets\Resources\Script\Main\ResourceManager.cs" />
+     <Compile Include="Assets\Resources\Script\Main\SoundManager.cs" />
      <Compile Include="Assets\Resources\Script\Main\Territory.cs" />
      <Compile Include="Assets\Resources\Script\Main\TerritotyLine.cs" />
      <Compile Include="Assets\Resources\Script\Title\TitleSceneManager.cs" />
