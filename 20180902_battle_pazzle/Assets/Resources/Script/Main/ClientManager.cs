@@ -72,13 +72,13 @@ public class ClientManager : MonoBehaviour {
 
 		List<int> panel_object_list;
 		var territoryList = _mainManager.TerritoryList;
-		GameObject.Find( "TimeLimitText" ).GetComponent<UnityEngine.UI.Text>().text = "Limit:"+_turnTimeLimit;
+		GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "Limit:"+_turnTimeLimit;
 		// マスタークライアント
 		if(_player.IsMasterClient){
 			Debug.Log( "Master" );
 			_playerType     = Common.Const.PLAYER_TYPE.MASTER;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.MASTER, (int)Common.Const.PLAYER_TYPE.GUEST };
-			GameObject.Find( "GameObject/Text" ).GetComponent<UnityEngine.UI.Text>().text = "あなたのターン";
+			GameObject.Find( "GameObject/UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あなたのターン";
 			for(var i = 0; i < 2; ++i){
 				territoryList[i].Init(i+1, (int)_playerType);
 				territoryList[i].SetSize(_territoryLineNum);
@@ -90,7 +90,7 @@ public class ClientManager : MonoBehaviour {
 			Debug.Log( "Not Master" );
 			_playerType     = Common.Const.PLAYER_TYPE.GUEST;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.GUEST, (int)Common.Const.PLAYER_TYPE.MASTER };
-			GameObject.Find( "GameObject/Text" ).GetComponent<UnityEngine.UI.Text>().text = "あいてのターン";
+			GameObject.Find( "GameObject/UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あいてのターン";
 			for(var i = 1; i >= 0; --i){
 				territoryList[i].Init(i+1, (int)_playerType);
 				territoryList[i].SetSize(_territoryLineNum);
@@ -137,7 +137,7 @@ public class ClientManager : MonoBehaviour {
 		_holdBlockList = new List<HoldBlock>();
 		for(var i = 0; i < 3; ++i){
 
-			var holdBlock = Instantiate(_mainManager.HoldBlockPrefab, new Vector3(2.0f * i - 2.0f, -4.0f, 0.0f), Quaternion.identity, _mainManager.HoldParentTransform).GetComponent<HoldBlock>();
+			var holdBlock = Instantiate(_mainManager.HoldBlockPrefab, new Vector3(2.0f * i - 2.0f, -3.0f, 0.0f), Quaternion.identity, _mainManager.HoldParentTransform).GetComponent<HoldBlock>();
 			holdBlock.Init(_mainManager);
 			_holdBlockList.Add(holdBlock);
 		}
@@ -225,14 +225,17 @@ public class ClientManager : MonoBehaviour {
 			_territoryLineNum += lineCnt;
 		}
 		// 列が揃ったブロック削除
+		var destroyStart = 0;
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 
 			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
 
 				if(list[i][j] > 0 && _areaList[i][j].Block != null){
-					Debug.Log("destroy check");
+					if(destroyStart == -1){
+						destroyStart = i + j;
+					}
 					var effect = Instantiate(_mainManager.DestroyEffectPrefab, _areaList[i][j].Block.transform.position, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<DestroyEffect>();
-					effect.Init(_areaList[i][j].Block.State);
+					effect.Init(_areaList[i][j].Block.State, (i+j-destroyStart)*0.1f);
 					Destroy(_areaList[i][j].Block.gameObject);
 					_areaList[i][j].Block = null;
 				}
@@ -284,7 +287,7 @@ public class ClientManager : MonoBehaviour {
 			Debug.Log("win");
 			// 勝利ユーザー送信
 			_gameEndFlg = true;
-			var obj     = new object[]{_playerType};
+			var obj     = new object[]{_playerType, false};
 			_photonView.RPC("GameEnd", PhotonTargets.All, obj);
 		}
 		// チェック
@@ -313,6 +316,13 @@ public class ClientManager : MonoBehaviour {
 		else{
 			_turnFlg = (int)Common.Const.PLAYER_TYPE.MASTER;
 		}
+		// 終了ターン数経過
+		if(_playerType == Common.Const.PLAYER_TYPE.MASTER){
+			if(_turnCnt + 1 > Common.Const.GAME_END_TURN){
+				GameEndTurnCheck();
+				return;
+			}
+		}
 		// ターンカウント
 		if(playerType == _playerType){
 			++_turnCnt;
@@ -320,7 +330,7 @@ public class ClientManager : MonoBehaviour {
 		}
 		// タイムリミット表示
 		_turnTimeLimit = Common.Const.TURN_TIME;
-		GameObject.Find( "TimeLimitText" ).GetComponent<UnityEngine.UI.Text>().text = "Limit:"+_turnTimeLimit;
+		GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "Limit:"+_turnTimeLimit;
 		if(_turnTimeLimitCoroutine != null){
 			StopCoroutine(_turnTimeLimitCoroutine);
 			_turnTimeLimitCoroutine = null;
@@ -328,11 +338,11 @@ public class ClientManager : MonoBehaviour {
 
 		// 表示
 		if(_turnFlg == (int)_playerType){
-			GameObject.Find( "Text" ).GetComponent<UnityEngine.UI.Text>().text = "あなたのターン";
+			GameObject.Find( "UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あなたのターン";
 			_turnTimeLimitCoroutine = StartCoroutine(TimeLimitCount());
 		}
 		else{
-			GameObject.Find( "Text" ).GetComponent<UnityEngine.UI.Text>().text = "あいてのターン";
+			GameObject.Find( "UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あいてのターン";
 		}
 
 		// 置ける範囲更新
@@ -343,16 +353,26 @@ public class ClientManager : MonoBehaviour {
 	/// <summary>
 	/// ゲーム終了RPC
 	/// </summary>
-	/// <param name="playerType"></param>
-	public void GameEnd(Common.Const.PLAYER_TYPE playerType)
-	{
+	/// <param name="playerType">勝利したユーザータイプ</param>
+	public void GameEnd(Common.Const.PLAYER_TYPE playerType, bool drawFlg)
+	{		
 		_gameEndFlg = true;
-		if(_playerType == playerType){
-			GameObject.Find("VictoryText").GetComponent<UnityEngine.UI.Text>().text = "Win";
+		if(!drawFlg){
+			// 勝ち
+			if(_playerType == playerType){
+				GameObject.Find("VictoryText").GetComponent<TMPro.TextMeshProUGUI>().text = "Win";
+			}
+			// 負け
+			else{
+				GameObject.Find("VictoryText").GetComponent<TMPro.TextMeshProUGUI>().text = "Lose";
+			}
 		}
+		// 引き分け
 		else{
-			GameObject.Find("VictoryText").GetComponent<UnityEngine.UI.Text>().text = "Lose";
+			GameObject.Find("VictoryText").GetComponent<TMPro.TextMeshProUGUI>().text = "Draw";
 		}
+		// 終了表示
+		// タイトルボタン
 		GameObject.Find("VictoryTitleButton").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(()=>{
 			UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
 		});
@@ -561,14 +581,19 @@ public class ClientManager : MonoBehaviour {
 			}
 		}
 		// 削除
+		var destroyStart = -1;
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 
 			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
 
 				if(deleteList[i][j] == 1){
+					// エフェクト開始地点
+					if(destroyStart == -1){
+						destroyStart = i + j;
+					}
 					var effect = Instantiate(_mainManager.DestroyEffectPrefab, _areaList[i][j].Block.transform.position, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<DestroyEffect>();
 					Debug.Log(_areaList[i][j].Block.State);
-					effect.Init(_areaList[i][j].Block.State);
+					effect.Init(_areaList[i][j].Block.State, (i+j-destroyStart)*0.1f);
 					Destroy(_areaList[i][j].Block.gameObject);
 					_areaList[i][j].Block = null;
 				}
@@ -591,20 +616,39 @@ public class ClientManager : MonoBehaviour {
 				_turnTimeLimit = 0.0f;
 				break;
 			}
-			GameObject.Find( "TimeLimitText" ).GetComponent<UnityEngine.UI.Text>().text = "Limit:"+_turnTimeLimit;
+			GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "Limit:"+(int)_turnTimeLimit;
 			yield return null;
 		}
-		GameObject.Find( "TimeLimitText" ).GetComponent<UnityEngine.UI.Text>().text = "Limit:"+_turnTimeLimit;
+		GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "Limit:"+(int)_turnTimeLimit;
 		// ターン変更処理
 		PassTurn();
 	}
 
-	private void EndGame()
+	/// <summary>
+	/// ゲーム終了ターン判定
+	/// </summary>
+	private void GameEndTurnCheck()
 	{
-		// 退出
-		PhotonNetwork.LeaveRoom();
-		// 切断
-		PhotonNetwork.Disconnect();
+		var half     = Common.Const.NUM_HEIGHT / 2;
+		object[] obj = null;
+		// 勝利
+		if(half < _territoryLineNum){
+			obj = new object[]{_playerType, false};
+		}
+		// 敗北
+		else if(half > _territoryLineNum){
+			var sendPlayerType = Common.Const.PLAYER_TYPE.MASTER;
+			if(_playerType == Common.Const.PLAYER_TYPE.MASTER){
+				sendPlayerType = Common.Const.PLAYER_TYPE.GUEST;
+			}
+			obj = new object[]{sendPlayerType, false};
+		}
+		// 引き分け
+		else{
+			obj = new object[]{_playerType, true};
+		}
+		// 送信
+		_photonView.RPC("GameEnd", PhotonTargets.All, obj);
 	}
 }
 

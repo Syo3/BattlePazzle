@@ -255,7 +255,7 @@ public class MainManager : MonoBehaviour {
 
 			for(var j = 0; j < checkList.Count; ++j){
 
-				if(_holdBlockGroupList[_blockSelectedList[i]] == checkList[j] || _holdBlockGroupList[_blockSelectedList[i]] == 3){
+				if(_holdBlockGroupList[_blockSelectedList[i]] == checkList[j] || _holdBlockGroupList[_blockSelectedList[i]] == 3 || _holdBlockGroupList[_blockSelectedList[i]] == 10){
 					var swap                    = _blockSelectedList[i];
 					_blockSelectedList[i]       = _blockSelectedList[swapKey];
 					_blockSelectedList[swapKey] = swap;

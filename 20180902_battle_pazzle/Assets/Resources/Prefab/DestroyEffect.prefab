@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4831070780089968}
   - component: {fileID: 212604073153050350}
-  - component: {fileID: 111972058314603124}
   - component: {fileID: 114996034656171446}
+  - component: {fileID: 95791235265129706}
   m_Layer: 0
   m_Name: DestroyEffect
   m_TagString: Untagged
@@ -42,21 +42,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
---- !u!111 &111972058314603124
-Animation:
+--- !u!95 &95791235265129706
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1228442042676396}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 4618397bc3fac4e3a989c0a64bf34f1c, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 4618397bc3fac4e3a989c0a64bf34f1c, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 99c5e01db5d204ecc8cd5e9af8a4d14e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114996034656171446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -69,6 +72,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sprite: {fileID: 212604073153050350}
+  _animator: {fileID: 95791235265129706}
 --- !u!212 &212604073153050350
 SpriteRenderer:
   m_ObjectHideFlags: 1

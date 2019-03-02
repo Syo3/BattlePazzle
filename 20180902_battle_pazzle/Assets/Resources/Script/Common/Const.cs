@@ -8,6 +8,7 @@
 		public const float BLOCK_SIZE = 0.64f;
 		public const float BLOCK_SIZE_HALF = BLOCK_SIZE / 2.0f;
 
+		public const int GAME_END_TURN = 20;
 
 		// ブロック数 * ブロックの大きさ / 中央に寄せるため半分に割る + ブロックの半分だけずらす
 		public const float START_POS_X = NUM_WIDTH  * BLOCK_SIZE / -2.0f + BLOCK_SIZE_HALF;

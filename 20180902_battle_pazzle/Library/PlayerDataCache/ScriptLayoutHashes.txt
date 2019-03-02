@@ -1,6 +1,6 @@
-WebGL
+Android
 PlayerPath?
-/Users/sho/Desktop/unity/Build/20190228_battlepazzle_WebGl/battlepazzle/battlepazzle/battlepazzl/battlepazzl/battlepazzl/battlepazzl
+/Users/sho/Desktop/unity/Build/20190217_battlepazzle/battlepazzle.apk
 SceneListBegin?
 Assets/Resources/Scene/Title.unity
 Assets/Resources/Scene/Main.unity
@@ -111,7 +111,7 @@ ff05dcdf90651c3d98a9cad3df5e471e UnityEngine.Timeline.dll:UnityEngine.Timeline.C
 30afa8783a8bbee2e465ec9ce1efaee2 UnityEngine.Timeline.dll:UnityEngine.Timeline.GroupTrack
 30afa8783a8bbee2e465ec9ce1efaee2 UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 607d64d2c4bc76ac9876e6f7b9cc7edf UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
-fa2829bb36fad65ccbaeb30a4151e86c Assembly-CSharp.dll:.DestroyEffect
+450ef96e1818f32f6d885287cfcc43fd Assembly-CSharp.dll:.DestroyEffect
 76015de5fcb247eeb8df66c001d5a22d Assembly-CSharp-firstpass.dll:TMPro.Examples.TMP_UiFrameRateCounter
 75cd0c6c744b9733ef29aa6c59ece2b1 Assembly-CSharp-firstpass.dll:TMPro.Examples.VertexJitter
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
@@ -231,7 +231,7 @@ e9bdabf9265d758d56f01bb188916fa8 UnityEngine.Networking.dll:UnityEngine.Networki
 73843688b51256aed059f049c540bca8 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformChild
 528ea1fd7c01796fc60c4e2f172ea229 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformVisualizer
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PointedAtGameObjectInfo
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.HoldBlock
+987c1846153d35fd6d24e0c3c08207f6 Assembly-CSharp.dll:.HoldBlock
 62229a3e4d53ca59bec192e89627ed52 Assembly-CSharp-firstpass.dll:TMPro.Examples.CameraController
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.PlayModeRunnerCallback
 f02726adeff0a3ec5905565234b372da UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.PlaymodeTestsController
@@ -279,33 +279,16 @@ a69b3ee0402770d02d1c122324e4b00e Assembly-CSharp-firstpass.dll:TMPro.Examples.Sk
 fa2829bb36fad65ccbaeb30a4151e86c Assembly-CSharp.dll:.PlacementBlock
 34e025057ef78b1bf238460cdf6583a3 Assembly-CSharp-firstpass.dll:TMPro.Examples.ObjectSpin
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp-firstpass.dll:TMPro.Examples.SimpleScript
-78ebae5ed9b3edeb216da437b99754a4 Assembly-CSharp.dll:UnityStandardAssets.CrossPlatformInput.Joystick
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.DelayProcessor
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:ExitGames.Demos.DemoPunVoice.BetterToggle
-28929300668f9d7965c556f61f3de24c Assembly-CSharp.dll:ExitGames.Demos.DemoPunVoice.OrthographicController
-a8796ecdc9d5c260bbe32f30c4b10708 Assembly-CSharp.dll:UnityStandardAssets.CrossPlatformInput.TouchPad
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Gui
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp-firstpass.dll:.AudioOutCapture
 800aa95c563cd9ed985d329a08b69938 Assembly-CSharp.dll:.ViewDrag
-2be6adff43c48970b61ebcbf12e2f90f Assembly-CSharp.dll:ExitGames.Demos.DemoPunVoice.PushToTalkPrivateButton
-c8ab1770fad9a2477eb647b8d025f2aa Assembly-CSharp.dll:ExitGames.Demos.DemoPunVoice.ChangePOV
-b2f982080b3782c3a6413eb04dc4f230 Assembly-CSharp.dll:ExitGames.Demos.DemoPunVoice.PushToTalkScript
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp-firstpass.dll:.IOSAudioForceToSpeaker
-37fce8ec35aab2a9c4622e1464b8dfe4 Assembly-CSharp.dll:.SoundsForJoinAndLeave
-ee8540d1efea9148410a914295c889e3 Assembly-CSharp.dll:ExitGames.Demos.DemoPunVoice.CharacterInstantiation
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:UnityStandardAssets.CrossPlatformInput.MobileControlRig
 98c476fa2058d6652cc2fc29e646489c Assembly-CSharp.dll:.PhotonVoiceSettings
-a2efb0db652b8114d1ae7dd9a600d626 Assembly-CSharp.dll:UnityStandardAssets.CrossPlatformInput.InputAxisScrollbar
-a7d3c6c6948d99dd4116e659ddcf5ac4 Assembly-CSharp.dll:UnityStandardAssets.CrossPlatformInput.ButtonHandler
-02baaf0c59c18e2b6dc30a4b1589a2d3 Assembly-CSharp.dll:ExitGames.Demos.DemoPunVoice.FirstPersonController
 34e20d356d37efd72c6eaa03d92a555d Assembly-CSharp.dll:.PhotonVoiceHandler
-fe76270bd84ec3b6f2f6f92c69cf69da Assembly-CSharp.dll:UnityStandardAssets.CrossPlatformInput.AxisTouchButton
-30d56d44582f713da403f16989fd69fc Assembly-CSharp.dll:ExitGames.Demos.DemoPunVoice.VoiceDemoUI
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PhotonVoiceNetwork
-d3f018a4cf463bfbf4431ee628b9f0a3 Assembly-CSharp.dll:ExitGames.Demos.DemoPunVoice.ThirdPersonController
 a55275b265cd93cd0841f11be24be071 Assembly-CSharp.dll:.PhotonVoiceRecorder
 20946983482a4445e8a1431397a934d3 Assembly-CSharp.dll:.SpeexDSP
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.HighlightRecorder
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.HighlightSpeaker
-79a04448d7cb249ba297fe41140adc67 Assembly-CSharp.dll:ExitGames.Demos.DemoPunVoice.Highlighter
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PhotonVoiceSpeaker

@@ -6,13 +6,25 @@ public class DestroyEffect : MonoBehaviour {
 
 	#region SerializeField
 	[SerializeField, Tooltip("ブロック画像")]
-	SpriteRenderer _sprite;
+	private SpriteRenderer _sprite;
+	[SerializeField, Tooltip("アニメーション")]
+	private Animator _animator;
 	#endregion
 
-	private int destroyCnt;
+	#region private field
+	private AnimatorStateInfo _stateInfo;
+	private float _animationStartTime;
+	#endregion
 
-	public void Init(int playerType)
+	#region public function
+	/// <summary>
+	/// 初期設定
+	/// </summary>
+	/// <param name="playerType"></param>
+	/// <param name="animationStart"></param>
+	public void Init(int playerType, float animationStart=0.0f)
 	{
+		_animationStartTime = animationStart;
 		switch(playerType){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:
 			//_sprite.sprite = ResourceManager.LoadSprite("Image/panel_2");
@@ -23,14 +35,24 @@ public class DestroyEffect : MonoBehaviour {
 			_sprite.color  = Color.magenta;
 			break;
 		}
-		destroyCnt = 0;
+		StartCoroutine(Animation());
 	}
+	#endregion
 
-	void Update()
-	{
-		++destroyCnt;
-		if(destroyCnt > 300){
-			Destroy(gameObject);
+	/// <summary>
+	/// アニメーション再生
+	/// </summary>
+	/// <returns></returns>
+	private IEnumerator Animation(){
+
+		yield return new WaitForSeconds(_animationStartTime);
+		_animator.Play("DestroyEffect");
+		yield return null;
+		_stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+		while(_stateInfo.normalizedTime < 1.0f){
+			_stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+			yield return null;
 		}
+		Destroy(gameObject);
 	}
 }

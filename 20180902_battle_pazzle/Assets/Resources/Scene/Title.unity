@@ -462,7 +462,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -473,8 +473,7 @@ MonoBehaviour:
     Debug'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d959a2d7e39194d2f8002755478a3284, type: 2}
-  m_sharedMaterial: {fileID: 21992472214568884, guid: d959a2d7e39194d2f8002755478a3284,
-    type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 51abd5203becd4801bda863302469cf7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -794,7 +793,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -803,8 +802,7 @@ MonoBehaviour:
   m_text: Start
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d959a2d7e39194d2f8002755478a3284, type: 2}
-  m_sharedMaterial: {fileID: 21992472214568884, guid: d959a2d7e39194d2f8002755478a3284,
-    type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 51abd5203becd4801bda863302469cf7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

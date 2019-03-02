@@ -44,8 +44,8 @@ public class NetworkManager : MonoBehaviour {
 	/// </summary>
 	void OnJoinedRoom()
 	{
+		GameObject.Find("RoomNameText").GetComponent<TMPro.TextMeshProUGUI>().text = PhotonNetwork.room.Name;
 		Debug.Log("ルームへ入室しました。");
-		GameObject.Find( "Text" ).GetComponent<Text>().text = ""+PhotonNetwork.player.ID;
 		Debug.Log( PhotonNetwork.countOfPlayersInRooms );
 		if(PhotonNetwork.playerList.Length == 2){
 			_state = 1;
@@ -64,7 +64,7 @@ public class NetworkManager : MonoBehaviour {
 		PhotonNetwork.Disconnect();
 		if(!_mainManager.ClientManager.GameEndFlg){
 			// 表示
-			GameObject.Find( "GameObject/Text" ).GetComponent<Text>().text = "あいてがルームから退出しました";
+			GameObject.Find("GameObject/UserTurnText").GetComponent<TMPro.TextMeshProUGUI>().text = "あいてがルームから退出しました";
 		}
 	}
 

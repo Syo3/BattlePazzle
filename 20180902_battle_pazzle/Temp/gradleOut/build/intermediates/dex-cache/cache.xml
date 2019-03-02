@@ -3,12 +3,12 @@
 
     <item
         is-multidex="false"
-        jar="/Users/sho/.android/build-cache/ab089897e25b516fc504a4486da67ee36339887e/output/jars/classes.jar"
+        jar="/Users/sho/.android/build-cache/f2991f112df8510d3a992588cf854a5d89a8ee25/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="28.0.3"
         sha1="9f31cce078168b08ad0b7480216ec9807319285e">
-        <dex dex="/Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/build/intermediates/pre-dexed/release/classes_b7c70e06a238f6523b370fd554da50536734c2eb.jar" />
+        <dex dex="/Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/build/intermediates/pre-dexed/release/classes_9a23f02ad5820952816843c6d3c64a57d919957e.jar" />
     </item>
     <item
         is-multidex="false"

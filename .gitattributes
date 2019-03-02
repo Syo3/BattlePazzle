@@ -5,3 +5,10 @@
 20180902_battle_pazzle/Library/il2cpp_android_armeabi-v7a/il2cpp_cache/linkresult_665C5D3A16A9DC6690780A82DC241CA1/libil2cpp.so filter=lfs diff=lfs merge=lfs -text
 20180902_battle_pazzle/Library/il2cpp_cache/linkresult_85B1D767956E042A5A0A9CA539C370B2/build.bc filter=lfs diff=lfs merge=lfs -text
 20180902_battle_pazzle/Temp/StagingArea/Data/Native/build.bc filter=lfs diff=lfs merge=lfs -text
+20180902_battle_pazzle/Library/il2cpp_android_armeabi-v7a/il2cpp_cache/linkresult_B2BE76317DA548E28C4D4169EBEFAE7F/libil2cpp.map filter=lfs diff=lfs merge=lfs -text
+20180902_battle_pazzle/Temp/StagingArea/symbols/armeabi-v7a/libil2cpp.sym filter=lfs diff=lfs merge=lfs -text
+20180902_battle_pazzle/Temp/StagingArea/symbols/x86/libil2cpp.sym filter=lfs diff=lfs merge=lfs -text
+20180902_battle_pazzle/Library/il2cpp_android_armeabi-v7a/il2cpp_cache/linkresult_B2BE76317DA548E28C4D4169EBEFAE7F/libil2cpp.so filter=lfs diff=lfs merge=lfs -text
+20180902_battle_pazzle/Library/il2cpp_android_x86/il2cpp_cache/linkresult_E338150C1578EB4A03A7544379A3319D/libil2cpp.so filter=lfs diff=lfs merge=lfs -text
+20180902_battle_pazzle/Temp/StagingArea/symbols/armeabi-v7a/libil2cpp.so.debug filter=lfs diff=lfs merge=lfs -text
+20180902_battle_pazzle/Temp/StagingArea/symbols/x86/libil2cpp.so.debug filter=lfs diff=lfs merge=lfs -text

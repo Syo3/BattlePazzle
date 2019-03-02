@@ -31,15 +31,15 @@ ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gra
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:3:135-160
 application
 ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:4:3-16:17
-MERGED from [:audioinaec:] /Users/sho/.android/build-cache/ab089897e25b516fc504a4486da67ee36339887e/output/AndroidManifest.xml:13:5-17:19
+MERGED from [:audioinaec:] /Users/sho/.android/build-cache/f2991f112df8510d3a992588cf854a5d89a8ee25/output/AndroidManifest.xml:13:5-17:19
 	android:label
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:4:92-124
 	android:supportsRtl
-		ADDED from [:audioinaec:] /Users/sho/.android/build-cache/ab089897e25b516fc504a4486da67ee36339887e/output/AndroidManifest.xml:16:9-35
+		ADDED from [:audioinaec:] /Users/sho/.android/build-cache/f2991f112df8510d3a992588cf854a5d89a8ee25/output/AndroidManifest.xml:16:9-35
 	android:icon
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:4:58-91
 	android:allowBackup
-		ADDED from [:audioinaec:] /Users/sho/.android/build-cache/ab089897e25b516fc504a4486da67ee36339887e/output/AndroidManifest.xml:14:9-35
+		ADDED from [:audioinaec:] /Users/sho/.android/build-cache/f2991f112df8510d3a992588cf854a5d89a8ee25/output/AndroidManifest.xml:14:9-35
 	android:banner
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:4:147-184
 	android:theme
@@ -136,7 +136,7 @@ ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gra
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:23:17-80
 uses-sdk
 INJECTED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml reason: use-sdk injection requested
-MERGED from [:audioinaec:] /Users/sho/.android/build-cache/ab089897e25b516fc504a4486da67ee36339887e/output/AndroidManifest.xml:7:5-9:41
+MERGED from [:audioinaec:] /Users/sho/.android/build-cache/f2991f112df8510d3a992588cf854a5d89a8ee25/output/AndroidManifest.xml:7:5-9:41
 	android:targetSdkVersion
 		INJECTED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml
 		INJECTED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml
@@ -144,6 +144,6 @@ MERGED from [:audioinaec:] /Users/sho/.android/build-cache/ab089897e25b516fc504a
 		INJECTED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml
 		INJECTED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml
 uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
-ADDED from [:audioinaec:] /Users/sho/.android/build-cache/ab089897e25b516fc504a4486da67ee36339887e/output/AndroidManifest.xml:11:5-80
+ADDED from [:audioinaec:] /Users/sho/.android/build-cache/f2991f112df8510d3a992588cf854a5d89a8ee25/output/AndroidManifest.xml:11:5-80
 	android:name
-		ADDED from [:audioinaec:] /Users/sho/.android/build-cache/ab089897e25b516fc504a4486da67ee36339887e/output/AndroidManifest.xml:11:22-77
+		ADDED from [:audioinaec:] /Users/sho/.android/build-cache/f2991f112df8510d3a992588cf854a5d89a8ee25/output/AndroidManifest.xml:11:22-77
