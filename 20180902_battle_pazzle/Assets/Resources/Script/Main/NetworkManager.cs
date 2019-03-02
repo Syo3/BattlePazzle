@@ -92,12 +92,14 @@ public class NetworkManager : MonoBehaviour {
 	/// <param name="player">入ったプレイヤー</param>
 	void OnPhotonPlayerConnected( PhotonPlayer new_player )
 	{
-
 		Debug.Log( "プレイヤーが入室しました。");
 		Debug.Log( PhotonNetwork.playerList.Length );
 		// マスタクライアントから開始命令を実行
 		if(PhotonNetwork.playerList.Length == 2){
 			_state = 1;
+			// ルームの募集をオフにして途中入室不可に
+			PhotonNetwork.room.IsOpen    = false;
+			PhotonNetwork.room.IsVisible = false;
 		}
 	}
 	#endregion

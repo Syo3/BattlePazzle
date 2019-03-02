@@ -1,0 +1,7 @@
+{LARGE_FILE} filter=lfs diff=lfs merge=lfs -text
+20180902_battle_pazzle/Library/il2cpp_android_armeabi-v7a/il2cpp_cache/linkresult_665C5D3A16A9DC6690780A82DC241CA1/libil2cpp.map filter=lfs diff=lfs merge=lfs -text
+0180902_battle_pazzle/Library/il2cpp_android_armeabi-v7a/il2cpp_cache/linkresult_665C5D3A16A9DC6690780A82DC241CA1/libil2cpp.so filter=lfs diff=lfs merge=lfs -text
+20180902_battle_pazzle/Library/il2cpp_android_x86/il2cpp_cache/linkresult_11FB58EEB3B9B197D00AAF98D60BB983/libil2cpp.so filter=lfs diff=lfs merge=lfs -text
+20180902_battle_pazzle/Library/il2cpp_android_armeabi-v7a/il2cpp_cache/linkresult_665C5D3A16A9DC6690780A82DC241CA1/libil2cpp.so filter=lfs diff=lfs merge=lfs -text
+20180902_battle_pazzle/Library/il2cpp_cache/linkresult_85B1D767956E042A5A0A9CA539C370B2/build.bc filter=lfs diff=lfs merge=lfs -text
+20180902_battle_pazzle/Temp/StagingArea/Data/Native/build.bc filter=lfs diff=lfs merge=lfs -text

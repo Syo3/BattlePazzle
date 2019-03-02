@@ -41,6 +41,8 @@ public class MainManager : MonoBehaviour {
 	private CanvasGroup _victoryView;
 	[SerializeField, Tooltip("パスボタン")]
 	private Button _passButton;
+	[SerializeField, Tooltip("通話プレハブ")]
+	private GameObject _voiceManagerPrefab;
 
 	// デバッグ用
 	[SerializeField]
@@ -144,6 +146,9 @@ public class MainManager : MonoBehaviour {
 		// DEBUG
 		if(_debugFlg && debugCounter == 120 ) {
 			CreateGame();
+			// ルームの募集をオフにして途中入室不可に
+			PhotonNetwork.room.IsOpen    = false;
+			PhotonNetwork.room.IsVisible = false;
 		}
 		++debugCounter;
 
@@ -174,7 +179,10 @@ public class MainManager : MonoBehaviour {
 		_clientManager.Init(this);
 		// アニメーション終了
 		StopCoroutine(_matchAnimationCoroutine);
-		GameObject.Find("MatchText").GetComponent<Text>().text = "";
+		GameObject.Find("MatchText").GetComponent<TMPro.TextMeshProUGUI>().text = "";
+		#if UNITY_ANDROID || UNITY_IPHONE
+			Instantiate(_voiceManagerPrefab);
+		#endif
 	}
 
 	/// <summary>
@@ -182,8 +190,40 @@ public class MainManager : MonoBehaviour {
 	/// </summary>
 	private void LoadBlockListFile()
 	{
-		var textAsset = Resources.Load("Data/BlockList") as TextAsset;
-		var fileLine  = textAsset.text.Split('\n');
+		//var textAsset = Resources.Load("Data/BlockList") as TextAsset;
+		var textAsset =
+			"0:0:0:0:0,0:0:0:0:0,0:0:1:0:0,0:0:0:0:0,0:0:0:0:0	1\n"+
+			"0:0:0:0:0,0:0:0:0:0,0:1:1:0:0,0:0:1:0:0,0:0:0:0:0	2\n"+
+"0:0:0:0:0,0:0:1:0:0,0:1:1:0:0,0:0:0:0:0,0:0:0:0:0	2\n"+
+"0:0:0:0:0,0:0:0:0:0,0:0:1:1:0,0:0:1:0:0,0:0:0:0:0	2\n"+
+"0:0:0:0:0,0:0:1:0:0,0:0:1:1:0,0:0:0:0:0,0:0:0:0:0	2\n"+
+"0:0:0:0:0,0:0:0:0:0,0:1:1:1:1,0:0:0:0:0,0:0:0:0:0	3\n"+
+"0:0:0:0:0,0:0:1:0:0,0:0:1:0:0,0:0:1:0:0,0:0:1:0:0	3\n"+
+"0:0:0:0:0,0:1:1:0:0,0:1:1:0:0,0:0:0:0:0,0:0:0:0:0	4\n"+
+"0:0:0:0:0,0:0:1:0:0,0:1:1:1:0,0:0:0:0:0,0:0:0:0:0	5\n"+
+"0:0:0:0:0,0:0:0:0:0,0:1:1:1:0,0:0:1:0:0,0:0:0:0:0	5\n"+
+"0:0:0:0:0,0:0:1:0:0,0:0:1:1:0,0:0:1:0:0,0:0:0:0:0	6\n"+
+"0:0:0:0:0,0:0:1:0:0,0:1:1:0:0,0:0:1:0:0,0:0:0:0:0	6\n"+
+"0:0:0:0:0,0:1:0:0:0,0:1:1:1:0,0:0:0:0:0,0:0:0:0:0	7\n"+
+"0:0:0:0:0,0:0:0:1:0,0:1:1:1:0,0:0:0:0:0,0:0:0:0:0	7\n"+
+"0:0:0:0:0,0:0:0:0:0,0:1:1:1:0,0:1:0:0:0,0:0:0:0:0	7\n"+
+"0:0:0:0:0,0:0:0:0:0,0:1:1:1:0,0:0:0:1:0,0:0:0:0:0	7\n"+
+"0:0:0:0:0,0:1:1:0:0,0:0:1:1:0,0:0:0:0:0,0:0:0:0:0	8\n"+
+"0:0:0:0:0,0:0:1:1:0,0:1:1:0:0,0:0:0:0:0,0:0:0:0:0	8\n"+
+"0:0:0:0:0,0:1:0:0:0,0:1:1:0:0,0:0:1:0:0,0:0:0:0:0	9\n"+
+"0:0:0:0:0,0:0:0:1:0,0:0:1:1:0,0:0:1:0:0,0:0:0:0:0	9\n"+
+"0:0:0:0:0,0:1:0:1:0,0:1:1:1:0,0:0:0:0:0,0:0:0:0:0	10\n"+
+"0:0:0:0:0,0:0:0:0:0,0:1:1:1:0,0:1:0:1:0,0:0:0:0:0	10\n"+
+"0:0:0:0:0,0:1:0:0:0,0:0:1:0:0,0:0:0:0:0,0:0:0:0:0	11\n"+
+"0:0:0:0:0,0:0:0:1:0,0:0:1:0:0,0:0:0:0:0,0:0:0:0:0	11\n"+
+"0:0:0:0:0,0:0:0:0:0,0:1:1:1:0,0:0:0:0:0,0:0:0:0:0	12\n"+
+"0:0:0:0:0,0:0:1:0:0,0:0:1:0:0,0:0:1:0:0,0:0:0:0:0	12";
+
+
+
+
+		//var fileLine  = textAsset.text.Split('\n');
+		var fileLine  = textAsset.Split('\n');
 		_holdBlockData      = new List<List<List<int>>>();
 		_holdBlockGroupList = new List<int>();
 		_blockSelectedList  = new List<int>();
@@ -236,7 +276,7 @@ public class MainManager : MonoBehaviour {
 	/// <returns></returns>
 	private IEnumerator MatchingAnimation()
 	{
-		var text = GameObject.Find("MatchText").GetComponent<Text>();
+		var text = GameObject.Find("MatchText").GetComponent<TMPro.TextMeshProUGUI>();
 		var cnt  = 0;
 		var dotNum = 0;
 		while(true){

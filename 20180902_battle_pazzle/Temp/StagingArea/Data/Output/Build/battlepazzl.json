@@ -1,0 +1,13 @@
+{
+"companyName": "DefaultCompany",
+"productName": "BattlePazzle",
+"dataUrl": "battlepazzl.data.unityweb",
+"asmCodeUrl": "battlepazzl.asm.code.unityweb",
+"asmMemoryUrl": "battlepazzl.asm.memory.unityweb",
+"asmFrameworkUrl": "battlepazzl.asm.framework.unityweb",
+"TOTAL_MEMORY": 268435456,
+"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20"
+}

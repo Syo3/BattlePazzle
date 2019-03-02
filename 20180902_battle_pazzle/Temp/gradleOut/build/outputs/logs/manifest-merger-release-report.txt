@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:2:1-22:12
+ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:2:1-24:12
 	package
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:2:70-98
 		INJECTED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml
@@ -31,10 +31,15 @@ ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gra
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:3:135-160
 application
 ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:4:3-16:17
+MERGED from [:audioinaec:] /Users/sho/.android/build-cache/ab089897e25b516fc504a4486da67ee36339887e/output/AndroidManifest.xml:13:5-17:19
 	android:label
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:4:92-124
+	android:supportsRtl
+		ADDED from [:audioinaec:] /Users/sho/.android/build-cache/ab089897e25b516fc504a4486da67ee36339887e/output/AndroidManifest.xml:16:9-35
 	android:icon
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:4:58-91
+	android:allowBackup
+		ADDED from [:audioinaec:] /Users/sho/.android/build-cache/ab089897e25b516fc504a4486da67ee36339887e/output/AndroidManifest.xml:14:9-35
 	android:banner
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:4:147-184
 	android:theme
@@ -44,15 +49,15 @@ ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gra
 activity#com.unity3d.player.UnityPlayerActivity
 ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:5:5-12:16
 	android:screenOrientation
-		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:5:102-140
+		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:5:102-138
 	android:label
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:5:69-101
 	android:hardwareAccelerated
-		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:5:355-390
+		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:5:353-388
 	android:launchMode
-		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:5:141-172
+		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:5:139-170
 	android:configChanges
-		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:5:173-354
+		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:5:171-352
 	android:name
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:5:15-68
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER+android.intent.category.LEANBACK_LAUNCHER
@@ -101,29 +106,44 @@ uses-permission#android.permission.INTERNET
 ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:18:3-65
 	android:name
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:18:20-62
+uses-permission#android.permission.RECORD_AUDIO
+ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:19:3-69
+	android:name
+		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:19:20-66
+uses-feature#android.hardware.microphone
+ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:20:3-87
+	android:required
+		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:20:60-84
+	android:name
+		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:20:17-59
 uses-feature#android.hardware.touchscreen
-ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:19:3-88
+ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:21:3-88
 	android:required
-		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:19:61-85
+		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:21:61-85
 	android:name
-		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:19:17-60
+		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:21:17-60
 uses-feature#android.hardware.touchscreen.multitouch
-ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:20:3-99
+ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:22:3-99
 	android:required
-		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:20:72-96
+		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:22:72-96
 	android:name
-		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:20:17-71
+		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:22:17-71
 uses-feature#android.hardware.touchscreen.multitouch.distinct
-ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:21:3-108
+ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:23:3-108
 	android:required
-		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:21:81-105
+		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:23:81-105
 	android:name
-		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:21:17-80
+		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:23:17-80
 uses-sdk
 INJECTED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [:audioinaec:] /Users/sho/.android/build-cache/ab089897e25b516fc504a4486da67ee36339887e/output/AndroidManifest.xml:7:5-9:41
 	android:targetSdkVersion
 		INJECTED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml
 		INJECTED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml
 	android:minSdkVersion
 		INJECTED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml
 		INJECTED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml
+uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
+ADDED from [:audioinaec:] /Users/sho/.android/build-cache/ab089897e25b516fc504a4486da67ee36339887e/output/AndroidManifest.xml:11:5-80
+	android:name
+		ADDED from [:audioinaec:] /Users/sho/.android/build-cache/ab089897e25b516fc504a4486da67ee36339887e/output/AndroidManifest.xml:11:22-77
