@@ -165,7 +165,9 @@ public class MainManager : MonoBehaviour {
 			// ルームの募集をオフにして途中入室不可に
 			PhotonNetwork.room.IsOpen    = false;
 			PhotonNetwork.room.IsVisible = false;
+            #if UNITY_ANDROID || UNITY_IOS
             _adsManager.ShowRewardedAd();
+            #endif
 		}
 		++debugCounter;
 
@@ -229,12 +231,10 @@ public class MainManager : MonoBehaviour {
 "0:0:0:0:0,0:0:1:1:0,0:1:1:0:0,0:0:0:0:0,0:0:0:0:0	8\n"+
 "0:0:0:0:0,0:1:0:0:0,0:1:1:0:0,0:0:1:0:0,0:0:0:0:0	9\n"+
 "0:0:0:0:0,0:0:0:1:0,0:0:1:1:0,0:0:1:0:0,0:0:0:0:0	9\n"+
-"0:0:0:0:0,0:1:0:1:0,0:1:1:1:0,0:0:0:0:0,0:0:0:0:0	10\n"+
-"0:0:0:0:0,0:0:0:0:0,0:1:1:1:0,0:1:0:1:0,0:0:0:0:0	10\n"+
-"0:0:0:0:0,0:1:0:0:0,0:0:1:0:0,0:0:0:0:0,0:0:0:0:0	11\n"+
-"0:0:0:0:0,0:0:0:1:0,0:0:1:0:0,0:0:0:0:0,0:0:0:0:0	11\n"+
-"0:0:0:0:0,0:0:0:0:0,0:1:1:1:0,0:0:0:0:0,0:0:0:0:0	12\n"+
-"0:0:0:0:0,0:0:1:0:0,0:0:1:0:0,0:0:1:0:0,0:0:0:0:0	12";
+"0:0:0:0:0,0:1:0:0:0,0:0:1:0:0,0:0:0:0:0,0:0:0:0:0	10\n"+
+"0:0:0:0:0,0:0:0:1:0,0:0:1:0:0,0:0:0:0:0,0:0:0:0:0	10\n"+
+"0:0:0:0:0,0:0:0:0:0,0:1:1:1:0,0:0:0:0:0,0:0:0:0:0	11\n"+
+"0:0:0:0:0,0:0:1:0:0,0:0:1:0:0,0:0:1:0:0,0:0:0:0:0	11";
 
 
 
@@ -272,7 +272,7 @@ public class MainManager : MonoBehaviour {
 
 			for(var j = 0; j < checkList.Count; ++j){
 
-				if(_holdBlockGroupList[_blockSelectedList[i]] == checkList[j] || _holdBlockGroupList[_blockSelectedList[i]] == 3 || _holdBlockGroupList[_blockSelectedList[i]] == 10){
+				if(_holdBlockGroupList[_blockSelectedList[i]] == checkList[j] || _holdBlockGroupList[_blockSelectedList[i]] == 3){
 					var swap                    = _blockSelectedList[i];
 					_blockSelectedList[i]       = _blockSelectedList[swapKey];
 					_blockSelectedList[swapKey] = swap;

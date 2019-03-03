@@ -1,6 +1,6 @@
-Android
+WebGL
 PlayerPath?
-/Users/sho/Desktop/unity/Build/20190217_battlepazzle/battlepazzle.apk
+/Users/sho/Desktop/unity/Build/20190228_battlepazzle_WebGl/battlepazzle/battlepazzle/battlepazzl/battlepazzl/battlepazzl/battlepazzl
 SceneListBegin?
 Assets/Resources/Scene/Title.unity
 Assets/Resources/Scene/Main.unity

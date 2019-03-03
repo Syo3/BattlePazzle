@@ -16,6 +16,8 @@
 
 		public const float TURN_TIME = 30.0f;
 
+        public static readonly UnityEngine.Color MASTER_COLOR = new UnityEngine.Color(0.0f, 255.0f, 255.0f, 1.0f);
+        public static readonly UnityEngine.Color GUEST_COLOR  = new UnityEngine.Color(255.0f, 0.0f, 0.0f, 1.0f);
 
 		public enum PLAYER_TYPE{
 			MASTER = 1,

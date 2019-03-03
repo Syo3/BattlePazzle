@@ -24,11 +24,11 @@ public class Territory : MonoBehaviour {
 	{
 		switch(playerType){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:
-			_sprite.color = Color.green;
+			_sprite.color = Common.Const.MASTER_COLOR;
 			_direction    = playerType == parentPlayerType ? -1 : 1;
 			break;
 		case (int)Common.Const.PLAYER_TYPE.GUEST:
-			_sprite.color = Color.magenta;
+			_sprite.color = Common.Const.GUEST_COLOR;
 			_direction    = playerType == parentPlayerType ? -1 : 1;
 			break;
 		}
@@ -41,7 +41,8 @@ public class Territory : MonoBehaviour {
 	/// <param name="line"></param>
 	public void SetSize(int line)
 	{
-		_sprite.size            = new Vector2(Common.Const.BLOCK_SIZE * Common.Const.NUM_WIDTH, Common.Const.BLOCK_SIZE * line);
+        var addSize             = Common.Const.BLOCK_SIZE_HALF / 2.0f;
+		_sprite.size            = new Vector2(Common.Const.BLOCK_SIZE * Common.Const.NUM_WIDTH + addSize, Common.Const.BLOCK_SIZE * line + addSize);
 		transform.localPosition = new Vector3(0.0f, (Common.Const.NUM_HEIGHT - line) * Common.Const.BLOCK_SIZE_HALF * _direction, 0.0f);
 	}
 	#endregion

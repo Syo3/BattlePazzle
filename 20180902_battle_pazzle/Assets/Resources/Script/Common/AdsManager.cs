@@ -14,6 +14,7 @@ public class AdsManager : MonoBehaviour {
 #endif
     }
 
+#if UNITY_ANDROID || UNITY_IOS
     //広告呼び出し
     public void ShowRewardedAd()
     {
@@ -45,4 +46,5 @@ public class AdsManager : MonoBehaviour {
             break;
         }
     }
+#endif
 }

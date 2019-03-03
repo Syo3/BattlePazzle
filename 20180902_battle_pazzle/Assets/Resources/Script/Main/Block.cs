@@ -12,7 +12,7 @@ public class Block : MonoBehaviour {
 
 	#region private field
 	private int _state;
-	private Color _color;
+    private Vector3 _targetPosition;
 	#endregion
 
 	#region access
@@ -32,13 +32,29 @@ public class Block : MonoBehaviour {
 		switch(_state){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:
 			//_sprite.sprite = ResourceManager.LoadSprite("Image/panel_2");
-			_sprite.color  = Color.green;
+			_sprite.color  = Common.Const.MASTER_COLOR;
 			break;
 		case (int)Common.Const.PLAYER_TYPE.GUEST:
 			//_sprite.sprite = ResourceManager.LoadSprite("Image/panel_1");
-			_sprite.color  = Color.magenta;
+			_sprite.color  = Common.Const.GUEST_COLOR;
 			break;
 		}
 	}
+
+    public void Move(Vector3 targetPosition)
+    {
+        _targetPosition = targetPosition;
+        StartCoroutine(MoveTarget());
+    }
+
+    private IEnumerator MoveTarget()
+    {
+        var moveVec = (_targetPosition - transform.position) / 20.0f;
+        while(_targetPosition.y - transform.position.y > 0.1f || _targetPosition.y - transform.position.y < -0.1f){
+            yield return null;
+            transform.position += moveVec;            
+        }
+        transform.position = _targetPosition;
+    }
 	#endregion
 }

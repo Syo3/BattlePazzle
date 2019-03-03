@@ -30,11 +30,11 @@ public class DestroyEffect : MonoBehaviour {
 		switch(playerType){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:
 			//_sprite.sprite = ResourceManager.LoadSprite("Image/panel_2");
-			_sprite.color  = Color.green;
+			_sprite.color  = Common.Const.MASTER_COLOR;
 			break;
 		case (int)Common.Const.PLAYER_TYPE.GUEST:
 			//_sprite.sprite = ResourceManager.LoadSprite("Image/panel_1");
-			_sprite.color  = Color.magenta;
+			_sprite.color  = Common.Const.GUEST_COLOR;
 			break;
 		}
 		StartCoroutine(Animation());

@@ -96,7 +96,8 @@ public class ClientManager : MonoBehaviour {
 				territoryList[i].SetSize(_territoryLineNum);
 			}
 		}
-		_mainManager.TerritoryLine.SetPos(_territoryLineNum);
+		//_mainManager.TerritoryLine.SetPos(_territoryLineNum);
+		_mainManager.TerritoryLine.Init();
 
 
 		List<List<int>> state_list = new List<List<int>>();		
@@ -256,7 +257,7 @@ public class ClientManager : MonoBehaviour {
 				if(_areaList[i][j].Block != null){
 					if(i - lineCnt >= 0 && _areaList[i-lineCnt][j].Block == null){
 						_areaList[i-lineCnt][j].Block = _areaList[i][j].Block;
-						_areaList[i-lineCnt][j].Block.transform.position = _areaList[i-lineCnt][j].Panel.transform.position;
+						_areaList[i-lineCnt][j].Block.Move(_areaList[i-lineCnt][j].Panel.transform.position);
 					}
 					else{
 						Destroy(_areaList[i][j].Block.gameObject);
