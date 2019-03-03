@@ -790,7 +790,7 @@ extern RuntimeClass* ExecuteEvents_t3484638744_il2cpp_TypeInfo_var;
 extern const RuntimeMethod* List_1_get_Item_m3743125852_RuntimeMethod_var;
 extern const RuntimeMethod* ExecuteEvents_Execute_TisIPointerExitHandler_t4182793654_m767184367_RuntimeMethod_var;
 extern const RuntimeMethod* List_1_get_Count_m2812834599_RuntimeMethod_var;
-extern const RuntimeMethod* List_1_Clear_m2500309205_RuntimeMethod_var;
+extern const RuntimeMethod* List_1_Clear_m2881798211_RuntimeMethod_var;
 extern const RuntimeMethod* List_1_Remove_m4063777476_RuntimeMethod_var;
 extern const RuntimeMethod* ExecuteEvents_Execute_TisIPointerEnterHandler_t1016128679_m878985392_RuntimeMethod_var;
 extern const RuntimeMethod* List_1_Add_m2765963565_RuntimeMethod_var;
@@ -1636,8 +1636,8 @@ struct Vector3U5BU5D_t1718750761;
 struct Vector2U5BU5D_t1457185986;
 
 
-#ifndef U3CMODULEU3E_T692745542_H
-#define U3CMODULEU3E_T692745542_H
+#ifndef U3CMODULEU3E_T692745546_H
+#define U3CMODULEU3E_T692745546_H
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
@@ -1645,7 +1645,7 @@ struct Vector2U5BU5D_t1457185986;
 #endif
 
 // <Module>
-struct  U3CModuleU3E_t692745542 
+struct  U3CModuleU3E_t692745546 
 {
 public:
 
@@ -1655,7 +1655,7 @@ public:
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif
-#endif // U3CMODULEU3E_T692745542_H
+#endif // U3CMODULEU3E_T692745546_H
 #ifndef RUNTIMEOBJECT_H
 #define RUNTIMEOBJECT_H
 #ifdef __clang__
@@ -17503,7 +17503,7 @@ extern "C"  EventFunction_1_t2867327688 * ExecuteEvents_get_pointerExitHandler_m
 // System.Int32 System.Collections.Generic.List`1<UnityEngine.GameObject>::get_Count()
 #define List_1_get_Count_m2812834599(__this, method) ((  int32_t (*) (List_1_t2585711361 *, const RuntimeMethod*))List_1_get_Count_m2934127733_gshared)(__this, method)
 // System.Void System.Collections.Generic.List`1<UnityEngine.GameObject>::Clear()
-#define List_1_Clear_m2500309205(__this, method) ((  void (*) (List_1_t2585711361 *, const RuntimeMethod*))List_1_Clear_m3697625829_gshared)(__this, method)
+#define List_1_Clear_m2881798211(__this, method) ((  void (*) (List_1_t2585711361 *, const RuntimeMethod*))List_1_Clear_m3697625829_gshared)(__this, method)
 // System.Void UnityEngine.EventSystems.PointerEventData::set_pointerEnter(UnityEngine.GameObject)
 extern "C"  void PointerEventData_set_pointerEnter_m3256217464 (PointerEventData_t3807901092 * __this, GameObject_t1113636619 * ___value0, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
 // System.Boolean UnityEngine.Object::op_Implicit(UnityEngine.Object)
@@ -20455,7 +20455,7 @@ IL_0042:
 		NullCheck(L_16);
 		List_1_t2585711361 * L_17 = L_16->get_hovered_9();
 		NullCheck(L_17);
-		List_1_Clear_m2500309205(L_17, /*hidden argument*/List_1_Clear_m2500309205_RuntimeMethod_var);
+		List_1_Clear_m2881798211(L_17, /*hidden argument*/List_1_Clear_m2881798211_RuntimeMethod_var);
 		GameObject_t1113636619 * L_18 = ___newEnterTarget1;
 		IL2CPP_RUNTIME_CLASS_INIT(Object_t631007953_il2cpp_TypeInfo_var);
 		bool L_19 = Object_op_Equality_m1810815630(NULL /*static, unused*/, L_18, (Object_t631007953 *)NULL, /*hidden argument*/NULL);
@@ -51899,7 +51899,7 @@ IL_0062:
 		NullCheck(L_41);
 		Texture2D_t3840446185 * L_42 = Sprite_get_texture_m3976398399(L_41, /*hidden argument*/NULL);
 		NullCheck(L_42);
-		int32_t L_43 = VirtFuncInvoker0< int32_t >::Invoke(5 /* System.Int32 UnityEngine.Texture::get_height() */, L_42);
+		int32_t L_43 = VirtFuncInvoker0< int32_t >::Invoke(6 /* System.Int32 UnityEngine.Texture::get_height() */, L_42);
 		V_8 = ((float)((float)L_40/(float)(((float)((float)L_43)))));
 	}
 

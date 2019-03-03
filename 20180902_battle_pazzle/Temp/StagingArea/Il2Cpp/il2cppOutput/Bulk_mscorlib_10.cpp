@@ -6679,7 +6679,7 @@ extern "C"  String_t* ValueType_ToString_m2292123621 (RuntimeObject * __this, co
 	{
 		Type_t * L_0 = Object_GetType_m88164663(__this, /*hidden argument*/NULL);
 		NullCheck(L_0);
-		String_t* L_1 = VirtFuncInvoker0< String_t* >::Invoke(18 /* System.String System.Type::get_FullName() */, L_0);
+		String_t* L_1 = VirtFuncInvoker0< String_t* >::Invoke(19 /* System.String System.Type::get_FullName() */, L_0);
 		return L_1;
 	}
 }
@@ -7672,6 +7672,17 @@ extern "C"  bool Version_op_Inequality_m1696193441 (RuntimeObject * __this /* st
 		Version_t3456873960 * L_1 = ___v21;
 		bool L_2 = Object_Equals_m1397037629(NULL /*static, unused*/, L_0, L_1, /*hidden argument*/NULL);
 		return (bool)((((int32_t)L_2) == ((int32_t)0))? 1 : 0);
+	}
+}
+// System.Boolean System.Version::op_LessThan(System.Version,System.Version)
+extern "C"  bool Version_op_LessThan_m3745610070 (RuntimeObject * __this /* static, unused */, Version_t3456873960 * ___v10, Version_t3456873960 * ___v21, const RuntimeMethod* method)
+{
+	{
+		Version_t3456873960 * L_0 = ___v10;
+		Version_t3456873960 * L_1 = ___v21;
+		NullCheck(L_0);
+		int32_t L_2 = Version_CompareTo_m3146217210(L_0, L_1, /*hidden argument*/NULL);
+		return (bool)((((int32_t)L_2) < ((int32_t)0))? 1 : 0);
 	}
 }
 #ifdef __clang__

@@ -36,10 +36,12 @@ public class Panel : MonoBehaviour {
 		// m_state = state;
 		switch(state){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:
-			_sprite.color = Color.white;
+//			_sprite.color = Color.white;
+            _sprite.color = Color.green * 0.4f;
 			break;
 		case (int)Common.Const.PLAYER_TYPE.GUEST:
-			_sprite.color = Color.white;
+//			_sprite.color = Color.white;
+            _sprite.color = Color.magenta * 0.4f;
 			break;
 		}
 		_state = state;

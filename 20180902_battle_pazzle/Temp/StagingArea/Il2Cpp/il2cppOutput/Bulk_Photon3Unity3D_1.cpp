@@ -12521,7 +12521,7 @@ IL_0014:
 	{
 		Type_t * L_4 = ___type0;
 		NullCheck(L_4);
-		MethodInfoU5BU5D_t2572182361* L_5 = VirtFuncInvoker1< MethodInfoU5BU5D_t2572182361*, int32_t >::Invoke(57 /* System.Reflection.MethodInfo[] System.Type::GetMethods(System.Reflection.BindingFlags) */, L_4, ((int32_t)52));
+		MethodInfoU5BU5D_t2572182361* L_5 = VirtFuncInvoker1< MethodInfoU5BU5D_t2572182361*, int32_t >::Invoke(58 /* System.Reflection.MethodInfo[] System.Type::GetMethods(System.Reflection.BindingFlags) */, L_4, ((int32_t)52));
 		V_1 = L_5;
 		MethodInfoU5BU5D_t2572182361* L_6 = V_1;
 		V_4 = L_6;
@@ -12764,13 +12764,13 @@ extern "C"  void SupportClass_WriteStackTrace_m353758348 (RuntimeObject * __this
 		NullCheck(L_3);
 		String_t* L_4 = VirtFuncInvoker0< String_t* >::Invoke(3 /* System.String System.Object::ToString() */, L_3);
 		NullCheck(L_2);
-		VirtActionInvoker1< String_t* >::Invoke(15 /* System.Void System.IO.TextWriter::WriteLine(System.String) */, L_2, L_4);
+		VirtActionInvoker1< String_t* >::Invoke(16 /* System.Void System.IO.TextWriter::WriteLine(System.String) */, L_2, L_4);
 		TextWriter_t3478189236 * L_5 = ___stream1;
 		Exception_t * L_6 = ___throwable0;
 		NullCheck(L_6);
 		String_t* L_7 = VirtFuncInvoker0< String_t* >::Invoke(7 /* System.String System.Exception::get_StackTrace() */, L_6);
 		NullCheck(L_5);
-		VirtActionInvoker1< String_t* >::Invoke(15 /* System.Void System.IO.TextWriter::WriteLine(System.String) */, L_5, L_7);
+		VirtActionInvoker1< String_t* >::Invoke(16 /* System.Void System.IO.TextWriter::WriteLine(System.String) */, L_5, L_7);
 		TextWriter_t3478189236 * L_8 = ___stream1;
 		NullCheck(L_8);
 		VirtActionInvoker0::Invoke(7 /* System.Void System.IO.TextWriter::Flush() */, L_8);
@@ -23027,7 +23027,7 @@ IL_002f:
 		int32_t L_9 = V_4;
 		Random_t108471755 * L_10 = ___rand1;
 		NullCheck(L_10);
-		double L_11 = VirtFuncInvoker0< double >::Invoke(7 /* System.Double System.Random::NextDouble() */, L_10);
+		double L_11 = VirtFuncInvoker0< double >::Invoke(8 /* System.Double System.Random::NextDouble() */, L_10);
 		NullCheck(L_8);
 		(L_8)->SetAt(static_cast<il2cpp_array_size_t>(L_9), (uint32_t)(((int32_t)((uint32_t)((double)il2cpp_codegen_multiply((double)L_11, (double)(4294967296.0)))))));
 		int32_t L_12 = V_4;

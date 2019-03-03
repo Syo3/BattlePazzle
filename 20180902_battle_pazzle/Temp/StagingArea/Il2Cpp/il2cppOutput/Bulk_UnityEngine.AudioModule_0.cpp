@@ -358,6 +358,7 @@ extern const uint32_t AudioSettings_InvokeOnAudioManagerUpdate_m4044425648_Metad
 extern const uint32_t AudioSettings_InvokeOnAudioSourcePlay_m3298744573_MetadataUsageId;
 extern RuntimeClass* Boolean_t97287965_il2cpp_TypeInfo_var;
 extern const uint32_t AudioConfigurationChangeHandler_BeginInvoke_m4104069447_MetadataUsageId;
+extern const uint32_t AudioSource_PlayOneShot_m2678069419_MetadataUsageId;
 extern RuntimeClass* AudioSourceExtension_t3064908834_il2cpp_TypeInfo_var;
 extern const uint32_t AudioSource_AddSpatializerExtension_m2560794359_MetadataUsageId;
 extern const uint32_t AudioSource_AddAmbisonicExtension_m304476911_MetadataUsageId;
@@ -3109,6 +3110,10 @@ extern "C"  void AudioSource_Play_m3389845180 (AudioSource_t3935305588 * __this,
 extern "C"  void AudioSource_INTERNAL_CALL_Pause_m1443225006 (RuntimeObject * __this /* static, unused */, AudioSource_t3935305588 * ___self0, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
 // System.Void UnityEngine.AudioSource::INTERNAL_CALL_UnPause(UnityEngine.AudioSource)
 extern "C"  void AudioSource_INTERNAL_CALL_UnPause_m2866508363 (RuntimeObject * __this /* static, unused */, AudioSource_t3935305588 * ___self0, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
+// System.Void UnityEngine.AudioSource::PlayOneShot(UnityEngine.AudioClip,System.Single)
+extern "C"  void AudioSource_PlayOneShot_m2678069419 (AudioSource_t3935305588 * __this, AudioClip_t3680889665 * ___clip0, float ___volumeScale1, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
+// System.Void UnityEngine.AudioSource::PlayOneShotHelper(UnityEngine.AudioClip,System.Single)
+extern "C"  void AudioSource_PlayOneShotHelper_m544918725 (AudioSource_t3935305588 * __this, AudioClip_t3680889665 * ___clip0, float ___volumeScale1, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
 // System.Boolean UnityEngine.AudioSource::get_spatializeInternal()
 extern "C"  bool AudioSource_get_spatializeInternal_m2117549793 (AudioSource_t3935305588 * __this, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
 // System.Void UnityEngine.AudioSource::INTERNAL_CALL_ReadExtensionName(UnityEngine.AudioSource,System.Int32,UnityEngine.PropertyName&)
@@ -5877,6 +5882,85 @@ extern "C"  bool AudioSource_get_isPlaying_m1896551654 (AudioSource_t3935305588 
 	_il2cpp_icall_func = (AudioSource_get_isPlaying_m1896551654_ftn)il2cpp_codegen_resolve_icall ("UnityEngine.AudioSource::get_isPlaying()");
 	bool retVal = _il2cpp_icall_func(__this);
 	return retVal;
+}
+// System.Void UnityEngine.AudioSource::PlayOneShot(UnityEngine.AudioClip)
+extern "C"  void AudioSource_PlayOneShot_m1688286683 (AudioSource_t3935305588 * __this, AudioClip_t3680889665 * ___clip0, const RuntimeMethod* method)
+{
+	float V_0 = 0.0f;
+	{
+		V_0 = (1.0f);
+		AudioClip_t3680889665 * L_0 = ___clip0;
+		float L_1 = V_0;
+		AudioSource_PlayOneShot_m2678069419(__this, L_0, L_1, /*hidden argument*/NULL);
+		return;
+	}
+}
+// System.Void UnityEngine.AudioSource::PlayOneShot(UnityEngine.AudioClip,System.Single)
+extern "C"  void AudioSource_PlayOneShot_m2678069419 (AudioSource_t3935305588 * __this, AudioClip_t3680889665 * ___clip0, float ___volumeScale1, const RuntimeMethod* method)
+{
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_method (AudioSource_PlayOneShot_m2678069419_MetadataUsageId);
+		s_Il2CppMethodInitialized = true;
+	}
+	AudioSourceExtension_t3064908834 * V_0 = NULL;
+	{
+		AudioClip_t3680889665 * L_0 = ___clip0;
+		IL2CPP_RUNTIME_CLASS_INIT(Object_t631007953_il2cpp_TypeInfo_var);
+		bool L_1 = Object_op_Inequality_m4071470834(NULL /*static, unused*/, L_0, (Object_t631007953 *)NULL, /*hidden argument*/NULL);
+		if (!L_1)
+		{
+			goto IL_0033;
+		}
+	}
+	{
+		AudioClip_t3680889665 * L_2 = ___clip0;
+		NullCheck(L_2);
+		bool L_3 = AudioClip_get_ambisonic_m3815052287(L_2, /*hidden argument*/NULL);
+		if (!L_3)
+		{
+			goto IL_0033;
+		}
+	}
+	{
+		IL2CPP_RUNTIME_CLASS_INIT(AudioExtensionManager_t3220897493_il2cpp_TypeInfo_var);
+		AudioSourceExtension_t3064908834 * L_4 = AudioExtensionManager_AddAmbisonicDecoderExtension_m3197702864(NULL /*static, unused*/, __this, /*hidden argument*/NULL);
+		V_0 = L_4;
+		AudioSourceExtension_t3064908834 * L_5 = V_0;
+		IL2CPP_RUNTIME_CLASS_INIT(Object_t631007953_il2cpp_TypeInfo_var);
+		bool L_6 = Object_op_Inequality_m4071470834(NULL /*static, unused*/, L_5, (Object_t631007953 *)NULL, /*hidden argument*/NULL);
+		if (!L_6)
+		{
+			goto IL_0032;
+		}
+	}
+	{
+		AudioSourceExtension_t3064908834 * L_7 = V_0;
+		IL2CPP_RUNTIME_CLASS_INIT(AudioExtensionManager_t3220897493_il2cpp_TypeInfo_var);
+		AudioExtensionManager_GetReadyToPlay_m1557263244(NULL /*static, unused*/, L_7, /*hidden argument*/NULL);
+	}
+
+IL_0032:
+	{
+	}
+
+IL_0033:
+	{
+		AudioClip_t3680889665 * L_8 = ___clip0;
+		float L_9 = ___volumeScale1;
+		AudioSource_PlayOneShotHelper_m544918725(__this, L_8, L_9, /*hidden argument*/NULL);
+		return;
+	}
+}
+// System.Void UnityEngine.AudioSource::PlayOneShotHelper(UnityEngine.AudioClip,System.Single)
+extern "C"  void AudioSource_PlayOneShotHelper_m544918725 (AudioSource_t3935305588 * __this, AudioClip_t3680889665 * ___clip0, float ___volumeScale1, const RuntimeMethod* method)
+{
+	typedef void (*AudioSource_PlayOneShotHelper_m544918725_ftn) (AudioSource_t3935305588 *, AudioClip_t3680889665 *, float);
+	static AudioSource_PlayOneShotHelper_m544918725_ftn _il2cpp_icall_func;
+	if (!_il2cpp_icall_func)
+	_il2cpp_icall_func = (AudioSource_PlayOneShotHelper_m544918725_ftn)il2cpp_codegen_resolve_icall ("UnityEngine.AudioSource::PlayOneShotHelper(UnityEngine.AudioClip,System.Single)");
+	_il2cpp_icall_func(__this, ___clip0, ___volumeScale1);
 }
 // System.Void UnityEngine.AudioSource::set_loop(System.Boolean)
 extern "C"  void AudioSource_set_loop_m3659884460 (AudioSource_t3935305588 * __this, bool ___value0, const RuntimeMethod* method)

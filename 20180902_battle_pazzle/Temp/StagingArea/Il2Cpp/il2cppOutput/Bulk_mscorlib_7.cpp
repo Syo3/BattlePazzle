@@ -12156,10 +12156,10 @@ extern "C"  SecurityElement_t1046076091 * CodeAccessPermission_Element_m42808125
 		SecurityElement_t1046076091 * L_2 = V_0;
 		Type_t * L_3 = V_1;
 		NullCheck(L_3);
-		String_t* L_4 = VirtFuncInvoker0< String_t* >::Invoke(18 /* System.String System.Type::get_FullName() */, L_3);
+		String_t* L_4 = VirtFuncInvoker0< String_t* >::Invoke(19 /* System.String System.Type::get_FullName() */, L_3);
 		Type_t * L_5 = V_1;
 		NullCheck(L_5);
-		Assembly_t * L_6 = VirtFuncInvoker0< Assembly_t * >::Invoke(14 /* System.Reflection.Assembly System.Type::get_Assembly() */, L_5);
+		Assembly_t * L_6 = VirtFuncInvoker0< Assembly_t * >::Invoke(15 /* System.Reflection.Assembly System.Type::get_Assembly() */, L_5);
 		NullCheck(L_6);
 		String_t* L_7 = VirtFuncInvoker0< String_t* >::Invoke(3 /* System.String System.Reflection.Assembly::ToString() */, L_6);
 		NullCheck(L_7);
@@ -15013,7 +15013,7 @@ IL_00a6:
 		ByteU5BU5D_t4116647657* L_27 = __this->get__waitingBlock_9();
 		NullCheck(L_27);
 		NullCheck(L_25);
-		int32_t L_28 = VirtFuncInvoker3< int32_t, ByteU5BU5D_t4116647657*, int32_t, int32_t >::Invoke(14 /* System.Int32 System.IO.Stream::Read(System.Byte[],System.Int32,System.Int32) */, L_25, L_26, 0, (((int32_t)((int32_t)(((RuntimeArray *)L_27)->max_length)))));
+		int32_t L_28 = VirtFuncInvoker3< int32_t, ByteU5BU5D_t4116647657*, int32_t, int32_t >::Invoke(16 /* System.Int32 System.IO.Stream::Read(System.Byte[],System.Int32,System.Int32) */, L_25, L_26, 0, (((int32_t)((int32_t)(((RuntimeArray *)L_27)->max_length)))));
 		__this->set__waitingCount_10(L_28);
 	}
 
@@ -15044,7 +15044,7 @@ IL_0112:
 		NullCheck(L_36);
 		int32_t L_37 = InterfaceFuncInvoker0< int32_t >::Invoke(2 /* System.Int32 System.Security.Cryptography.ICryptoTransform::get_InputBlockSize() */, ICryptoTransform_t2733259762_il2cpp_TypeInfo_var, L_36);
 		NullCheck(L_34);
-		int32_t L_38 = VirtFuncInvoker3< int32_t, ByteU5BU5D_t4116647657*, int32_t, int32_t >::Invoke(14 /* System.Int32 System.IO.Stream::Read(System.Byte[],System.Int32,System.Int32) */, L_34, L_35, 0, L_37);
+		int32_t L_38 = VirtFuncInvoker3< int32_t, ByteU5BU5D_t4116647657*, int32_t, int32_t >::Invoke(16 /* System.Int32 System.IO.Stream::Read(System.Byte[],System.Int32,System.Int32) */, L_34, L_35, 0, L_37);
 		__this->set__workingCount_15(L_38);
 		int32_t L_39 = __this->get__workingCount_15();
 		RuntimeObject* L_40 = __this->get__transform_2();
@@ -15462,7 +15462,7 @@ IL_0103:
 		ByteU5BU5D_t4116647657* L_49 = __this->get__currentBlock_4();
 		int32_t L_50 = V_3;
 		NullCheck(L_48);
-		VirtActionInvoker3< ByteU5BU5D_t4116647657*, int32_t, int32_t >::Invoke(18 /* System.Void System.IO.Stream::Write(System.Byte[],System.Int32,System.Int32) */, L_48, L_49, 0, L_50);
+		VirtActionInvoker3< ByteU5BU5D_t4116647657*, int32_t, int32_t >::Invoke(20 /* System.Void System.IO.Stream::Write(System.Byte[],System.Int32,System.Int32) */, L_48, L_49, 0, L_50);
 		__this->set__partialCount_7(0);
 	}
 
@@ -15533,7 +15533,7 @@ IL_01d4:
 		ByteU5BU5D_t4116647657* L_77 = __this->get__workingBlock_14();
 		int32_t L_78 = V_7;
 		NullCheck(L_76);
-		VirtActionInvoker3< ByteU5BU5D_t4116647657*, int32_t, int32_t >::Invoke(18 /* System.Void System.IO.Stream::Write(System.Byte[],System.Int32,System.Int32) */, L_76, L_77, 0, L_78);
+		VirtActionInvoker3< ByteU5BU5D_t4116647657*, int32_t, int32_t >::Invoke(20 /* System.Void System.IO.Stream::Write(System.Byte[],System.Int32,System.Int32) */, L_76, L_77, 0, L_78);
 	}
 
 IL_0208:
@@ -15612,7 +15612,7 @@ extern "C"  void CryptoStream_Flush_m3506473051 (CryptoStream_t2702504504 * __th
 	{
 		Stream_t1273022909 * L_1 = __this->get__stream_1();
 		NullCheck(L_1);
-		VirtActionInvoker0::Invoke(13 /* System.Void System.IO.Stream::Flush() */, L_1);
+		VirtActionInvoker0::Invoke(15 /* System.Void System.IO.Stream::Flush() */, L_1);
 	}
 
 IL_0016:
@@ -15692,7 +15692,7 @@ IL_0043:
 		ByteU5BU5D_t4116647657* L_14 = V_0;
 		NullCheck(L_14);
 		NullCheck(L_12);
-		VirtActionInvoker3< ByteU5BU5D_t4116647657*, int32_t, int32_t >::Invoke(18 /* System.Void System.IO.Stream::Write(System.Byte[],System.Int32,System.Int32) */, L_12, L_13, 0, (((int32_t)((int32_t)(((RuntimeArray *)L_14)->max_length)))));
+		VirtActionInvoker3< ByteU5BU5D_t4116647657*, int32_t, int32_t >::Invoke(20 /* System.Void System.IO.Stream::Write(System.Byte[],System.Int32,System.Int32) */, L_12, L_13, 0, (((int32_t)((int32_t)(((RuntimeArray *)L_14)->max_length)))));
 		Stream_t1273022909 * L_15 = __this->get__stream_1();
 		if (!((CryptoStream_t2702504504 *)IsInstClass((RuntimeObject*)L_15, CryptoStream_t2702504504_il2cpp_TypeInfo_var)))
 		{
@@ -15709,7 +15709,7 @@ IL_009e:
 	{
 		Stream_t1273022909 * L_17 = __this->get__stream_1();
 		NullCheck(L_17);
-		VirtActionInvoker0::Invoke(13 /* System.Void System.IO.Stream::Flush() */, L_17);
+		VirtActionInvoker0::Invoke(15 /* System.Void System.IO.Stream::Flush() */, L_17);
 	}
 
 IL_00a9:
@@ -21225,7 +21225,7 @@ IL_0016:
 		Stream_t1273022909 * L_2 = ___inputStream0;
 		ByteU5BU5D_t4116647657* L_3 = V_0;
 		NullCheck(L_2);
-		int32_t L_4 = VirtFuncInvoker3< int32_t, ByteU5BU5D_t4116647657*, int32_t, int32_t >::Invoke(14 /* System.Int32 System.IO.Stream::Read(System.Byte[],System.Int32,System.Int32) */, L_2, L_3, 0, ((int32_t)4096));
+		int32_t L_4 = VirtFuncInvoker3< int32_t, ByteU5BU5D_t4116647657*, int32_t, int32_t >::Invoke(16 /* System.Int32 System.IO.Stream::Read(System.Byte[],System.Int32,System.Int32) */, L_2, L_3, 0, ((int32_t)4096));
 		V_1 = L_4;
 		goto IL_004b;
 	}
@@ -21238,7 +21238,7 @@ IL_0034:
 		Stream_t1273022909 * L_7 = ___inputStream0;
 		ByteU5BU5D_t4116647657* L_8 = V_0;
 		NullCheck(L_7);
-		int32_t L_9 = VirtFuncInvoker3< int32_t, ByteU5BU5D_t4116647657*, int32_t, int32_t >::Invoke(14 /* System.Int32 System.IO.Stream::Read(System.Byte[],System.Int32,System.Int32) */, L_7, L_8, 0, ((int32_t)4096));
+		int32_t L_9 = VirtFuncInvoker3< int32_t, ByteU5BU5D_t4116647657*, int32_t, int32_t >::Invoke(16 /* System.Int32 System.IO.Stream::Read(System.Byte[],System.Int32,System.Int32) */, L_7, L_8, 0, ((int32_t)4096));
 		V_1 = L_9;
 	}
 

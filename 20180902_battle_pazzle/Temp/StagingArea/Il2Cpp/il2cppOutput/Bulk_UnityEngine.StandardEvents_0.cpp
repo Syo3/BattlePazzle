@@ -103,7 +103,7 @@ extern String_t* _stringLiteral2157825051;
 extern const uint32_t AnalyticsEvent_Custom_m227997836_MetadataUsageId;
 extern RuntimeClass* Dictionary_2_t2865362463_il2cpp_TypeInfo_var;
 extern RuntimeClass* Dictionary_2_t1632706988_il2cpp_TypeInfo_var;
-extern const RuntimeMethod* Dictionary_2__ctor_m1476497131_RuntimeMethod_var;
+extern const RuntimeMethod* Dictionary_2__ctor_m855809970_RuntimeMethod_var;
 extern const RuntimeMethod* Dictionary_2__ctor_m832755288_RuntimeMethod_var;
 extern const RuntimeMethod* Dictionary_2_Add_m1316431193_RuntimeMethod_var;
 extern String_t* _stringLiteral314968592;
@@ -142,8 +142,8 @@ struct ObjectU5BU5D_t2843939325;
 #pragma clang diagnostic pop
 #endif
 #endif // RUNTIMEOBJECT_H
-#ifndef U3CMODULEU3E_T692745545_H
-#define U3CMODULEU3E_T692745545_H
+#ifndef U3CMODULEU3E_T692745550_H
+#define U3CMODULEU3E_T692745550_H
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
@@ -151,7 +151,7 @@ struct ObjectU5BU5D_t2843939325;
 #endif
 
 // <Module>
-struct  U3CModuleU3E_t692745545 
+struct  U3CModuleU3E_t692745550 
 {
 public:
 
@@ -161,7 +161,7 @@ public:
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif
-#endif // U3CMODULEU3E_T692745545_H
+#endif // U3CMODULEU3E_T692745550_H
 #ifndef VALUETYPE_T3640485471_H
 #define VALUETYPE_T3640485471_H
 #ifdef __clang__
@@ -1172,7 +1172,7 @@ extern "C"  void Debug_LogErrorFormat_m575266265 (RuntimeObject * __this /* stat
 // System.Void UnityEngine.Debug::LogWarningFormat(System.String,System.Object[])
 extern "C"  void Debug_LogWarningFormat_m2535776735 (RuntimeObject * __this /* static, unused */, String_t* p0, ObjectU5BU5D_t2843939325* p1, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
 // System.Void System.Collections.Generic.Dictionary`2<System.String,System.Object>::.ctor()
-#define Dictionary_2__ctor_m1476497131(__this, method) ((  void (*) (Dictionary_2_t2865362463 *, const RuntimeMethod*))Dictionary_2__ctor_m518943619_gshared)(__this, method)
+#define Dictionary_2__ctor_m855809970(__this, method) ((  void (*) (Dictionary_2_t2865362463 *, const RuntimeMethod*))Dictionary_2__ctor_m518943619_gshared)(__this, method)
 // System.Void System.Collections.Generic.Dictionary`2<System.String,System.String>::.ctor()
 #define Dictionary_2__ctor_m832755288(__this, method) ((  void (*) (Dictionary_2_t1632706988 *, const RuntimeMethod*))Dictionary_2__ctor_m518943619_gshared)(__this, method)
 // System.Void System.Collections.Generic.Dictionary`2<System.String,System.String>::Add(!0,!1)
@@ -1558,7 +1558,7 @@ extern "C"  void AnalyticsEvent__cctor_m3994162614 (RuntimeObject * __this /* st
 	{
 		((AnalyticsEvent_t4058973021_StaticFields*)il2cpp_codegen_static_fields_for(AnalyticsEvent_t4058973021_il2cpp_TypeInfo_var))->set_k_SdkVersion_0(_stringLiteral314968592);
 		Dictionary_2_t2865362463 * L_0 = (Dictionary_2_t2865362463 *)il2cpp_codegen_object_new(Dictionary_2_t2865362463_il2cpp_TypeInfo_var);
-		Dictionary_2__ctor_m1476497131(L_0, /*hidden argument*/Dictionary_2__ctor_m1476497131_RuntimeMethod_var);
+		Dictionary_2__ctor_m855809970(L_0, /*hidden argument*/Dictionary_2__ctor_m855809970_RuntimeMethod_var);
 		((AnalyticsEvent_t4058973021_StaticFields*)il2cpp_codegen_static_fields_for(AnalyticsEvent_t4058973021_il2cpp_TypeInfo_var))->set_m_EventData_1(L_0);
 		((AnalyticsEvent_t4058973021_StaticFields*)il2cpp_codegen_static_fields_for(AnalyticsEvent_t4058973021_il2cpp_TypeInfo_var))->set__debugMode_2((bool)0);
 		Dictionary_2_t1632706988 * L_1 = (Dictionary_2_t1632706988 *)il2cpp_codegen_object_new(Dictionary_2_t1632706988_il2cpp_TypeInfo_var);

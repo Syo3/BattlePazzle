@@ -49630,7 +49630,7 @@ IL_0135:
 		NullCheck(L_97);
 		Texture_t3661962703 * L_98 = L_97->get_spriteSheet_8();
 		NullCheck(L_98);
-		int32_t L_99 = VirtFuncInvoker0< int32_t >::Invoke(5 /* System.Int32 UnityEngine.Texture::get_height() */, L_98);
+		int32_t L_99 = VirtFuncInvoker0< int32_t >::Invoke(6 /* System.Int32 UnityEngine.Texture::get_height() */, L_98);
 		Vector2__ctor_m3970636864((Vector2_t2156229523 *)(&V_10), ((float)((float)L_91/(float)(((float)((float)L_94))))), ((float)((float)L_96/(float)(((float)((float)L_99))))), /*hidden argument*/NULL);
 		float L_100 = (&V_10)->get_x_0();
 		TMP_Sprite_t554067146 * L_101 = V_1;
@@ -49643,7 +49643,7 @@ IL_0135:
 		NullCheck(L_105);
 		Texture_t3661962703 * L_106 = L_105->get_spriteSheet_8();
 		NullCheck(L_106);
-		int32_t L_107 = VirtFuncInvoker0< int32_t >::Invoke(5 /* System.Int32 UnityEngine.Texture::get_height() */, L_106);
+		int32_t L_107 = VirtFuncInvoker0< int32_t >::Invoke(6 /* System.Int32 UnityEngine.Texture::get_height() */, L_106);
 		Vector2__ctor_m3970636864((Vector2_t2156229523 *)(&V_11), L_100, ((float)((float)((float)il2cpp_codegen_add((float)L_102, (float)L_104))/(float)(((float)((float)L_107))))), /*hidden argument*/NULL);
 		TMP_Sprite_t554067146 * L_108 = V_1;
 		NullCheck(L_108);
@@ -67250,7 +67250,7 @@ IL_03ad:
 		NullCheck(L_169);
 		Texture_t3661962703 * L_170 = L_169->get_spriteSheet_8();
 		NullCheck(L_170);
-		int32_t L_171 = VirtFuncInvoker0< int32_t >::Invoke(5 /* System.Int32 UnityEngine.Texture::get_height() */, L_170);
+		int32_t L_171 = VirtFuncInvoker0< int32_t >::Invoke(6 /* System.Int32 UnityEngine.Texture::get_height() */, L_170);
 		Vector2__ctor_m3970636864((Vector2_t2156229523 *)(&V_6), ((float)((float)L_163/(float)(((float)((float)L_166))))), ((float)((float)L_168/(float)(((float)((float)L_171))))), /*hidden argument*/NULL);
 		float L_172 = (&V_6)->get_x_0();
 		TMP_TextElement_t129727469 * L_173 = __this->get_m_cached_TextElement_215();
@@ -67263,7 +67263,7 @@ IL_03ad:
 		NullCheck(L_177);
 		Texture_t3661962703 * L_178 = L_177->get_spriteSheet_8();
 		NullCheck(L_178);
-		int32_t L_179 = VirtFuncInvoker0< int32_t >::Invoke(5 /* System.Int32 UnityEngine.Texture::get_height() */, L_178);
+		int32_t L_179 = VirtFuncInvoker0< int32_t >::Invoke(6 /* System.Int32 UnityEngine.Texture::get_height() */, L_178);
 		Vector2__ctor_m3970636864((Vector2_t2156229523 *)(&V_7), L_172, ((float)((float)((float)il2cpp_codegen_add((float)L_174, (float)L_176))/(float)(((float)((float)L_179))))), /*hidden argument*/NULL);
 		TMP_TextElement_t129727469 * L_180 = __this->get_m_cached_TextElement_215();
 		NullCheck(L_180);

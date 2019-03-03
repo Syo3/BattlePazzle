@@ -32149,7 +32149,7 @@ extern "C"  void RawImage_SetNativeSize_m4254640819 (RawImage_t3182918964 * __th
 		V_1 = L_7;
 		Texture_t3661962703 * L_8 = V_0;
 		NullCheck(L_8);
-		int32_t L_9 = VirtFuncInvoker0< int32_t >::Invoke(5 /* System.Int32 UnityEngine.Texture::get_height() */, L_8);
+		int32_t L_9 = VirtFuncInvoker0< int32_t >::Invoke(6 /* System.Int32 UnityEngine.Texture::get_height() */, L_8);
 		Rect_t2360479859  L_10 = RawImage_get_uvRect_m3483369478(__this, /*hidden argument*/NULL);
 		V_4 = L_10;
 		float L_11 = Rect_get_height_m1358425599((Rect_t2360479859 *)(&V_4), /*hidden argument*/NULL);
@@ -32233,7 +32233,7 @@ extern "C"  void RawImage_OnPopulateMesh_m1115858855 (RawImage_t3182918964 * __t
 		V_3 = ((float)il2cpp_codegen_multiply((float)(((float)((float)L_12))), (float)L_15));
 		Texture_t3661962703 * L_16 = V_0;
 		NullCheck(L_16);
-		int32_t L_17 = VirtFuncInvoker0< int32_t >::Invoke(5 /* System.Int32 UnityEngine.Texture::get_height() */, L_16);
+		int32_t L_17 = VirtFuncInvoker0< int32_t >::Invoke(6 /* System.Int32 UnityEngine.Texture::get_height() */, L_16);
 		Texture_t3661962703 * L_18 = V_0;
 		NullCheck(L_18);
 		Vector2_t2156229523  L_19 = Texture_get_texelSize_m2409716740(L_18, /*hidden argument*/NULL);
@@ -33244,7 +33244,7 @@ extern "C"  void ReflectionMethodsCache__ctor_m3826472948 (ReflectionMethodsCach
 		RuntimeTypeHandle_t3027515415  L_6 = { reinterpret_cast<intptr_t> (RaycastHit_t1056001966_0_0_0_var) };
 		Type_t * L_7 = Type_GetTypeFromHandle_m1620074514(NULL /*static, unused*/, L_6, /*hidden argument*/NULL);
 		NullCheck(L_7);
-		Type_t * L_8 = VirtFuncInvoker0< Type_t * >::Invoke(88 /* System.Type System.Type::MakeByRefType() */, L_7);
+		Type_t * L_8 = VirtFuncInvoker0< Type_t * >::Invoke(90 /* System.Type System.Type::MakeByRefType() */, L_7);
 		NullCheck(L_5);
 		ArrayElementTypeCheck (L_5, L_8);
 		(L_5)->SetAt(static_cast<il2cpp_array_size_t>(1), (Type_t *)L_8);

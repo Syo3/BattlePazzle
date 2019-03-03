@@ -920,7 +920,7 @@ extern RuntimeClass* AndroidJavaClass_t32045322_il2cpp_TypeInfo_var;
 extern RuntimeClass* jvalueU5BU5D_t578373866_il2cpp_TypeInfo_var;
 extern const RuntimeMethod* AndroidJavaObject_Call_TisBoolean_t97287965_m3947679609_RuntimeMethod_var;
 extern const RuntimeMethod* AndroidJavaObject_Call_TisInt32_t2950945753_m694707078_RuntimeMethod_var;
-extern const RuntimeMethod* AndroidJavaObject_GetStatic_TisAndroidJavaObject_t4131667876_m1414442298_RuntimeMethod_var;
+extern const RuntimeMethod* AndroidJavaObject_GetStatic_TisAndroidJavaObject_t4131667876_m100625750_RuntimeMethod_var;
 extern String_t* _stringLiteral2683916367;
 extern String_t* _stringLiteral1024874919;
 extern String_t* _stringLiteral145275299;
@@ -1213,7 +1213,7 @@ extern const uint32_t LoadBalancingPeer_OpRaiseEvent_m547095142_MetadataUsageId;
 extern const RuntimeMethod* Dictionary_2_get_Count_m2975943273_RuntimeMethod_var;
 extern String_t* _stringLiteral1992554071;
 extern const uint32_t LoadBalancingPeer_OpSettings_m1089806564_MetadataUsageId;
-extern RuntimeField* U3CPrivateImplementationDetailsU3E_t3057255368____U24fieldU2D7A078F136EEAACFF264DA2E9994AF7D3D3536738_0_FieldInfo_var;
+extern RuntimeField* U3CPrivateImplementationDetailsU3E_t3057255369____U24fieldU2D7A078F136EEAACFF264DA2E9994AF7D3D3536738_0_FieldInfo_var;
 extern const uint32_t PhotonPing__ctor_m107287025_MetadataUsageId;
 extern RuntimeClass* NotImplementedException_t3489357830_il2cpp_TypeInfo_var;
 extern const RuntimeMethod* PhotonPing_StartPing_m3716766572_RuntimeMethod_var;
@@ -1735,8 +1735,8 @@ struct IntPtrU5BU5D_t4013366056;
 struct LocalVoiceU5BU5D_t312587293;
 
 
-#ifndef U3CMODULEU3E_T692745547_H
-#define U3CMODULEU3E_T692745547_H
+#ifndef U3CMODULEU3E_T692745553_H
+#define U3CMODULEU3E_T692745553_H
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
@@ -1744,7 +1744,7 @@ struct LocalVoiceU5BU5D_t312587293;
 #endif
 
 // <Module>
-struct  U3CModuleU3E_t692745547 
+struct  U3CModuleU3E_t692745553 
 {
 public:
 
@@ -1754,7 +1754,7 @@ public:
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif
-#endif // U3CMODULEU3E_T692745547_H
+#endif // U3CMODULEU3E_T692745553_H
 #ifndef RUNTIMEOBJECT_H
 #define RUNTIMEOBJECT_H
 #ifdef __clang__
@@ -11721,8 +11721,8 @@ public:
 #pragma clang diagnostic pop
 #endif
 #endif // BANDWIDTH_T1072001620_H
-#ifndef U3CPRIVATEIMPLEMENTATIONDETAILSU3E_T3057255368_H
-#define U3CPRIVATEIMPLEMENTATIONDETAILSU3E_T3057255368_H
+#ifndef U3CPRIVATEIMPLEMENTATIONDETAILSU3E_T3057255369_H
+#define U3CPRIVATEIMPLEMENTATIONDETAILSU3E_T3057255369_H
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
@@ -11730,21 +11730,21 @@ public:
 #endif
 
 // <PrivateImplementationDetails>
-struct  U3CPrivateImplementationDetailsU3E_t3057255368  : public RuntimeObject
+struct  U3CPrivateImplementationDetailsU3E_t3057255369  : public RuntimeObject
 {
 public:
 
 public:
 };
 
-struct U3CPrivateImplementationDetailsU3E_t3057255368_StaticFields
+struct U3CPrivateImplementationDetailsU3E_t3057255369_StaticFields
 {
 public:
 	// <PrivateImplementationDetails>/$ArrayType=16 <PrivateImplementationDetails>::$field-7A078F136EEAACFF264DA2E9994AF7D3D3536738
 	U24ArrayTypeU3D16_t3253128244  ___U24fieldU2D7A078F136EEAACFF264DA2E9994AF7D3D3536738_0;
 
 public:
-	inline static int32_t get_offset_of_U24fieldU2D7A078F136EEAACFF264DA2E9994AF7D3D3536738_0() { return static_cast<int32_t>(offsetof(U3CPrivateImplementationDetailsU3E_t3057255368_StaticFields, ___U24fieldU2D7A078F136EEAACFF264DA2E9994AF7D3D3536738_0)); }
+	inline static int32_t get_offset_of_U24fieldU2D7A078F136EEAACFF264DA2E9994AF7D3D3536738_0() { return static_cast<int32_t>(offsetof(U3CPrivateImplementationDetailsU3E_t3057255369_StaticFields, ___U24fieldU2D7A078F136EEAACFF264DA2E9994AF7D3D3536738_0)); }
 	inline U24ArrayTypeU3D16_t3253128244  get_U24fieldU2D7A078F136EEAACFF264DA2E9994AF7D3D3536738_0() const { return ___U24fieldU2D7A078F136EEAACFF264DA2E9994AF7D3D3536738_0; }
 	inline U24ArrayTypeU3D16_t3253128244 * get_address_of_U24fieldU2D7A078F136EEAACFF264DA2E9994AF7D3D3536738_0() { return &___U24fieldU2D7A078F136EEAACFF264DA2E9994AF7D3D3536738_0; }
 	inline void set_U24fieldU2D7A078F136EEAACFF264DA2E9994AF7D3D3536738_0(U24ArrayTypeU3D16_t3253128244  value)
@@ -11756,7 +11756,7 @@ public:
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif
-#endif // U3CPRIVATEIMPLEMENTATIONDETAILSU3E_T3057255368_H
+#endif // U3CPRIVATEIMPLEMENTATIONDETAILSU3E_T3057255369_H
 #ifndef ANDROIDAUDIOINAEC_T2324915183_H
 #define ANDROIDAUDIOINAEC_T2324915183_H
 #ifdef __clang__
@@ -24653,7 +24653,7 @@ extern "C"  bool AndroidJavaObject_Call_TisBoolean_t97287965_m3947679609_gshared
 // !!0 UnityEngine.AndroidJavaObject::Call<System.Int32>(System.String,System.Object[])
 extern "C"  int32_t AndroidJavaObject_Call_TisInt32_t2950945753_m694707078_gshared (AndroidJavaObject_t4131667876 * __this, String_t* p0, ObjectU5BU5D_t2843939325* p1, const RuntimeMethod* method);
 // !!0 UnityEngine.AndroidJavaObject::GetStatic<System.Object>(System.String)
-extern "C"  RuntimeObject * AndroidJavaObject_GetStatic_TisRuntimeObject_m3787108634_gshared (AndroidJavaObject_t4131667876 * __this, String_t* p0, const RuntimeMethod* method);
+extern "C"  RuntimeObject * AndroidJavaObject_GetStatic_TisRuntimeObject_m2018075987_gshared (AndroidJavaObject_t4131667876 * __this, String_t* p0, const RuntimeMethod* method);
 // System.Void System.Action`1<System.Object>::Invoke(!0)
 extern "C"  void Action_1_Invoke_m2461023210_gshared (Action_1_t3252573759 * __this, RuntimeObject * p0, const RuntimeMethod* method);
 // System.Void System.Action`2<System.Object,System.Int32>::Invoke(!0,!1)
@@ -24940,7 +24940,7 @@ extern "C"  void Debug_LogFormat_m309087137 (RuntimeObject * __this /* static, u
 // System.Void UnityEngine.AndroidJavaClass::.ctor(System.String)
 extern "C"  void AndroidJavaClass__ctor_m366853020 (AndroidJavaClass_t32045322 * __this, String_t* p0, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
 // !!0 UnityEngine.AndroidJavaObject::GetStatic<UnityEngine.AndroidJavaObject>(System.String)
-#define AndroidJavaObject_GetStatic_TisAndroidJavaObject_t4131667876_m1414442298(__this, p0, method) ((  AndroidJavaObject_t4131667876 * (*) (AndroidJavaObject_t4131667876 *, String_t*, const RuntimeMethod*))AndroidJavaObject_GetStatic_TisRuntimeObject_m3787108634_gshared)(__this, p0, method)
+#define AndroidJavaObject_GetStatic_TisAndroidJavaObject_t4131667876_m100625750(__this, p0, method) ((  AndroidJavaObject_t4131667876 * (*) (AndroidJavaObject_t4131667876 *, String_t*, const RuntimeMethod*))AndroidJavaObject_GetStatic_TisRuntimeObject_m2018075987_gshared)(__this, p0, method)
 // System.IntPtr UnityEngine.AndroidJavaObject::GetRawClass()
 extern "C"  intptr_t AndroidJavaObject_GetRawClass_m2431450422 (AndroidJavaObject_t4131667876 * __this, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
 // System.IntPtr UnityEngine.AndroidJNI::GetMethodID(System.IntPtr,System.String,System.String)
@@ -26371,7 +26371,7 @@ IL_0011:
 		V_3 = L_30;
 		AndroidJavaClass_t32045322 * L_31 = V_3;
 		NullCheck(L_31);
-		AndroidJavaObject_t4131667876 * L_32 = AndroidJavaObject_GetStatic_TisAndroidJavaObject_t4131667876_m1414442298(L_31, _stringLiteral3452315504, /*hidden argument*/AndroidJavaObject_GetStatic_TisAndroidJavaObject_t4131667876_m1414442298_RuntimeMethod_var);
+		AndroidJavaObject_t4131667876 * L_32 = AndroidJavaObject_GetStatic_TisAndroidJavaObject_t4131667876_m100625750(L_31, _stringLiteral3452315504, /*hidden argument*/AndroidJavaObject_GetStatic_TisAndroidJavaObject_t4131667876_m100625750_RuntimeMethod_var);
 		V_4 = L_32;
 		AndroidJavaObject_t4131667876 * L_33 = __this->get_audioIn_0();
 		NullCheck(L_33);
@@ -37465,7 +37465,7 @@ extern "C"  void PhotonPing__ctor_m107287025 (PhotonPing_t1435838852 * __this, c
 		__this->set_DebugString_0(L_0);
 		__this->set_PingLength_3(((int32_t)13));
 		ByteU5BU5D_t4116647657* L_1 = ((ByteU5BU5D_t4116647657*)SZArrayNew(ByteU5BU5D_t4116647657_il2cpp_TypeInfo_var, (uint32_t)((int32_t)13)));
-		RuntimeFieldHandle_t1871169219  L_2 = { reinterpret_cast<intptr_t> (U3CPrivateImplementationDetailsU3E_t3057255368____U24fieldU2D7A078F136EEAACFF264DA2E9994AF7D3D3536738_0_FieldInfo_var) };
+		RuntimeFieldHandle_t1871169219  L_2 = { reinterpret_cast<intptr_t> (U3CPrivateImplementationDetailsU3E_t3057255369____U24fieldU2D7A078F136EEAACFF264DA2E9994AF7D3D3536738_0_FieldInfo_var) };
 		RuntimeHelpers_InitializeArray_m3117905507(NULL /*static, unused*/, (RuntimeArray *)(RuntimeArray *)L_1, L_2, /*hidden argument*/NULL);
 		__this->set_PingBytes_4(L_1);
 		Object__ctor_m297566312(__this, /*hidden argument*/NULL);

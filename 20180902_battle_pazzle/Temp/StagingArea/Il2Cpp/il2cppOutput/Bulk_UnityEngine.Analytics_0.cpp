@@ -249,13 +249,13 @@ extern RuntimeClass* AnalyticsEventTrackerSettings_t480422680_il2cpp_TypeInfo_va
 extern const uint32_t AnalyticsEventTrackerSettings__cctor_m99217142_MetadataUsageId;
 extern RuntimeClass* Dictionary_2_t2865362463_il2cpp_TypeInfo_var;
 extern RuntimeClass* TrackableProperty_t3943537984_il2cpp_TypeInfo_var;
-extern const RuntimeMethod* Dictionary_2__ctor_m1476497131_RuntimeMethod_var;
+extern const RuntimeMethod* Dictionary_2__ctor_m855809970_RuntimeMethod_var;
 extern const uint32_t AnalyticsTracker__ctor_m3762295226_MetadataUsageId;
 extern RuntimeClass* Object_t631007953_il2cpp_TypeInfo_var;
-extern const RuntimeMethod* Dictionary_2_Clear_m3181358953_RuntimeMethod_var;
+extern const RuntimeMethod* Dictionary_2_Clear_m3222456405_RuntimeMethod_var;
 extern const RuntimeMethod* List_1_get_Count_m3935023107_RuntimeMethod_var;
 extern const RuntimeMethod* List_1_get_Item_m1027239081_RuntimeMethod_var;
-extern const RuntimeMethod* Dictionary_2_set_Item_m1535556385_RuntimeMethod_var;
+extern const RuntimeMethod* Dictionary_2_set_Item_m464101897_RuntimeMethod_var;
 extern const uint32_t AnalyticsTracker_BuildParameters_m43920649_MetadataUsageId;
 extern RuntimeClass* TriggerListContainer_t2032715483_il2cpp_TypeInfo_var;
 extern const uint32_t EventTrigger__ctor_m3931360164_MetadataUsageId;
@@ -286,7 +286,7 @@ extern String_t* _stringLiteral892740262;
 extern String_t* _stringLiteral1762375535;
 extern const uint32_t StandardEventPayload_Send_m3454575092_MetadataUsageId;
 extern const RuntimeMethod* List_1_get_Item_m2228004625_RuntimeMethod_var;
-extern const RuntimeMethod* Dictionary_2_Add_m2942821800_RuntimeMethod_var;
+extern const RuntimeMethod* Dictionary_2_Add_m1195623271_RuntimeMethod_var;
 extern const RuntimeMethod* List_1_get_Count_m3831796040_RuntimeMethod_var;
 extern const uint32_t StandardEventPayload_GetParameters_m2672427676_MetadataUsageId;
 extern const uint32_t StandardEventPayload_IsCustomDataValid_m922891381_MetadataUsageId;
@@ -351,8 +351,8 @@ struct StringU5BU5D_t1281789340;
 struct CharU5BU5D_t3528271667;
 
 
-#ifndef U3CMODULEU3E_T692745546_H
-#define U3CMODULEU3E_T692745546_H
+#ifndef U3CMODULEU3E_T692745552_H
+#define U3CMODULEU3E_T692745552_H
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
@@ -360,7 +360,7 @@ struct CharU5BU5D_t3528271667;
 #endif
 
 // <Module>
-struct  U3CModuleU3E_t692745546 
+struct  U3CModuleU3E_t692745552 
 {
 public:
 
@@ -370,7 +370,7 @@ public:
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif
-#endif // U3CMODULEU3E_T692745546_H
+#endif // U3CMODULEU3E_T692745552_H
 #ifndef RUNTIMEOBJECT_H
 #define RUNTIMEOBJECT_H
 #ifdef __clang__
@@ -4451,7 +4451,7 @@ extern "C"  int32_t EventTrigger_get_repetitions_m2606968061 (EventTrigger_t2527
 // System.Void System.NotSupportedException::.ctor()
 extern "C"  void NotSupportedException__ctor_m2730133172 (NotSupportedException_t1314879016 * __this, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
 // System.Void System.Collections.Generic.Dictionary`2<System.String,System.Object>::.ctor()
-#define Dictionary_2__ctor_m1476497131(__this, method) ((  void (*) (Dictionary_2_t2865362463 *, const RuntimeMethod*))Dictionary_2__ctor_m518943619_gshared)(__this, method)
+#define Dictionary_2__ctor_m855809970(__this, method) ((  void (*) (Dictionary_2_t2865362463 *, const RuntimeMethod*))Dictionary_2__ctor_m518943619_gshared)(__this, method)
 // System.Void UnityEngine.Analytics.TrackableProperty::.ctor()
 extern "C"  void TrackableProperty__ctor_m29288901 (TrackableProperty_t3943537984 * __this, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
 // System.Void UnityEngine.Analytics.AnalyticsTracker::TriggerEvent()
@@ -4463,7 +4463,7 @@ extern "C"  void AnalyticsTracker_SendEvent_m2955089255 (AnalyticsTracker_t73102
 // UnityEngine.Analytics.AnalyticsResult UnityEngine.Analytics.Analytics::CustomEvent(System.String,System.Collections.Generic.IDictionary`2<System.String,System.Object>)
 extern "C"  int32_t Analytics_CustomEvent_m3835919949 (RuntimeObject * __this /* static, unused */, String_t* p0, RuntimeObject* p1, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
 // System.Void System.Collections.Generic.Dictionary`2<System.String,System.Object>::Clear()
-#define Dictionary_2_Clear_m3181358953(__this, method) ((  void (*) (Dictionary_2_t2865362463 *, const RuntimeMethod*))Dictionary_2_Clear_m1938428402_gshared)(__this, method)
+#define Dictionary_2_Clear_m3222456405(__this, method) ((  void (*) (Dictionary_2_t2865362463 *, const RuntimeMethod*))Dictionary_2_Clear_m1938428402_gshared)(__this, method)
 // System.Collections.Generic.List`1<UnityEngine.Analytics.TrackableProperty/FieldWithTarget> UnityEngine.Analytics.TrackableProperty::get_fields()
 extern "C"  List_1_t235857739 * TrackableProperty_get_fields_m3682628132 (TrackableProperty_t3943537984 * __this, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
 // System.Int32 System.Collections.Generic.List`1<UnityEngine.Analytics.TrackableProperty/FieldWithTarget>::get_Count()
@@ -4481,7 +4481,7 @@ extern "C"  RuntimeObject * FieldWithTarget_GetValue_m2315870500 (FieldWithTarge
 // System.String UnityEngine.Analytics.TrackableProperty/FieldWithTarget::get_paramName()
 extern "C"  String_t* FieldWithTarget_get_paramName_m3501478659 (FieldWithTarget_t3058750293 * __this, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
 // System.Void System.Collections.Generic.Dictionary`2<System.String,System.Object>::set_Item(!0,!1)
-#define Dictionary_2_set_Item_m1535556385(__this, p0, p1, method) ((  void (*) (Dictionary_2_t2865362463 *, String_t*, RuntimeObject *, const RuntimeMethod*))Dictionary_2_set_Item_m3474379962_gshared)(__this, p0, p1, method)
+#define Dictionary_2_set_Item_m464101897(__this, p0, p1, method) ((  void (*) (Dictionary_2_t2865362463 *, String_t*, RuntimeObject *, const RuntimeMethod*))Dictionary_2_set_Item_m3474379962_gshared)(__this, p0, p1, method)
 // System.Void UnityEngine.Analytics.TriggerListContainer::.ctor()
 extern "C"  void TriggerListContainer__ctor_m1390596431 (TriggerListContainer_t2032715483 * __this, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
 // System.Void UnityEngine.Analytics.TriggerRule::.ctor()
@@ -4543,7 +4543,7 @@ extern "C"  String_t* AnalyticsEventParam_get_name_m708127086 (AnalyticsEventPar
 // System.Object UnityEngine.Analytics.AnalyticsEventParam::get_value()
 extern "C"  RuntimeObject * AnalyticsEventParam_get_value_m2837935290 (AnalyticsEventParam_t2480121928 * __this, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
 // System.Void System.Collections.Generic.Dictionary`2<System.String,System.Object>::Add(!0,!1)
-#define Dictionary_2_Add_m2942821800(__this, p0, p1, method) ((  void (*) (Dictionary_2_t2865362463 *, String_t*, RuntimeObject *, const RuntimeMethod*))Dictionary_2_Add_m2387223709_gshared)(__this, p0, p1, method)
+#define Dictionary_2_Add_m1195623271(__this, p0, p1, method) ((  void (*) (Dictionary_2_t2865362463 *, String_t*, RuntimeObject *, const RuntimeMethod*))Dictionary_2_Add_m2387223709_gshared)(__this, p0, p1, method)
 // System.Int32 System.Collections.Generic.List`1<UnityEngine.Analytics.AnalyticsEventParam>::get_Count()
 #define List_1_get_Count_m3831796040(__this, method) ((  int32_t (*) (List_1_t3952196670 *, const RuntimeMethod*))List_1_get_Count_m2934127733_gshared)(__this, method)
 // System.Void System.Collections.Generic.Dictionary`2<System.String,System.Collections.Generic.List`1<System.Boolean>>::.ctor()
@@ -5462,7 +5462,7 @@ extern "C"  void AnalyticsTracker__ctor_m3762295226 (AnalyticsTracker_t731021378
 	}
 	{
 		Dictionary_2_t2865362463 * L_0 = (Dictionary_2_t2865362463 *)il2cpp_codegen_object_new(Dictionary_2_t2865362463_il2cpp_TypeInfo_var);
-		Dictionary_2__ctor_m1476497131(L_0, /*hidden argument*/Dictionary_2__ctor_m1476497131_RuntimeMethod_var);
+		Dictionary_2__ctor_m855809970(L_0, /*hidden argument*/Dictionary_2__ctor_m855809970_RuntimeMethod_var);
 		__this->set_m_Dict_3(L_0);
 		__this->set_m_PrevDictHash_4(0);
 		TrackableProperty_t3943537984 * L_1 = (TrackableProperty_t3943537984 *)il2cpp_codegen_object_new(TrackableProperty_t3943537984_il2cpp_TypeInfo_var);
@@ -5685,7 +5685,7 @@ extern "C"  void AnalyticsTracker_BuildParameters_m43920649 (AnalyticsTracker_t7
 	{
 		Dictionary_2_t2865362463 * L_4 = __this->get_m_Dict_3();
 		NullCheck(L_4);
-		Dictionary_2_Clear_m3181358953(L_4, /*hidden argument*/Dictionary_2_Clear_m3181358953_RuntimeMethod_var);
+		Dictionary_2_Clear_m3222456405(L_4, /*hidden argument*/Dictionary_2_Clear_m3222456405_RuntimeMethod_var);
 	}
 
 IL_0024:
@@ -5745,7 +5745,7 @@ IL_0072:
 		String_t* L_23 = FieldWithTarget_get_paramName_m3501478659(L_22, /*hidden argument*/NULL);
 		String_t* L_24 = V_4;
 		NullCheck(L_21);
-		Dictionary_2_set_Item_m1535556385(L_21, L_23, L_24, /*hidden argument*/Dictionary_2_set_Item_m1535556385_RuntimeMethod_var);
+		Dictionary_2_set_Item_m464101897(L_21, L_23, L_24, /*hidden argument*/Dictionary_2_set_Item_m464101897_RuntimeMethod_var);
 	}
 
 IL_0094:
@@ -6595,7 +6595,7 @@ extern "C"  RuntimeObject* StandardEventPayload_GetParameters_m2672427676 (Stand
 		IL2CPP_RUNTIME_CLASS_INIT(StandardEventPayload_t1629891255_il2cpp_TypeInfo_var);
 		Dictionary_2_t2865362463 * L_0 = ((StandardEventPayload_t1629891255_StaticFields*)il2cpp_codegen_static_fields_for(StandardEventPayload_t1629891255_il2cpp_TypeInfo_var))->get_m_EventData_4();
 		NullCheck(L_0);
-		Dictionary_2_Clear_m3181358953(L_0, /*hidden argument*/Dictionary_2_Clear_m3181358953_RuntimeMethod_var);
+		Dictionary_2_Clear_m3222456405(L_0, /*hidden argument*/Dictionary_2_Clear_m3222456405_RuntimeMethod_var);
 		AnalyticsEventParamListContainer_t587083383 * L_1 = StandardEventPayload_get_parameters_m4209814697(__this, /*hidden argument*/NULL);
 		NullCheck(L_1);
 		List_1_t3952196670 * L_2 = AnalyticsEventParamListContainer_get_parameters_m4180299006(L_1, /*hidden argument*/NULL);
@@ -6645,7 +6645,7 @@ IL_001e:
 		NullCheck(L_18);
 		RuntimeObject * L_19 = AnalyticsEventParam_get_value_m2837935290(L_18, /*hidden argument*/NULL);
 		NullCheck(L_11);
-		Dictionary_2_Add_m2942821800(L_11, L_15, L_19, /*hidden argument*/Dictionary_2_Add_m2942821800_RuntimeMethod_var);
+		Dictionary_2_Add_m1195623271(L_11, L_15, L_19, /*hidden argument*/Dictionary_2_Add_m1195623271_RuntimeMethod_var);
 	}
 
 IL_0065:
@@ -7112,7 +7112,7 @@ extern "C"  void StandardEventPayload__cctor_m3346303468 (RuntimeObject * __this
 	}
 	{
 		Dictionary_2_t2865362463 * L_0 = (Dictionary_2_t2865362463 *)il2cpp_codegen_object_new(Dictionary_2_t2865362463_il2cpp_TypeInfo_var);
-		Dictionary_2__ctor_m1476497131(L_0, /*hidden argument*/Dictionary_2__ctor_m1476497131_RuntimeMethod_var);
+		Dictionary_2__ctor_m855809970(L_0, /*hidden argument*/Dictionary_2__ctor_m855809970_RuntimeMethod_var);
 		((StandardEventPayload_t1629891255_StaticFields*)il2cpp_codegen_static_fields_for(StandardEventPayload_t1629891255_il2cpp_TypeInfo_var))->set_m_EventData_4(L_0);
 		return;
 	}
@@ -7285,7 +7285,7 @@ IL_0057:
 		PropertyInfo_t * L_16 = V_5;
 		RuntimeObject * L_17 = V_1;
 		NullCheck(L_16);
-		RuntimeObject * L_18 = VirtFuncInvoker2< RuntimeObject *, RuntimeObject *, ObjectU5BU5D_t2843939325* >::Invoke(24 /* System.Object System.Reflection.PropertyInfo::GetValue(System.Object,System.Object[]) */, L_16, L_17, (ObjectU5BU5D_t2843939325*)(ObjectU5BU5D_t2843939325*)NULL);
+		RuntimeObject * L_18 = VirtFuncInvoker2< RuntimeObject *, RuntimeObject *, ObjectU5BU5D_t2843939325* >::Invoke(25 /* System.Object System.Reflection.PropertyInfo::GetValue(System.Object,System.Object[]) */, L_16, L_17, (ObjectU5BU5D_t2843939325*)(ObjectU5BU5D_t2843939325*)NULL);
 		V_1 = L_18;
 		goto IL_0095;
 	} // end try (depth: 1)
@@ -7309,7 +7309,7 @@ CATCH_0076:
 		FieldInfo_t * L_23 = V_6;
 		RuntimeObject * L_24 = V_1;
 		NullCheck(L_23);
-		RuntimeObject * L_25 = VirtFuncInvoker1< RuntimeObject *, RuntimeObject * >::Invoke(17 /* System.Object System.Reflection.FieldInfo::GetValue(System.Object) */, L_23, L_24);
+		RuntimeObject * L_25 = VirtFuncInvoker1< RuntimeObject *, RuntimeObject * >::Invoke(18 /* System.Object System.Reflection.FieldInfo::GetValue(System.Object) */, L_23, L_24);
 		V_1 = L_25;
 		goto IL_0095;
 	} // end catch (depth: 1)
@@ -7718,7 +7718,7 @@ IL_0040:
 		PropertyInfo_t * L_19 = V_6;
 		RuntimeObject * L_20 = V_1;
 		NullCheck(L_19);
-		RuntimeObject * L_21 = VirtFuncInvoker2< RuntimeObject *, RuntimeObject *, ObjectU5BU5D_t2843939325* >::Invoke(24 /* System.Object System.Reflection.PropertyInfo::GetValue(System.Object,System.Object[]) */, L_19, L_20, (ObjectU5BU5D_t2843939325*)(ObjectU5BU5D_t2843939325*)NULL);
+		RuntimeObject * L_21 = VirtFuncInvoker2< RuntimeObject *, RuntimeObject *, ObjectU5BU5D_t2843939325* >::Invoke(25 /* System.Object System.Reflection.PropertyInfo::GetValue(System.Object,System.Object[]) */, L_19, L_20, (ObjectU5BU5D_t2843939325*)(ObjectU5BU5D_t2843939325*)NULL);
 		V_1 = L_21;
 		goto IL_0099;
 	}
@@ -7735,7 +7735,7 @@ IL_007a:
 		FieldInfo_t * L_23 = V_7;
 		RuntimeObject * L_24 = V_1;
 		NullCheck(L_23);
-		RuntimeObject * L_25 = VirtFuncInvoker1< RuntimeObject *, RuntimeObject * >::Invoke(17 /* System.Object System.Reflection.FieldInfo::GetValue(System.Object) */, L_23, L_24);
+		RuntimeObject * L_25 = VirtFuncInvoker1< RuntimeObject *, RuntimeObject * >::Invoke(18 /* System.Object System.Reflection.FieldInfo::GetValue(System.Object) */, L_23, L_24);
 		V_1 = L_25;
 		goto IL_0099;
 	}

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4781740707611668}
   - component: {fileID: 212822046294466814}
   - component: {fileID: 114298397751639596}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Block
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 259aa72fc037143bfa28ab22b370ec09, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 06470903042d54244802281ac7e19d0a, type: 3}
   m_Color: {r: 0, g: 1, b: 0.06572676, a: 1}
   m_FlipX: 0
   m_FlipY: 0

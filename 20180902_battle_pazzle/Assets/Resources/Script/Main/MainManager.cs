@@ -47,6 +47,8 @@ public class MainManager : MonoBehaviour {
     private FadeManager _fadeManager;
     [SerializeField, Tooltip("サウンド管理")]
     private SoundManager _soundManager;
+    [SerializeField, Tooltip("Ads管理")]
+    private AdsManager _adsManager;
 
 	// デバッグ用
 	[SerializeField]
@@ -111,6 +113,9 @@ public class MainManager : MonoBehaviour {
     public SoundManager SoundManager{
         get{return _soundManager;}
     }
+    public AdsManager AdsManager{
+        get{return _adsManager;}
+    }
 	#endregion
 
 	void Awake()
@@ -160,6 +165,7 @@ public class MainManager : MonoBehaviour {
 			// ルームの募集をオフにして途中入室不可に
 			PhotonNetwork.room.IsOpen    = false;
 			PhotonNetwork.room.IsVisible = false;
+            _adsManager.ShowRewardedAd();
 		}
 		++debugCounter;
 

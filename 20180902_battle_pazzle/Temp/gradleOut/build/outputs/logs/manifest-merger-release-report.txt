@@ -31,15 +31,16 @@ ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gra
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:3:135-160
 application
 ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:4:3-16:17
-MERGED from [:audioinaec:] /Users/sho/.android/build-cache/f2991f112df8510d3a992588cf854a5d89a8ee25/output/AndroidManifest.xml:13:5-17:19
+MERGED from [:audioinaec:] /Users/sho/.android/build-cache/db03a26b137e1aff926e316c2b6feaf83b58e034/output/AndroidManifest.xml:13:5-17:19
+MERGED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:14:5-35:19
 	android:label
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:4:92-124
 	android:supportsRtl
-		ADDED from [:audioinaec:] /Users/sho/.android/build-cache/f2991f112df8510d3a992588cf854a5d89a8ee25/output/AndroidManifest.xml:16:9-35
+		ADDED from [:audioinaec:] /Users/sho/.android/build-cache/db03a26b137e1aff926e316c2b6feaf83b58e034/output/AndroidManifest.xml:16:9-35
 	android:icon
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:4:58-91
 	android:allowBackup
-		ADDED from [:audioinaec:] /Users/sho/.android/build-cache/f2991f112df8510d3a992588cf854a5d89a8ee25/output/AndroidManifest.xml:14:9-35
+		ADDED from [:audioinaec:] /Users/sho/.android/build-cache/db03a26b137e1aff926e316c2b6feaf83b58e034/output/AndroidManifest.xml:14:9-35
 	android:banner
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:4:147-184
 	android:theme
@@ -104,6 +105,7 @@ ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gra
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:17:17-49
 uses-permission#android.permission.INTERNET
 ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:18:3-65
+MERGED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:12:5-67
 	android:name
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:18:20-62
 uses-permission#android.permission.RECORD_AUDIO
@@ -136,7 +138,8 @@ ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gra
 		ADDED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml:23:17-80
 uses-sdk
 INJECTED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml reason: use-sdk injection requested
-MERGED from [:audioinaec:] /Users/sho/.android/build-cache/f2991f112df8510d3a992588cf854a5d89a8ee25/output/AndroidManifest.xml:7:5-9:41
+MERGED from [:audioinaec:] /Users/sho/.android/build-cache/db03a26b137e1aff926e316c2b6feaf83b58e034/output/AndroidManifest.xml:7:5-9:41
+MERGED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:7:5-9:41
 	android:targetSdkVersion
 		INJECTED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml
 		INJECTED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml
@@ -144,6 +147,50 @@ MERGED from [:audioinaec:] /Users/sho/.android/build-cache/f2991f112df8510d3a992
 		INJECTED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml
 		INJECTED from /Users/sho/Documents/git/BattlePazzle/20180902_battle_pazzle/Temp/gradleOut/src/main/AndroidManifest.xml
 uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
-ADDED from [:audioinaec:] /Users/sho/.android/build-cache/f2991f112df8510d3a992588cf854a5d89a8ee25/output/AndroidManifest.xml:11:5-80
+ADDED from [:audioinaec:] /Users/sho/.android/build-cache/db03a26b137e1aff926e316c2b6feaf83b58e034/output/AndroidManifest.xml:11:5-80
 	android:name
-		ADDED from [:audioinaec:] /Users/sho/.android/build-cache/f2991f112df8510d3a992588cf854a5d89a8ee25/output/AndroidManifest.xml:11:22-77
+		ADDED from [:audioinaec:] /Users/sho/.android/build-cache/db03a26b137e1aff926e316c2b6feaf83b58e034/output/AndroidManifest.xml:11:22-77
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:11:5-79
+	android:name
+		ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:11:22-76
+activity#com.unity3d.ads.adunit.AdUnitActivity
+ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:15:9-19:74
+	android:hardwareAccelerated
+		ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:18:13-47
+	android:configChanges
+		ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:17:13-170
+	android:theme
+		ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:19:13-71
+	android:name
+		ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:16:13-65
+activity#com.unity3d.ads.adunit.AdUnitTransparentActivity
+ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:20:9-24:86
+	android:hardwareAccelerated
+		ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:23:13-47
+	android:configChanges
+		ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:22:13-170
+	android:theme
+		ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:24:13-83
+	android:name
+		ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:21:13-76
+activity#com.unity3d.ads.adunit.AdUnitTransparentSoftwareActivity
+ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:25:9-29:86
+	android:hardwareAccelerated
+		ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:28:13-48
+	android:configChanges
+		ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:27:13-170
+	android:theme
+		ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:29:13-83
+	android:name
+		ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:26:13-84
+activity#com.unity3d.ads.adunit.AdUnitSoftwareActivity
+ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:30:9-34:74
+	android:hardwareAccelerated
+		ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:33:13-48
+	android:configChanges
+		ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:32:13-170
+	android:theme
+		ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:34:13-71
+	android:name
+		ADDED from [:unity-ads:] /Users/sho/.android/build-cache/df59537789d53f1c1f866076f4d38f29dab2ab8e/output/AndroidManifest.xml:31:13-73

@@ -517,8 +517,18 @@ public:
 struct  UsedByNativeCodeAttribute_t1703770351  : public Attribute_t861562559
 {
 public:
+	// System.String UnityEngine.Scripting.UsedByNativeCodeAttribute::<Name>k__BackingField
+	String_t* ___U3CNameU3Ek__BackingField_0;
 
 public:
+	inline static int32_t get_offset_of_U3CNameU3Ek__BackingField_0() { return static_cast<int32_t>(offsetof(UsedByNativeCodeAttribute_t1703770351, ___U3CNameU3Ek__BackingField_0)); }
+	inline String_t* get_U3CNameU3Ek__BackingField_0() const { return ___U3CNameU3Ek__BackingField_0; }
+	inline String_t** get_address_of_U3CNameU3Ek__BackingField_0() { return &___U3CNameU3Ek__BackingField_0; }
+	inline void set_U3CNameU3Ek__BackingField_0(String_t* value)
+	{
+		___U3CNameU3Ek__BackingField_0 = value;
+		Il2CppCodeGenWriteBarrier((&___U3CNameU3Ek__BackingField_0), value);
+	}
 };
 
 #ifdef __clang__
@@ -1406,6 +1416,8 @@ extern "C"  void StaticAccessorAttribute_set_Name_m2926172476 (StaticAccessorAtt
 extern "C"  void StaticAccessorAttribute_set_Type_m2333258271 (StaticAccessorAttribute_t2432663902 * __this, int32_t ___value0, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
 // System.Void UnityEngine.Scripting.GenerateManagedProxyAttribute::set_NativeType(System.String)
 extern "C"  void GenerateManagedProxyAttribute_set_NativeType_m3203265247 (GenerateManagedProxyAttribute_t2394178854 * __this, String_t* ___value0, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
+// System.Void UnityEngine.Scripting.UsedByNativeCodeAttribute::set_Name(System.String)
+extern "C"  void UsedByNativeCodeAttribute_set_Name_m192590944 (UsedByNativeCodeAttribute_t1703770351 * __this, String_t* ___value0, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
 // System.String System.String::Format(System.String,System.Object[])
 extern "C"  String_t* String_Format_m630303134 (RuntimeObject * __this /* static, unused */, String_t* p0, ObjectU5BU5D_t2843939325* p1, const RuntimeMethod* method) IL2CPP_METHOD_ATTR;
 #ifdef __clang__
@@ -2133,6 +2145,25 @@ extern "C"  void UsedByNativeCodeAttribute__ctor_m2647015777 (UsedByNativeCodeAt
 {
 	{
 		Attribute__ctor_m1529526131(__this, /*hidden argument*/NULL);
+		return;
+	}
+}
+// System.Void UnityEngine.Scripting.UsedByNativeCodeAttribute::.ctor(System.String)
+extern "C"  void UsedByNativeCodeAttribute__ctor_m3631197549 (UsedByNativeCodeAttribute_t1703770351 * __this, String_t* ___name0, const RuntimeMethod* method)
+{
+	{
+		Attribute__ctor_m1529526131(__this, /*hidden argument*/NULL);
+		String_t* L_0 = ___name0;
+		UsedByNativeCodeAttribute_set_Name_m192590944(__this, L_0, /*hidden argument*/NULL);
+		return;
+	}
+}
+// System.Void UnityEngine.Scripting.UsedByNativeCodeAttribute::set_Name(System.String)
+extern "C"  void UsedByNativeCodeAttribute_set_Name_m192590944 (UsedByNativeCodeAttribute_t1703770351 * __this, String_t* ___value0, const RuntimeMethod* method)
+{
+	{
+		String_t* L_0 = ___value0;
+		__this->set_U3CNameU3Ek__BackingField_0(L_0);
 		return;
 	}
 }
