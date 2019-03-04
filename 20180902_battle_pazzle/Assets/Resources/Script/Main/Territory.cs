@@ -25,14 +25,14 @@ public class Territory : MonoBehaviour {
 		switch(playerType){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:
 			_sprite.color = Common.Const.MASTER_COLOR;
-			_direction    = playerType == parentPlayerType ? -1 : 1;
 			break;
 		case (int)Common.Const.PLAYER_TYPE.GUEST:
 			_sprite.color = Common.Const.GUEST_COLOR;
-			_direction    = playerType == parentPlayerType ? -1 : 1;
 			break;
 		}
-		_playerType = playerType;
+        _direction            = playerType == parentPlayerType ? -1 : 1;
+        transform.eulerAngles = new Vector3(0.0f, 0.0f, playerType == parentPlayerType ? 0.0f : 180.0f);
+		_playerType           = playerType;
 	}
 
 	/// <summary>
@@ -45,5 +45,19 @@ public class Territory : MonoBehaviour {
 		_sprite.size            = new Vector2(Common.Const.BLOCK_SIZE * Common.Const.NUM_WIDTH + addSize, Common.Const.BLOCK_SIZE * line + addSize);
 		transform.localPosition = new Vector3(0.0f, (Common.Const.NUM_HEIGHT - line) * Common.Const.BLOCK_SIZE_HALF * _direction, 0.0f);
 	}
+
+    private IEnumerator SizeChangeAnimation(int line)
+    {
+        var addSize        = Common.Const.BLOCK_SIZE_HALF / 2.0f;
+        var targetSize     = new Vector2(Common.Const.BLOCK_SIZE * Common.Const.NUM_WIDTH + addSize, Common.Const.BLOCK_SIZE * line + addSize);
+        var targetPosition = new Vector3(0.0f, (Common.Const.NUM_HEIGHT - line) * Common.Const.BLOCK_SIZE_HALF * _direction, 0.0f);
+        var startSize      = _sprite.size;
+        var startPosition  = transform.localPosition;
+        while(_sprite.size.y - targetSize.y > 0.1f || _sprite.size.y - targetSize.y < -0.1f){
+            yield return null;
+
+        }   
+        yield return null;
+    }
 	#endregion
 }

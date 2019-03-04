@@ -37,11 +37,11 @@ public class Panel : MonoBehaviour {
 		switch(state){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:
 //			_sprite.color = Color.white;
-            _sprite.color = Common.Const.MASTER_COLOR * 0.4f;
+            _sprite.color = Common.Const.MASTER_COLOR * 0.1f;
 			break;
 		case (int)Common.Const.PLAYER_TYPE.GUEST:
 //			_sprite.color = Color.white;
-            _sprite.color = Common.Const.GUEST_COLOR * 0.4f;
+            _sprite.color = Common.Const.GUEST_COLOR * 0.1f;
 			break;
 		}
 		_state = state;
@@ -54,4 +54,32 @@ public class Panel : MonoBehaviour {
 			yield return null;
 		}
 	}
+
+    public void StateChange(int state)
+    {
+        _state = state;
+        StartCoroutine(StateChangeAnimation());
+    }
+
+    private IEnumerator StateChangeAnimation()
+    {
+        while(transform.eulerAngles.x < 90.0f){
+            yield return null;
+            transform.Rotate(new Vector3(5.0f, 0.0f, 0.0f));
+        }
+        transform.eulerAngles = new Vector3(-90.0f, 0.0f, 0.0f);
+		switch(_state){
+		case (int)Common.Const.PLAYER_TYPE.MASTER:
+            _sprite.color = Common.Const.MASTER_COLOR * 0.1f;
+			break;
+		case (int)Common.Const.PLAYER_TYPE.GUEST:
+            _sprite.color = Common.Const.GUEST_COLOR * 0.1f;
+			break;
+		}
+        while(transform.eulerAngles.x < 0.0f){
+            yield return null;
+            transform.Rotate(new Vector3(5.0f, 0.0f, 0.0f));
+        }
+        transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+    }
 }

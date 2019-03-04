@@ -125,7 +125,7 @@ public class ClientManager : MonoBehaviour {
 				var area  = Instantiate(_mainManager.AreaPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * scaleRate, Quaternion.identity, parentTransform).GetComponent<Area>();
 				var panel = Instantiate(_mainManager.PanelPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * scaleRate, Quaternion.identity, area.transform).GetComponent<Panel>();
 				//var panel = Instantiate(_mainManager.PanelPrefab, Vector3.zero, Quaternion.identity, area.transform).GetComponent<Panel>();
-				panel.SetState(state_list[i][j]);
+				panel.StateChange(state_list[i][j]);
 				area.Init(panel, state_list[i][j], 0);
 				_areaList[i].Add(area);
 			}
@@ -275,7 +275,7 @@ public class ClientManager : MonoBehaviour {
 			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
 
 				if(panelList[i][j] != _areaList[i][j].Panel.State){
-					_areaList[i][j].Panel.SetState(panelList[i][j]);
+					_areaList[i][j].Panel.StateChange(panelList[i][j]);
 				}
 			}
 		}
@@ -331,7 +331,7 @@ public class ClientManager : MonoBehaviour {
 		}
 		// タイムリミット表示
 		_turnTimeLimit = Common.Const.TURN_TIME;
-		GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "Limit:"+_turnTimeLimit;
+		GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "Time:"+_turnTimeLimit;
 		if(_turnTimeLimitCoroutine != null){
 			StopCoroutine(_turnTimeLimitCoroutine);
 			_turnTimeLimitCoroutine = null;
@@ -620,10 +620,10 @@ public class ClientManager : MonoBehaviour {
 				_turnTimeLimit = 0.0f;
 				break;
 			}
-			GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "Limit:"+(int)_turnTimeLimit;
+			GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "Time:"+(int)_turnTimeLimit;
 			yield return null;
 		}
-		GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "Limit:"+(int)_turnTimeLimit;
+		GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "Time:"+(int)_turnTimeLimit;
 		// ターン変更処理
 		PassTurn();
 	}

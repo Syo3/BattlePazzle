@@ -8,6 +8,8 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
     #region SerializeField
     [SerializeField, Tooltip("表示用親要素")]
     private GameObject _blockParent;
+    [SerializeField, Tooltip("アニメーター")]
+    private Animator _animator;
     #endregion
 
     #region private field
@@ -57,7 +59,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         transform.localPosition = new Vector3(x, y, 0.0f);
         SendBlock();
         _blockParent.transform.localPosition = Vector3.zero;
-        _blockParent.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        //_blockParent.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
     }
 
@@ -138,6 +140,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
                 _blockList[i][j].SetPlacementColor();
             }
         }
+        _blockParent.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
     }
 
     /// <summary>
@@ -178,8 +181,6 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
 
         // 生成
         _blockList    = new List<List<PlacementBlock>>();
-
-
         _blockParent.transform.localScale = Vector3.one;
         for(var i = 0; i < blcokData.Count; ++i){
 
@@ -193,7 +194,31 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
                 }
             }
         }
+        _blockParent.transform.localScale = Vector3.zero;
+        Debug.Log(_blockParent.transform.localScale);
+        StartCoroutine(CreateAnimation());
+    }
+
+    private IEnumerator CreateAnimation()
+    {
+        _blockParent.transform.localScale = Vector3.zero;
+        yield return null;
+        _blockParent.transform.localScale = Vector3.zero;
+        Debug.Log(_blockParent.transform.localScale);
+        yield return null;
+
+
+        Debug.Log(_blockParent.transform.localScale);
+        while(_blockParent.transform.localScale.x < 0.5f){
+
+            yield return null;
+            _blockParent.transform.localScale += new Vector3(0.05f, 0.05f, 0.05f);
+            Debug.Log(Vector3.one * 0.05f);
+            Debug.Log(_blockParent.transform.localScale);
+        }
+
         _blockParent.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        Debug.Log(_blockParent.transform.localScale);
     }
 
     /// <summary>

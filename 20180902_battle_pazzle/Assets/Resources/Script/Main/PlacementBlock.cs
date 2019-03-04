@@ -49,10 +49,10 @@ public class PlacementBlock : MonoBehaviour {
 	{
 		switch(_playerType){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:
-			_sprite.color  = new Color(Common.Const.MASTER_COLOR.r / 2, Common.Const.MASTER_COLOR.g / 2, Common.Const.MASTER_COLOR.b / 2, 1);
+			_sprite.color  = new Color(Common.Const.MASTER_COLOR.r * 0.005f, Common.Const.MASTER_COLOR.g * 0.005f, Common.Const.MASTER_COLOR.b * 0.005f, 1);
 			break;
 		case (int)Common.Const.PLAYER_TYPE.GUEST:
-			_sprite.color  = new Color(Common.Const.GUEST_COLOR.r / 2, Common.Const.GUEST_COLOR.g / 2, Common.Const.GUEST_COLOR.b / 2, 1);
+			_sprite.color  = new Color(Common.Const.GUEST_COLOR.r * 0.005f, Common.Const.GUEST_COLOR.g * 0.005f, Common.Const.GUEST_COLOR.b * 0.005f, 1);
 			break;
 		}	
 	}
