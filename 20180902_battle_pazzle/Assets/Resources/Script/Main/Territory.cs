@@ -41,10 +41,17 @@ public class Territory : MonoBehaviour {
 	/// <param name="line"></param>
 	public void SetSize(int line)
 	{
-        var addSize             = Common.Const.BLOCK_SIZE_HALF / 2.0f;
+        Debug.Log("set size");
+        var addSize             = line != 0 ? Common.Const.BLOCK_SIZE_HALF / 2.0f : 0.0f;
 		_sprite.size            = new Vector2(Common.Const.BLOCK_SIZE * Common.Const.NUM_WIDTH + addSize, Common.Const.BLOCK_SIZE * line + addSize);
 		transform.localPosition = new Vector3(0.0f, (Common.Const.NUM_HEIGHT - line) * Common.Const.BLOCK_SIZE_HALF * _direction, 0.0f);
 	}
+
+    public void ChangeSize(int line)
+    {
+        Debug.Log("change size");
+        StartCoroutine(SizeChangeAnimation(line));
+    }
 
     private IEnumerator SizeChangeAnimation(int line)
     {
@@ -53,11 +60,16 @@ public class Territory : MonoBehaviour {
         var targetPosition = new Vector3(0.0f, (Common.Const.NUM_HEIGHT - line) * Common.Const.BLOCK_SIZE_HALF * _direction, 0.0f);
         var startSize      = _sprite.size;
         var startPosition  = transform.localPosition;
+        var cnt            = 0;
         while(_sprite.size.y - targetSize.y > 0.1f || _sprite.size.y - targetSize.y < -0.1f){
-            yield return null;
 
-        }   
-        yield return null;
+            yield return null;
+            _sprite.size            = Vector2.Lerp(startSize, targetSize, 1.0f / 20 * cnt);
+            transform.localPosition = Vector3.Lerp(startPosition, targetPosition, 1.0f / 20 * cnt);
+            ++cnt;
+        }
+        _sprite.size            = targetSize;
+        transform.localPosition = targetPosition;
     }
 	#endregion
 }

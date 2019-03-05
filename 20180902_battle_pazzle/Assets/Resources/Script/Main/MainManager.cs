@@ -38,7 +38,7 @@ public class MainManager : MonoBehaviour {
 	[SerializeField, Tooltip("陣地線")]
 	private TerritotyLine _territoryLine;
 	[SerializeField, Tooltip("勝敗ビュー")]
-	private CanvasGroup _victoryView;
+	private VictoryView _victoryView;
 	[SerializeField, Tooltip("パスボタン")]
 	private Button _passButton;
 	[SerializeField, Tooltip("通話プレハブ")]
@@ -49,6 +49,8 @@ public class MainManager : MonoBehaviour {
     private SoundManager _soundManager;
     [SerializeField, Tooltip("Ads管理")]
     private AdsManager _adsManager;
+    [SerializeField, Tooltip("シーン遷移コンテナ")]
+    private GameObject _sceneContainer;
 
 	// デバッグ用
 	[SerializeField]
@@ -104,9 +106,6 @@ public class MainManager : MonoBehaviour {
 	public TerritotyLine TerritoryLine{
 		get{return _territoryLine;}
 	}
-	public CanvasGroup VictoryView{
-		get{return _victoryView;}
-	}
     public FadeManager FadeManager{
         get{return _fadeManager;}
     }
@@ -115,6 +114,9 @@ public class MainManager : MonoBehaviour {
     }
     public AdsManager AdsManager{
         get{return _adsManager;}
+    }
+    public VictoryView VictoryView{
+        get{return _victoryView;}
     }
 	#endregion
 
@@ -128,6 +130,7 @@ public class MainManager : MonoBehaviour {
 	void Start()
 	{
 		_blockListKey = 0;
+        _victoryView.Init(this);
 
 		// デバッグフラグチェック
 		var sceneContainer = FindObjectOfType<SceneContainer>();
@@ -310,4 +313,11 @@ public class MainManager : MonoBehaviour {
 			yield return null;
 		}
 	}
+
+    public void CreateContainer()
+    {
+		var sceneContainer = Instantiate(_sceneContainer).GetComponent<SceneContainer>();
+		DontDestroyOnLoad(sceneContainer);
+        sceneContainer.DebugFlg = _debugFlg;
+    }
 }

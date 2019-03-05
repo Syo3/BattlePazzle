@@ -138,7 +138,7 @@ public class ClientManager : MonoBehaviour {
 		_holdBlockList = new List<HoldBlock>();
 		for(var i = 0; i < 3; ++i){
 
-			var holdBlock = Instantiate(_mainManager.HoldBlockPrefab, new Vector3(2.0f * i - 2.0f, -3.0f, 0.0f), Quaternion.identity, _mainManager.HoldParentTransform).GetComponent<HoldBlock>();
+			var holdBlock = Instantiate(_mainManager.HoldBlockPrefab, new Vector3(2.0f * i - 2.0f, -4.0f, 0.0f), Quaternion.identity, _mainManager.HoldParentTransform).GetComponent<HoldBlock>();
 			holdBlock.Init(_mainManager);
 			_holdBlockList.Add(holdBlock);
 		}
@@ -357,32 +357,24 @@ public class ClientManager : MonoBehaviour {
 	/// <param name="playerType">勝利したユーザータイプ</param>
 	public void GameEnd(Common.Const.PLAYER_TYPE playerType, bool drawFlg)
 	{		
-		_gameEndFlg = true;
+		_gameEndFlg       = true;
+        var victoryString = "";
 		if(!drawFlg){
 			// 勝ち
 			if(_playerType == playerType){
-				GameObject.Find("VictoryText").GetComponent<TMPro.TextMeshProUGUI>().text = "Win";
+                victoryString = "Win";
 			}
 			// 負け
 			else{
-				GameObject.Find("VictoryText").GetComponent<TMPro.TextMeshProUGUI>().text = "Lose";
+                victoryString = "Lose";
 			}
 		}
 		// 引き分け
 		else{
-			GameObject.Find("VictoryText").GetComponent<TMPro.TextMeshProUGUI>().text = "Draw";
+            victoryString = "Draw";
 		}
 		// 終了表示
-		// タイトルボタン
-		GameObject.Find("VictoryTitleButton").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(()=>{
-            _mainManager.FadeManager.SetCallBack(()=>{
-    			UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
-            });
-            StartCoroutine(_mainManager.FadeManager.FadeOut());
-		});
-		_mainManager.VictoryView.alpha = 1.0f;
-		_mainManager.VictoryView.interactable = true;
-		_mainManager.VictoryView.blocksRaycasts = true;
+        _mainManager.VictoryView.SetContent(victoryString);
 		Invoke("EndGame", 1.0f);
 	}
 
@@ -530,12 +522,12 @@ public class ClientManager : MonoBehaviour {
 	private void UpdateTerritory()
 	{
 		if(_playerType == Common.Const.PLAYER_TYPE.MASTER){
-			_mainManager.TerritoryList[0].SetSize(_territoryLineNum);
-			_mainManager.TerritoryList[1].SetSize(Common.Const.NUM_HEIGHT-_territoryLineNum);
+			_mainManager.TerritoryList[0].ChangeSize(_territoryLineNum);
+			_mainManager.TerritoryList[1].ChangeSize(Common.Const.NUM_HEIGHT-_territoryLineNum);
 		}
 		else{
-			_mainManager.TerritoryList[1].SetSize(_territoryLineNum);
-			_mainManager.TerritoryList[0].SetSize(Common.Const.NUM_HEIGHT-_territoryLineNum);
+			_mainManager.TerritoryList[1].ChangeSize(_territoryLineNum);
+			_mainManager.TerritoryList[0].ChangeSize(Common.Const.NUM_HEIGHT-_territoryLineNum);
 		}
 		_mainManager.TerritoryLine.SetPos(_territoryLineNum);
 	}

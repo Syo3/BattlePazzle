@@ -18,6 +18,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
     private List<List<int>> _sendBlockContainer;
     private Vector3 _defaultPosition;
     private int _blockGroupID;
+    private bool _holdFlg;
     #endregion
 
     #region access
@@ -41,6 +42,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         _mainManager     = mainManager;
         _defaultPosition = transform.position;
         _blockGroupID    = 0;
+        _holdFlg         = false;
         Reset();
     }
 
@@ -50,37 +52,42 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
     /// <param name="eventData"></param>
     public void OnPointerClick (PointerEventData eventData)
     {
-        if(!_mainManager.ClientManager.CheckNowTurn()){
+        if(!_holdFlg || !_mainManager.ClientManager.CheckNowTurn()){
             return;
         }
         var x = ((transform.localPosition.x - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X;
         var y = ((transform.localPosition.y - Common.Const.START_POS_Y) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y;
         // 計算して再配置
-        transform.localPosition = new Vector3(x, y, 0.0f);
+        transform.localPosition              = new Vector3(x, y, 0.0f);
         SendBlock();
         _blockParent.transform.localPosition = Vector3.zero;
-        //_blockParent.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-
+        _holdFlg                             = false;
     }
 
+    /// <summary>
+    /// ドラッグ終了
+    /// </summary>
+    /// <param name="eventData"></param>
     public void OnEndDrag(PointerEventData eventData)
     {
-        // if(!_mainManager.ClientManager.CheckNowTurn()){
-        //     return;
-        // }
-        // var x = ((transform.localPosition.x - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X;
-        // var y = ((transform.localPosition.y - Common.Const.START_POS_Y) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y;
-        // // 計算して再配置
-        // transform.localPosition = new Vector3(x, y, 0.0f);
-        // SendBlock();
+        if(!_holdFlg || !_mainManager.ClientManager.CheckNowTurn()){
+            return;
+        }
+        var x = ((transform.localPosition.x - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X;
+        var y = ((transform.localPosition.y - Common.Const.START_POS_Y) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y;
+        // 計算して再配置
+        transform.localPosition              = new Vector3(x, y, 0.0f);
+        SendBlock();
+        _blockParent.transform.localPosition = Vector3.zero;
+        _holdFlg                             = false;
     }
 
     /// <summary>
     /// ドラッグ
     /// </summary>
     /// <param name="eventData"></param>
-    public void OnDrag ( PointerEventData eventData )
-        {
+    public void OnDrag( PointerEventData eventData )
+    {
         if(!_mainManager.ClientManager.CheckNowTurn()){
             return;
         }
@@ -109,14 +116,29 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
                 _blockList[i][j].SetDragColor();
             }
         }
-        _blockParent.transform.localPosition = new Vector3(0.0f, Common.Const.BLOCK_SIZE * 3.0f, 0.0f);
-        _blockParent.transform.localScale = Vector3.one;
-
-
+        //_blockParent.transform.localPosition = new Vector3(0.0f, Common.Const.BLOCK_SIZE * 3.0f, 0.0f);
+        //_blockParent.transform.localScale    = Vector3.one;
+        _holdFlg                             = true;
+        StartCoroutine(ScaleAnimation());
     }
     #endregion
 
     #region private function
+    private IEnumerator ScaleAnimation()
+    {
+        var targetPos = new Vector3(0.0f, Common.Const.BLOCK_SIZE * 3.0f, 0.0f);
+        var moveVec   = (targetPos  - _blockParent.transform.localPosition) / 5.0f;
+        var scaleVec  = (Vector3.one - _blockParent.transform.localScale)   / 5.0f;
+        while(_blockParent.transform.localPosition.y - targetPos.y > 0.1f || _blockParent.transform.localPosition.y - targetPos.y < -0.1f){
+
+            yield return null;
+            _blockParent.transform.localPosition += moveVec;
+            _blockParent.transform.localScale    += scaleVec;
+        }
+        _blockParent.transform.localPosition = targetPos;
+        _blockParent.transform.localScale    = Vector3.one;
+    }
+
     /// <summary>
     /// 初期化
     /// </summary>
@@ -195,7 +217,6 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
             }
         }
         _blockParent.transform.localScale = Vector3.zero;
-        Debug.Log(_blockParent.transform.localScale);
         StartCoroutine(CreateAnimation());
     }
 
@@ -204,21 +225,16 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         _blockParent.transform.localScale = Vector3.zero;
         yield return null;
         _blockParent.transform.localScale = Vector3.zero;
-        Debug.Log(_blockParent.transform.localScale);
         yield return null;
 
 
-        Debug.Log(_blockParent.transform.localScale);
         while(_blockParent.transform.localScale.x < 0.5f){
 
             yield return null;
             _blockParent.transform.localScale += new Vector3(0.05f, 0.05f, 0.05f);
-            Debug.Log(Vector3.one * 0.05f);
-            Debug.Log(_blockParent.transform.localScale);
         }
 
         _blockParent.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        Debug.Log(_blockParent.transform.localScale);
     }
 
     /// <summary>
@@ -256,8 +272,6 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         // ブロック配置後のリスト作成
         var baseX = (int)Mathf.Round((transform.localPosition.x - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE);
         var baseY = (int)Mathf.Round((transform.localPosition.y + Common.Const.BLOCK_SIZE * 3.0f - Common.Const.START_POS_Y) / Common.Const.BLOCK_SIZE);		
-        Debug.Log(baseX);
-        Debug.Log(baseY);
         for(var i = 0; i < _blockList.Count; ++i){
             
             for(var j = 0; j < _blockList[i].Count; ++j){
