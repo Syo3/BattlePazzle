@@ -51,6 +51,9 @@ public class MainManager : MonoBehaviour {
     private AdsManager _adsManager;
     [SerializeField, Tooltip("シーン遷移コンテナ")]
     private GameObject _sceneContainer;
+    [SerializeField, Tooltip("パス確認表示")]
+    private PassView _passView;
+
 
 	// デバッグ用
 	[SerializeField]
@@ -131,6 +134,7 @@ public class MainManager : MonoBehaviour {
 	{
 		_blockListKey = 0;
         _victoryView.Init(this);
+        _passView.Init(_clientManager);
 
 		// デバッグフラグチェック
 		var sceneContainer = FindObjectOfType<SceneContainer>();
@@ -144,7 +148,7 @@ public class MainManager : MonoBehaviour {
 		});
 		// パスボタン
 		_passButton.onClick.AddListener(()=>{
-			_clientManager.PassTurn();
+            _passView.Show(true);
 		});
 		_matchAnimationCoroutine = StartCoroutine(MatchingAnimation());
 		_blockListKey = 0;
