@@ -6,6 +6,13 @@ using System.Linq;
 
 public class ClientManager : MonoBehaviour {
 
+    #region 定数
+    public enum EEventType : byte
+    {
+        PlayerName = 1,
+    }
+    #endregion
+
 	#region SerializeField
 	//[SerializeField]
 	//private GameObject _PanelObjectParent;
@@ -69,7 +76,8 @@ public class ClientManager : MonoBehaviour {
 		// プレイヤー情報取得
 		_player           = PhotonNetwork.player;
 		_territoryLineNum = Common.Const.NUM_HEIGHT / 2;
-
+        // イベント登録
+        PhotonNetwork.OnEventCall += OnRaiseEvent;
 		List<int> panel_object_list;
 		var territoryList = _mainManager.TerritoryList;
 		GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "Limit:"+_turnTimeLimit;
@@ -96,6 +104,7 @@ public class ClientManager : MonoBehaviour {
 				territoryList[i].SetSize(_territoryLineNum);
 			}
 		}
+        PhotonNetwork.RaiseEvent( (byte)EEventType.PlayerName, "Hello!", true, RaiseEventOptions.Default );
 		//_mainManager.TerritoryLine.SetPos(_territoryLineNum);
 		_mainManager.TerritoryLine.Init();
 
@@ -646,6 +655,22 @@ public class ClientManager : MonoBehaviour {
 		// 送信
 		_photonView.RPC("GameEnd", PhotonTargets.All, obj);
 	}
-}
+
+    private void OnRaiseEvent( byte i_eventcode, object i_content, int i_senderid )
+    {
+        string eventMessage = null;
+        var eventType   = (EEventType)i_eventcode;
+        switch( eventType ){
+        case EEventType.PlayerName:
+            //eventMessage    = string.Format( "[{0}] {1} - Sender({2})", eventType, (string)i_content, i_senderid );
+            break;
+        default:
+            break;
+        }
+        // あれば表示
+        if( !string.IsNullOrEmpty( eventMessage ) ){
+            _mainManager.PlayerNameText.text = eventMessage;
+        }
+    }}
 
 

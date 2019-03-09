@@ -53,6 +53,8 @@ public class MainManager : MonoBehaviour {
     private GameObject _sceneContainer;
     [SerializeField, Tooltip("パス確認表示")]
     private PassView _passView;
+    [SerializeField, Tooltip("プレイヤー名表示")]
+    private TMPro.TextMeshProUGUI _playerNameText;
 
 
 	// デバッグ用
@@ -120,6 +122,9 @@ public class MainManager : MonoBehaviour {
     }
     public VictoryView VictoryView{
         get{return _victoryView;}
+    }
+    public TMPro.TextMeshProUGUI PlayerNameText{
+        get{return _playerNameText;}
     }
 	#endregion
 

@@ -2,6 +2,8 @@
 
 	public static class Const {
 
+        public const string PLAYER_NAME_KEY = "PlayerNameKey";
+
 		public const int NUM_WIDTH  = 8;
 		public const int NUM_HEIGHT = 8;
 
