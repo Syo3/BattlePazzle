@@ -128,10 +128,11 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         if(_holdFlg){
             yield break;
         }
+        _holdFlg      = true;
         var targetPos = new Vector3(0.0f, Common.Const.BLOCK_SIZE * 3.0f, 0.0f);
         var moveVec   = (targetPos  - _blockParent.transform.localPosition) / 5.0f;
         var scaleVec  = (Vector3.one - _blockParent.transform.localScale)   / 5.0f;
-        while(_blockParent.transform.localPosition.y - targetPos.y > 0.1f || _blockParent.transform.localPosition.y - targetPos.y < -0.1f){
+        while(_blockParent.transform.localPosition.y - targetPos.y > moveVec.y || _blockParent.transform.localPosition.y - targetPos.y < -moveVec.y){
 
             yield return null;
             _blockParent.transform.localPosition += moveVec;
@@ -139,7 +140,6 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         }
         _blockParent.transform.localPosition = targetPos;
         _blockParent.transform.localScale    = Vector3.one;
-        _holdFlg                             = true;
     }
 
     /// <summary>
