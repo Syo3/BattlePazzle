@@ -269,7 +269,14 @@ public class ClientManager : MonoBehaviour {
 						_areaList[i-lineCnt][j].Block.Move(_areaList[i-lineCnt][j].Panel.transform.position);
 					}
 					else{
-						Destroy(_areaList[i][j].Block.gameObject);
+//                        _areaList[i-lineCnt][j].Block.Move(_areaList[i-lineCnt][j].Panel.transform.position);
+//						Destroy(_areaList[i][j].Block.gameObject);
+                        //_areaList[i][j].Block.Move(new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, (i-lineCnt) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * _mainManager.WorldTransform.localScale.x, true);
+                        //_areaList[i][j].Block.Move(_areaList[i][j].Panel.transform.position - new Vector3(0.0f, lineCnt * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y * _mainManager.WorldTransform.localScale.x, 0.0f), true);
+                        //Debug.Log(new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, (i-lineCnt) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * _mainManager.WorldTransform.localScale.x);
+                        var effect = Instantiate(_mainManager.DestroyEffectPrefab, _areaList[i][j].Block.transform.position, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<DestroyEffect>();
+                        effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (i+j-destroyStart)*0.1f);
+                        Destroy(_areaList[i][j].Block.gameObject);
 					}
 					_areaList[i][j].Block = null;
 				}

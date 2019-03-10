@@ -28,6 +28,7 @@ public class PassView : MonoBehaviour {
         // パスボタン
         _passButton.onClick.AddListener(()=>{
             _clientManager.PassTurn();
+            Show(false);
         });
         // キャンセルボタン
         _cancelButton.onClick.AddListener(()=>{

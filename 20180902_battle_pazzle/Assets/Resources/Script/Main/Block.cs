@@ -21,7 +21,7 @@ public class Block : MonoBehaviour {
 	}
 	#endregion
 
-	#region private function
+	#region public function
 	/// <summary>
 	/// 初期設定
 	/// </summary>
@@ -41,13 +41,15 @@ public class Block : MonoBehaviour {
 		}
 	}
 
-    public void Move(Vector3 targetPosition)
+    public void Move(Vector3 targetPosition, bool destroyFlg=false)
     {
         _targetPosition = targetPosition;
-        StartCoroutine(MoveTarget());
+        StartCoroutine(MoveTarget(destroyFlg));
     }
+    #endregion
 
-    private IEnumerator MoveTarget()
+    #region public function
+    private IEnumerator MoveTarget(bool destroyFlg)
     {
         var moveVec = (_targetPosition - transform.position) / 20.0f;
         while(_targetPosition.y - transform.position.y > 0.1f || _targetPosition.y - transform.position.y < -0.1f){
@@ -55,6 +57,9 @@ public class Block : MonoBehaviour {
             transform.position += moveVec;            
         }
         transform.position = _targetPosition;
+        if(destroyFlg){
+            Destroy(gameObject);
+        }
     }
 	#endregion
 }

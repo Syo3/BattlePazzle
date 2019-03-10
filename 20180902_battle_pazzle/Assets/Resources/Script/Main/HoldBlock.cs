@@ -118,7 +118,6 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         }
         //_blockParent.transform.localPosition = new Vector3(0.0f, Common.Const.BLOCK_SIZE * 3.0f, 0.0f);
         //_blockParent.transform.localScale    = Vector3.one;
-        _holdFlg                             = true;
         StartCoroutine(ScaleAnimation());
     }
     #endregion
@@ -126,6 +125,9 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
     #region private function
     private IEnumerator ScaleAnimation()
     {
+        if(_holdFlg){
+            yield break;
+        }
         var targetPos = new Vector3(0.0f, Common.Const.BLOCK_SIZE * 3.0f, 0.0f);
         var moveVec   = (targetPos  - _blockParent.transform.localPosition) / 5.0f;
         var scaleVec  = (Vector3.one - _blockParent.transform.localScale)   / 5.0f;
@@ -137,6 +139,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         }
         _blockParent.transform.localPosition = targetPos;
         _blockParent.transform.localScale    = Vector3.one;
+        _holdFlg                             = true;
     }
 
     /// <summary>
