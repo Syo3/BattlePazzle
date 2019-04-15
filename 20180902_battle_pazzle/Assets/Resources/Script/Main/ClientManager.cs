@@ -147,7 +147,7 @@ public class ClientManager : MonoBehaviour {
 		_holdBlockList = new List<HoldBlock>();
 		for(var i = 0; i < 3; ++i){
 
-			var holdBlock = Instantiate(_mainManager.HoldBlockPrefab, new Vector3(2.0f * i - 2.0f, -4.0f, 0.0f), Quaternion.identity, _mainManager.HoldParentTransform).GetComponent<HoldBlock>();
+			var holdBlock = Instantiate(_mainManager.HoldBlockPrefab, new Vector3(2.0f * i - 2.0f, -3.2f, 0.0f), Quaternion.identity, _mainManager.HoldParentTransform).GetComponent<HoldBlock>();
 			holdBlock.Init(_mainManager);
 			_holdBlockList.Add(holdBlock);
 		}
@@ -343,11 +343,11 @@ public class ClientManager : MonoBehaviour {
 		// ターンカウント
 		if(playerType == _playerType){
 			++_turnCnt;
-			GameObject.Find( "TurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "Turn:"+_turnCnt;
+			GameObject.Find( "TurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = _turnCnt.ToString();
 		}
 		// タイムリミット表示
 		_turnTimeLimit = Common.Const.TURN_TIME;
-		GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "Time:"+_turnTimeLimit;
+		GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = _turnTimeLimit.ToString();
 		if(_turnTimeLimitCoroutine != null){
 			StopCoroutine(_turnTimeLimitCoroutine);
 			_turnTimeLimitCoroutine = null;
@@ -628,10 +628,10 @@ public class ClientManager : MonoBehaviour {
 				_turnTimeLimit = 0.0f;
 				break;
 			}
-			GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "Time:"+(int)_turnTimeLimit;
+			GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = ((int)_turnTimeLimit).ToString();
 			yield return null;
 		}
-		GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "Time:"+(int)_turnTimeLimit;
+		GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = ((int)_turnTimeLimit).ToString();
 		// ターン変更処理
 		PassTurn();
 	}

@@ -5,6 +5,10 @@ using UnityEngine.EventSystems;
 
 public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPointerDownHandler, IEndDragHandler {
 
+    #region define
+    private readonly float kDefaultSize = 0.7f;
+    #endregion
+
     #region SerializeField
     [SerializeField, Tooltip("表示用親要素")]
     private GameObject _blockParent;
@@ -165,7 +169,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
                 _blockList[i][j].SetPlacementColor();
             }
         }
-        _blockParent.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        _blockParent.transform.localScale = new Vector3(kDefaultSize, kDefaultSize, kDefaultSize);
     }
 
     /// <summary>
@@ -231,13 +235,13 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         yield return null;
 
 
-        while(_blockParent.transform.localScale.x < 0.5f){
+        while(_blockParent.transform.localScale.x < kDefaultSize){
 
             yield return null;
             _blockParent.transform.localScale += new Vector3(0.05f, 0.05f, 0.05f);
         }
 
-        _blockParent.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        _blockParent.transform.localScale = new Vector3(kDefaultSize, kDefaultSize, kDefaultSize);
     }
 
     /// <summary>
