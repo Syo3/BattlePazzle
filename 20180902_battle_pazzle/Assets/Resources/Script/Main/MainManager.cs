@@ -55,7 +55,14 @@ public class MainManager : MonoBehaviour {
     private PassView _passView;
     [SerializeField, Tooltip("プレイヤー名表示")]
     private TMPro.TextMeshProUGUI _playerNameText;
-
+    [SerializeField, Tooltip("時計")]
+    private TimeLimitClock _timeLimitClock;
+    [SerializeField, Tooltip("")]
+    private PlayerTurnImageManager _playerTurnImageManager;
+    [SerializeField, Tooltip("頂点カラープレハブ")]
+    private GameObject _areaVertexPrefab;
+    [SerializeField, Tooltip("頂点ライト")]
+    private GameObject _areaVertextLightPrefab;
 
 	// デバッグ用
 	[SerializeField]
@@ -125,6 +132,18 @@ public class MainManager : MonoBehaviour {
     }
     public TMPro.TextMeshProUGUI PlayerNameText{
         get{return _playerNameText;}
+    }
+    public TimeLimitClock TimeLimitClock{
+        get{return _timeLimitClock;}
+    }
+    public PlayerTurnImageManager PlayerTurnImageManager{
+        get{return _playerTurnImageManager;}
+    }
+    public GameObject AreaVertexPrefab{
+        get{return _areaVertexPrefab;}
+    }
+    public GameObject AreaVertextLightPrefab{
+        get{return _areaVertextLightPrefab;}
     }
 	#endregion
 
@@ -310,7 +329,7 @@ public class MainManager : MonoBehaviour {
 		var dotNum = 0;
 		while(true){
 
-			text.text = "マッチング中"+new string('.', dotNum);
+			text.text = "Matching"+new string('.', dotNum);
 			++cnt;
 			if(cnt > 19){
 				++dotNum;

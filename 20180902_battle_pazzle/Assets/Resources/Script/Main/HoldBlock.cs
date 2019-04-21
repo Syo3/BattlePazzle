@@ -99,6 +99,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         var pos = Camera.main.ScreenToWorldPoint ( Input.mousePosition );
         pos.z = 0;
         transform.position = pos;
+        Debug.Log((int)((transform.localPosition.y - Common.Const.START_POS_Y) / Common.Const.BLOCK_SIZE));
         // 計算して再配置
         var x = (int)((transform.localPosition.x - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X;
         var y = (int)((transform.localPosition.y - Common.Const.START_POS_Y) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y;
@@ -211,6 +212,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         // 生成
         _blockList    = new List<List<PlacementBlock>>();
         _blockParent.transform.localScale = Vector3.one;
+        var worldPosition                 = _mainManager.WorldTransform.position;
         for(var i = 0; i < blcokData.Count; ++i){
 
             _blockList.Add(new List<PlacementBlock>());

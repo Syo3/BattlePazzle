@@ -29,6 +29,7 @@ public class ClientManager : MonoBehaviour {
 	private int _territoryLineNum;
 	private Common.Const.PLAYER_TYPE _playerType;
 	private List<List<Area>> _areaList;
+    private List<List<AreaVertex>> _areaVertexList;
 	private bool _gameEndFlg;
 	private List<HoldBlock> _holdBlockList;
 	private Coroutine _turnTimeLimitCoroutine;
@@ -53,6 +54,9 @@ public class ClientManager : MonoBehaviour {
 	public bool GameEndFlg{
 		get{return _gameEndFlg;}
 	}
+    public List<List<AreaVertex>> AreaVertexList{
+        get{return _areaVertexList;}
+    }
 	#endregion
 
 	void Awake()
@@ -86,7 +90,8 @@ public class ClientManager : MonoBehaviour {
 			Debug.Log( "Master" );
 			_playerType     = Common.Const.PLAYER_TYPE.MASTER;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.MASTER, (int)Common.Const.PLAYER_TYPE.GUEST };
-			GameObject.Find( "GameObject/UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あなたのターン";
+			//GameObject.Find( "GameObject/UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あなたのターン";
+            _mainManager.PlayerTurnImageManager.SetTurnImage(true);
 			for(var i = 0; i < 2; ++i){
 				territoryList[i].Init(i+1, (int)_playerType);
 				territoryList[i].SetSize(_territoryLineNum);
@@ -98,7 +103,9 @@ public class ClientManager : MonoBehaviour {
 			Debug.Log( "Not Master" );
 			_playerType     = Common.Const.PLAYER_TYPE.GUEST;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.GUEST, (int)Common.Const.PLAYER_TYPE.MASTER };
-			GameObject.Find( "GameObject/UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あいてのターン";
+			//GameObject.Find( "GameObject/UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あいてのターン";
+            _mainManager.PlayerTurnImageManager.SetTurnImage(false);
+
 			for(var i = 1; i >= 0; --i){
 				territoryList[i].Init(i+1, (int)_playerType);
 				territoryList[i].SetSize(_territoryLineNum);
@@ -109,8 +116,28 @@ public class ClientManager : MonoBehaviour {
 		_mainManager.TerritoryLine.Init();
 
 
-		List<List<int>> state_list = new List<List<int>>();		
+		var parentTransform = _mainManager.PanelParentTransform;
+		var scaleRate       = _mainManager.WorldTransform.localScale.x;
+        var worldPosition   = _mainManager.WorldTransform.position;
+        // エリア頂点リスト
+        _areaVertexList   = new List<List<AreaVertex>>();
+        var vertextHeight = Common.Const.NUM_HEIGHT+1;
+        var vertexWidth   = Common.Const.NUM_WIDTH+1;
+        for(var i = 0; i < vertextHeight; ++i){
 
+            _areaVertexList.Add(new List<AreaVertex>());
+            for(var j = 0; j < vertexWidth; ++j){
+
+                var areaVertex  = Instantiate(_mainManager.AreaVertexPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X - Common.Const.BLOCK_SIZE_HALF, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y - Common.Const.BLOCK_SIZE_HALF, 0.0f) * scaleRate + worldPosition, Quaternion.identity, parentTransform).GetComponent<AreaVertex>();
+                _areaVertexList[i].Add(areaVertex);
+            }
+        }
+
+
+
+
+        // 状態リスト
+		List<List<int>> state_list = new List<List<int>>();		
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i ) {
 
 			// 上下でエリアを分ける
@@ -123,16 +150,14 @@ public class ClientManager : MonoBehaviour {
 			//_blockList.Add(Enumerable.Repeat(0, Common.Const.NUM_WIDTH ).ToList());
 		}
 		// ステージ作成
-		var parentTransform = _mainManager.PanelParentTransform;
-		var scaleRate       = _mainManager.WorldTransform.localScale.x;
 		_areaList           = new List<List<Area>>();
 		for(var i = 0; i < state_list.Count; ++i){
 
 			_areaList.Add(new List<Area>());
 			for(var j = 0; j < state_list[i].Count; ++j){
 
-				var area  = Instantiate(_mainManager.AreaPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * scaleRate, Quaternion.identity, parentTransform).GetComponent<Area>();
-				var panel = Instantiate(_mainManager.PanelPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * scaleRate, Quaternion.identity, area.transform).GetComponent<Panel>();
+				var area  = Instantiate(_mainManager.AreaPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * scaleRate + worldPosition, Quaternion.identity, parentTransform).GetComponent<Area>();
+				var panel = Instantiate(_mainManager.PanelPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * scaleRate + worldPosition, Quaternion.identity, area.transform).GetComponent<Panel>();
 				//var panel = Instantiate(_mainManager.PanelPrefab, Vector3.zero, Quaternion.identity, area.transform).GetComponent<Panel>();
 				panel.StateChange(state_list[i][j]);
 				area.Init(panel, state_list[i][j], 0);
@@ -147,7 +172,7 @@ public class ClientManager : MonoBehaviour {
 		_holdBlockList = new List<HoldBlock>();
 		for(var i = 0; i < 3; ++i){
 
-			var holdBlock = Instantiate(_mainManager.HoldBlockPrefab, new Vector3(2.0f * i - 2.0f, -3.2f, 0.0f), Quaternion.identity, _mainManager.HoldParentTransform).GetComponent<HoldBlock>();
+			var holdBlock = Instantiate(_mainManager.HoldBlockPrefab, new Vector3(2.0f * i - 2.0f, -3.2f, 0.0f) + worldPosition, Quaternion.identity, _mainManager.HoldParentTransform).GetComponent<HoldBlock>();
 			holdBlock.Init(_mainManager);
 			_holdBlockList.Add(holdBlock);
 		}
@@ -184,14 +209,15 @@ public class ClientManager : MonoBehaviour {
 			list.Reverse();
 		}
 
+        var worldPosition = _mainManager.WorldTransform.position;
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 
 			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
 
 				if(list[i][j] > 0 && _areaList[i][j].Block == null /*&& _areaList[i][j].Panel.State == list[i][j]*/){
 
-					var block = Instantiate(_mainManager.BlockPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * _mainManager.WorldTransform.localScale.x, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<Block>();
-					block.Init(list[i][j]);
+					var block = Instantiate(_mainManager.BlockPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * _mainManager.WorldTransform.localScale.x + worldPosition, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<Block>();
+					block.Init(list[i][j], this, j, i);
 					_areaList[i][j].Block = block;
 				}
 			}
@@ -235,7 +261,8 @@ public class ClientManager : MonoBehaviour {
 			_territoryLineNum += lineCnt;
 		}
 		// 列が揃ったブロック削除
-		var destroyStart = 0;
+		var destroyStart  = 0;
+        var worldPosition = _mainManager.WorldTransform.position;
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 
 			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
@@ -266,7 +293,7 @@ public class ClientManager : MonoBehaviour {
 				if(_areaList[i][j].Block != null){
 					if(i - lineCnt >= 0 && _areaList[i-lineCnt][j].Block == null){
 						_areaList[i-lineCnt][j].Block = _areaList[i][j].Block;
-						_areaList[i-lineCnt][j].Block.Move(_areaList[i-lineCnt][j].Panel.transform.position);
+						_areaList[i-lineCnt][j].Block.Move(_areaList[i-lineCnt][j].Panel.transform.position, j, i-lineCnt);
 					}
 					else{
 //                        _areaList[i-lineCnt][j].Block.Move(_areaList[i-lineCnt][j].Panel.transform.position);
@@ -355,11 +382,15 @@ public class ClientManager : MonoBehaviour {
 
 		// 表示
 		if(_turnFlg == (int)_playerType){
-			GameObject.Find( "UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あなたのターン";
+//			GameObject.Find( "UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あなたのターン";
+            _mainManager.PlayerTurnImageManager.SetTurnImage(true);
+
 			_turnTimeLimitCoroutine = StartCoroutine(TimeLimitCount());
 		}
 		else{
-			GameObject.Find( "UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あいてのターン";
+//			GameObject.Find( "UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あいてのターン";
+            _mainManager.PlayerTurnImageManager.SetTurnImage(false);
+
 		}
 
 		// 置ける範囲更新
@@ -593,7 +624,8 @@ public class ClientManager : MonoBehaviour {
 			}
 		}
 		// 削除
-		var destroyStart = -1;
+        var worldPosition = _mainManager.WorldTransform.position;
+		var destroyStart  = -1;
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 
 			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
@@ -624,6 +656,7 @@ public class ClientManager : MonoBehaviour {
 		while(true){
 
 			_turnTimeLimit -= Time.deltaTime;
+            _mainManager.TimeLimitClock.SetClock(Common.Const.TURN_TIME, _turnTimeLimit);
 			if(_turnTimeLimit < 0.0f){
 				_turnTimeLimit = 0.0f;
 				break;
