@@ -37,21 +37,40 @@ public class Block : MonoBehaviour {
         _listX         = listX;
         _listY         = listY;
 		_state         = set_state;
+        Color setColor = Color.clear;
 		switch(_state){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:
 			//_sprite.sprite = ResourceManager.LoadSprite("Image/panel_2");
-			_sprite.color      = Common.Const.MASTER_COLOR;
+            setColor          = Common.Const.MASTER_COLOR * 0.5f;
 			break;
 		case (int)Common.Const.PLAYER_TYPE.GUEST:
 			//_sprite.sprite = ResourceManager.LoadSprite("Image/panel_1");
-			_sprite.color      = Common.Const.GUEST_COLOR;
+            setColor          = Common.Const.GUEST_COLOR * 0.5f;
+			//_sprite.color      = Common.Const.GUEST_COLOR;
 			break;
 		}
-        _gradients._Color1 = _sprite.color;
-        _gradients._Color2 = _sprite.color;
-        _gradients._Color3 = _sprite.color;
-        _gradients._Color4 = _sprite.color;
+        setColor.a        = 1.0f;
+        _sprite.color      = setColor;
+
+        // _gradients._Color1 = _sprite.color;
+        // _gradients._Color2 = _sprite.color;
+        // _gradients._Color3 = _sprite.color;
+        // _gradients._Color4 = _sprite.color;
+
+        _gradients._Color1 = Color.white;
+        _gradients._Color2 = Color.white;
+        _gradients._Color3 = Color.white;
+        _gradients._Color4 = Color.white;
+
 	}
+
+    void Update()
+    {
+               Debug.Log(_gradients._Color1.a);
+
+        CheckVertexColor();
+       Debug.Log(_gradients._Color1.a);
+    }
 
     public void Move(Vector3 targetPosition,int listX, int listY, bool destroyFlg=false)
     {
@@ -65,6 +84,7 @@ public class Block : MonoBehaviour {
     #region private function
     private void CheckVertexColor()
     {
+        Debug.Log("color check");
         // 地震の場所が必要
         // 配列座標
         // 左上は x , y + 1
@@ -72,10 +92,15 @@ public class Block : MonoBehaviour {
         // 右上は x + 1 , y + 1
         // 右下は x + 1 , y
         var color1 = _clientManager.AreaVertexList[_listY+1][_listX];
-        var color2 = _clientManager.AreaVertexList[_listY][_listX];
-        var color3 = _clientManager.AreaVertexList[_listY+1][_listX+1];
+        var color2 = _clientManager.AreaVertexList[_listY+1][_listX+1];
+        var color3 = _clientManager.AreaVertexList[_listY][_listX];
         var color4 = _clientManager.AreaVertexList[_listY][_listX+1];
 
+
+        _gradients._Color1.a = color1.Color.a;
+        _gradients._Color2.a = color2.Color.a;
+        _gradients._Color3.a = color3.Color.a;
+        _gradients._Color4.a = color4.Color.a;
     }
 
 

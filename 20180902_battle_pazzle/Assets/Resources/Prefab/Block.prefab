@@ -54,6 +54,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sprite: {fileID: 212822046294466814}
+  _gradients: {fileID: 114334470396926718}
 --- !u!114 &114334470396926718
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -67,10 +68,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ForceMaterial: {fileID: 0}
   ActiveChange: 1
-  _Color1: {r: 1, g: 1, b: 1, a: 1}
-  _Color2: {r: 1, g: 1, b: 1, a: 1}
-  _Color3: {r: 1, g: 1, b: 1, a: 1}
-  _Color4: {r: 1, g: 1, b: 1, a: 1}
+  _Color1: {r: 1, g: 1, b: 0, a: 1}
+  _Color2: {r: 1, g: 0.8, b: 0, a: 0}
+  _Color3: {r: 1, g: 0.6, b: 0, a: 0}
+  _Color4: {r: 1, g: 0.6, b: 0, a: 0}
   _Alpha: 1
   ShaderChange: 0
   ActiveUpdate: 1

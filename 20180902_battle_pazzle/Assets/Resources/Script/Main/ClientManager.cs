@@ -30,6 +30,7 @@ public class ClientManager : MonoBehaviour {
 	private Common.Const.PLAYER_TYPE _playerType;
 	private List<List<Area>> _areaList;
     private List<List<AreaVertex>> _areaVertexList;
+    private List<AreaVertexLight> _areaVertexLightList;
 	private bool _gameEndFlg;
 	private List<HoldBlock> _holdBlockList;
 	private Coroutine _turnTimeLimitCoroutine;
@@ -56,6 +57,9 @@ public class ClientManager : MonoBehaviour {
 	}
     public List<List<AreaVertex>> AreaVertexList{
         get{return _areaVertexList;}
+    }
+    public List<AreaVertexLight> AreaVertexLightList{
+        get{return _areaVertexLightList;}
     }
 	#endregion
 
@@ -129,10 +133,13 @@ public class ClientManager : MonoBehaviour {
             for(var j = 0; j < vertexWidth; ++j){
 
                 var areaVertex  = Instantiate(_mainManager.AreaVertexPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X - Common.Const.BLOCK_SIZE_HALF, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y - Common.Const.BLOCK_SIZE_HALF, 0.0f) * scaleRate + worldPosition, Quaternion.identity, parentTransform).GetComponent<AreaVertex>();
+                areaVertex.Init(this);
                 _areaVertexList[i].Add(areaVertex);
             }
         }
-
+        _areaVertexLightList = new List<AreaVertexLight>();
+        var areaVertexLight  = Instantiate(_mainManager.AreaVertextLightPrefab, new Vector3(0.0f, 0.0f, 0.0f) * scaleRate + worldPosition, Quaternion.identity, parentTransform).GetComponent<AreaVertexLight>();
+        _areaVertexLightList.Add(areaVertexLight);
 
 
 
