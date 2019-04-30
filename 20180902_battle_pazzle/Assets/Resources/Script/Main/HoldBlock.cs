@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPointerDownHandler, IEndDragHandler {
 
     #region define
-    private readonly float kDefaultSize = 0.7f;
+    private readonly float kDefaultSize = 0.5f;
     #endregion
 
     #region SerializeField
@@ -23,6 +23,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
     private Vector3 _defaultPosition;
     private int _blockGroupID;
     private bool _holdFlg;
+    private Coroutine _scaleAnimation;
     #endregion
 
     #region access
@@ -58,6 +59,10 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
     {
         if(!_holdFlg || !_mainManager.ClientManager.CheckNowTurn()){
             return;
+        }
+        if(_scaleAnimation != null){
+            StopCoroutine(_scaleAnimation);
+            _scaleAnimation = null;
         }
         var x = ((transform.localPosition.x - Common.Const.START_POS_X) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X;
         var y = ((transform.localPosition.y - Common.Const.START_POS_Y) / Common.Const.BLOCK_SIZE) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y;
@@ -123,7 +128,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         }
         //_blockParent.transform.localPosition = new Vector3(0.0f, Common.Const.BLOCK_SIZE * 3.0f, 0.0f);
         //_blockParent.transform.localScale    = Vector3.one;
-        StartCoroutine(ScaleAnimation());
+        _scaleAnimation = StartCoroutine(ScaleAnimation());
     }
     #endregion
 
@@ -145,6 +150,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         }
         _blockParent.transform.localPosition = targetPos;
         _blockParent.transform.localScale    = Vector3.one;
+        _scaleAnimation                      = null;
     }
 
     /// <summary>

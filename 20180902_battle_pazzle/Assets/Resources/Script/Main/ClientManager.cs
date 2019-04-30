@@ -34,6 +34,13 @@ public class ClientManager : MonoBehaviour {
 	private bool _gameEndFlg;
 	private List<HoldBlock> _holdBlockList;
 	private Coroutine _turnTimeLimitCoroutine;
+
+    private Transform _parentTransform;
+    private float _scaleRate;
+    private Vector3 _worldPosition;
+    private int _lightCreateInterval;
+    private bool _initFlg;
+    private string _enemyPlayerName;
 	#endregion
 
 	#region access
@@ -76,6 +83,7 @@ public class ClientManager : MonoBehaviour {
 	{
 		_mainManager = mainManager;
 		_gameEndFlg  = false;
+        _lightCreateInterval = 300;
 		// ターン数
 		_turnFlg       = (int)Common.Const.PLAYER_TYPE.MASTER;
 		_turnCnt       = 1;
@@ -88,7 +96,7 @@ public class ClientManager : MonoBehaviour {
         PhotonNetwork.OnEventCall += OnRaiseEvent;
 		List<int> panel_object_list;
 		var territoryList = _mainManager.TerritoryList;
-		GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "Limit:"+_turnTimeLimit;
+		GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = _turnTimeLimit.ToString();
 		// マスタークライアント
 		if(_player.IsMasterClient){
 			Debug.Log( "Master" );
@@ -115,14 +123,16 @@ public class ClientManager : MonoBehaviour {
 				territoryList[i].SetSize(_territoryLineNum);
 			}
 		}
+		GameObject.Find( "TurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = Common.Const.GAME_END_TURN.ToString();
+;
         PhotonNetwork.RaiseEvent( (byte)EEventType.PlayerName, "Hello!", true, RaiseEventOptions.Default );
 		//_mainManager.TerritoryLine.SetPos(_territoryLineNum);
 		_mainManager.TerritoryLine.Init();
 
 
-		var parentTransform = _mainManager.PanelParentTransform;
-		var scaleRate       = _mainManager.WorldTransform.localScale.x;
-        var worldPosition   = _mainManager.WorldTransform.position;
+		_parentTransform = _mainManager.PanelParentTransform;
+		_scaleRate       = _mainManager.WorldTransform.localScale.x;
+        _worldPosition   = _mainManager.WorldTransform.position;
         // エリア頂点リスト
         _areaVertexList   = new List<List<AreaVertex>>();
         var vertextHeight = Common.Const.NUM_HEIGHT+1;
@@ -132,17 +142,12 @@ public class ClientManager : MonoBehaviour {
             _areaVertexList.Add(new List<AreaVertex>());
             for(var j = 0; j < vertexWidth; ++j){
 
-                var areaVertex  = Instantiate(_mainManager.AreaVertexPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X - Common.Const.BLOCK_SIZE_HALF, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y - Common.Const.BLOCK_SIZE_HALF, 0.0f) * scaleRate + worldPosition, Quaternion.identity, parentTransform).GetComponent<AreaVertex>();
+                var areaVertex  = Instantiate(_mainManager.AreaVertexPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X - Common.Const.BLOCK_SIZE_HALF, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y - Common.Const.BLOCK_SIZE_HALF, 0.0f) * _scaleRate + _worldPosition, Quaternion.identity, _parentTransform).GetComponent<AreaVertex>();
                 areaVertex.Init(this);
                 _areaVertexList[i].Add(areaVertex);
             }
         }
         _areaVertexLightList = new List<AreaVertexLight>();
-        var areaVertexLight  = Instantiate(_mainManager.AreaVertextLightPrefab, new Vector3(0.0f, 0.0f, 0.0f) * scaleRate + worldPosition, Quaternion.identity, parentTransform).GetComponent<AreaVertexLight>();
-        _areaVertexLightList.Add(areaVertexLight);
-
-
-
         // 状態リスト
 		List<List<int>> state_list = new List<List<int>>();		
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i ) {
@@ -163,8 +168,8 @@ public class ClientManager : MonoBehaviour {
 			_areaList.Add(new List<Area>());
 			for(var j = 0; j < state_list[i].Count; ++j){
 
-				var area  = Instantiate(_mainManager.AreaPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * scaleRate + worldPosition, Quaternion.identity, parentTransform).GetComponent<Area>();
-				var panel = Instantiate(_mainManager.PanelPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * scaleRate + worldPosition, Quaternion.identity, area.transform).GetComponent<Panel>();
+				var area  = Instantiate(_mainManager.AreaPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * _scaleRate + _worldPosition, Quaternion.identity, _parentTransform).GetComponent<Area>();
+				var panel = Instantiate(_mainManager.PanelPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * _scaleRate + _worldPosition, Quaternion.identity, area.transform).GetComponent<Panel>();
 				//var panel = Instantiate(_mainManager.PanelPrefab, Vector3.zero, Quaternion.identity, area.transform).GetComponent<Panel>();
 				panel.StateChange(state_list[i][j]);
 				area.Init(panel, state_list[i][j], 0);
@@ -179,10 +184,14 @@ public class ClientManager : MonoBehaviour {
 		_holdBlockList = new List<HoldBlock>();
 		for(var i = 0; i < 3; ++i){
 
-			var holdBlock = Instantiate(_mainManager.HoldBlockPrefab, new Vector3(2.0f * i - 2.0f, -3.2f, 0.0f) + worldPosition, Quaternion.identity, _mainManager.HoldParentTransform).GetComponent<HoldBlock>();
+			var holdBlock = Instantiate(_mainManager.HoldBlockPrefab, new Vector3(1.6f * i - 1.6f, -3.2f, 0.0f) + _worldPosition, Quaternion.identity, _mainManager.HoldParentTransform).GetComponent<HoldBlock>();
 			holdBlock.Init(_mainManager);
 			_holdBlockList.Add(holdBlock);
 		}
+        _initFlg = true;
+
+        // プレイヤーネームとレートを送信
+        PhotonNetwork.RaiseEvent( (byte)EEventType.PlayerName, PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player"), true, RaiseEventOptions.Default );
 	}
 
 
@@ -190,12 +199,17 @@ public class ClientManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		if( _turnFlg == (int)_playerType - 1 ) {
-			if( Input.GetKey( KeyCode.D ) ) {
-				// if キー操作とか色々
-				//UpdateBlockList();
-			}
-		}
+        if(_initFlg != true) return;
+        // 初期一　x,y 移動方向 x 発生間隔
+        if(_lightCreateInterval >= 240){
+            var areaVertexLight  = Instantiate(_mainManager.AreaVertextLightPrefab, new Vector3(Random.Range(0, 2) * 10.0f - 5.0f, Random.Range(-4.0f, 4.0f), 0.0f) * _scaleRate + _worldPosition, Quaternion.identity, _parentTransform).GetComponent<AreaVertexLight>();
+            areaVertexLight.Init(this);
+            _areaVertexLightList.Add(areaVertexLight);
+            _lightCreateInterval = Random.Range(0, 240);
+        }
+        ++_lightCreateInterval;
+
+
 	}
 
 
@@ -268,8 +282,9 @@ public class ClientManager : MonoBehaviour {
 			_territoryLineNum += lineCnt;
 		}
 		// 列が揃ったブロック削除
-		var destroyStart  = 0;
-        var worldPosition = _mainManager.WorldTransform.position;
+		var destroyStart    = 0;
+        var worldPosition   = _mainManager.WorldTransform.position;
+        var lastDestroyTime = 0.0f;
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 
 			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
@@ -282,10 +297,18 @@ public class ClientManager : MonoBehaviour {
 					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (i+j-destroyStart)*0.1f);
 					Destroy(_areaList[i][j].Block.gameObject);
 					_areaList[i][j].Block = null;
+                    lastDestroyTime = (i+j-destroyStart);
 				}
 			}
 		}
-		// ブロック移動判定
+        StartCoroutine(MoveBlock(panelList, playerType, lineCnt, lastDestroyTime*0.1f+1.5f));
+        
+	}
+
+    private IEnumerator MoveBlock(List<List<int>> panelList, Common.Const.PLAYER_TYPE playerType, int lineCnt, float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        // ブロック移動判定
 		if(_playerType == playerType){
 			_areaList.Reverse();
 		}
@@ -303,6 +326,7 @@ public class ClientManager : MonoBehaviour {
 						_areaList[i-lineCnt][j].Block.Move(_areaList[i-lineCnt][j].Panel.transform.position, j, i-lineCnt);
 					}
 					else{
+                        // ブロック押し出し
 //                        _areaList[i-lineCnt][j].Block.Move(_areaList[i-lineCnt][j].Panel.transform.position);
 //						Destroy(_areaList[i][j].Block.gameObject);
                         //_areaList[i][j].Block.Move(new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, (i-lineCnt) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * _mainManager.WorldTransform.localScale.x, true);
@@ -310,12 +334,14 @@ public class ClientManager : MonoBehaviour {
                         //Debug.Log(new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, (i-lineCnt) * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * _mainManager.WorldTransform.localScale.x);
                         var effect = Instantiate(_mainManager.DestroyEffectPrefab, _areaList[i][j].Block.transform.position, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<DestroyEffect>();
                         effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, 0.0f);
+                        effect.AnimationType = 1;
                         Destroy(_areaList[i][j].Block.gameObject);
 					}
 					_areaList[i][j].Block = null;
 				}
 			}
 		}
+        yield return null;
 		if(_playerType == playerType){
 			_areaList.Reverse();
 		}
@@ -329,12 +355,11 @@ public class ClientManager : MonoBehaviour {
 				}
 			}
 		}
-		// 範囲更新
+		// 陣地更新
 		UpdateTerritory();
 
-
 		// 勝敗判定
-		if(_territoryLineNum == Common.Const.NUM_HEIGHT){
+		if(_territoryLineNum >= Common.Const.NUM_HEIGHT){
 			Debug.Log("win");
 			// 勝利ユーザー送信
 			_gameEndFlg = true;
@@ -347,7 +372,12 @@ public class ClientManager : MonoBehaviour {
 			var obj = new object[]{_playerType};
 			_photonView.RPC("TurnChange", PhotonTargets.All, obj);
 		}
-	}
+        // 遅延発生ため
+        if(playerType != _playerType){
+    		UpdatePlacementArea();
+        }
+    }
+
 
 	[PunRPC]
 	/// <summary>
@@ -377,7 +407,7 @@ public class ClientManager : MonoBehaviour {
 		// ターンカウント
 		if(playerType == _playerType){
 			++_turnCnt;
-			GameObject.Find( "TurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = _turnCnt.ToString();
+			GameObject.Find( "TurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = (Common.Const.GAME_END_TURN - _turnCnt + 1).ToString();
 		}
 		// タイムリミット表示
 		_turnTimeLimit = Common.Const.TURN_TIME;
@@ -703,13 +733,20 @@ public class ClientManager : MonoBehaviour {
 		_photonView.RPC("GameEnd", PhotonTargets.All, obj);
 	}
 
-    private void OnRaiseEvent( byte i_eventcode, object i_content, int i_senderid )
+    /// <summary>
+    /// データ受け取り
+    /// </summary>
+    /// <param name="eventcode"></param>
+    /// <param name="content"></param>
+    /// <param name="senderid"></param>
+    private void OnRaiseEvent( byte eventcode, object content, int senderid )
     {
         string eventMessage = null;
-        var eventType   = (EEventType)i_eventcode;
+        var eventType   = (EEventType)eventcode;
         switch( eventType ){
         case EEventType.PlayerName:
             //eventMessage    = string.Format( "[{0}] {1} - Sender({2})", eventType, (string)i_content, i_senderid );
+            _enemyPlayerName = content.ToString();
             break;
         default:
             break;

@@ -15,7 +15,12 @@ public class DestroyEffect : MonoBehaviour {
     private SoundManager _soundManager;
 	private AnimatorStateInfo _stateInfo;
 	private float _animationStartTime;
+    private int _animationType;
 	#endregion
+
+    public int AnimationType{
+        set{_animationType = value;}
+    }
 
 	#region public function
 	/// <summary>
@@ -25,6 +30,7 @@ public class DestroyEffect : MonoBehaviour {
 	/// <param name="animationStart"></param>
 	public void Init(int playerType,SoundManager soundManager, float animationStart=0.0f)
 	{
+        _animationType      = 0;
         _soundManager       = soundManager;
 		_animationStartTime = animationStart;
 		switch(playerType){
@@ -49,7 +55,12 @@ public class DestroyEffect : MonoBehaviour {
 
 		yield return new WaitForSeconds(_animationStartTime);
         _soundManager.PlayOnShot(0);
-		_animator.Play("DestroyEffect");
+        if(_animationType == 0){
+    		_animator.Play("DestroyEffect");
+        }
+        else{
+            _animator.Play("DestroyCollapse");
+        }
 		yield return null;
 		_stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 		while(_stateInfo.normalizedTime < 1.0f){

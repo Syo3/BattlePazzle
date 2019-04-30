@@ -11,6 +11,52 @@ public class PlayerTurnImageManager : MonoBehaviour {
 
     public void SetTurnImage(bool flg)
     {
-        _turnImage.sprite = flg ? _turnSpriteList[0] : _turnSpriteList[1];
+        StartCoroutine(TurnChangeAnimation(flg));
+    }
+
+    private IEnumerator TurnChangeAnimation(bool flg)
+    {
+        var animator = GetComponent<Animator>();
+        animator.Play("TurnChangeStart", 0, 0.0f);
+        yield return null;
+        var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        Debug.Log(stateInfo.normalizedTime);
+        while(stateInfo.normalizedTime < 1.0f){
+            yield return null;
+            stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            Debug.Log(stateInfo.normalizedTime);
+        }
+        
+
+
+        // 回転
+        // while(_turnImage.transform.eulerAngles.y < 90.0f){
+        //     yield return null;
+        //     _turnImage.transform.Rotate(0.0f, 9.0f, 0.0f);
+        // }
+        _turnImage.transform.Rotate(0.0f, -180.0f, 0.0f);
+        _turnImage.sprite                  = flg ? _turnSpriteList[0] : _turnSpriteList[1];
+        _turnImage.rectTransform.sizeDelta = flg ? new Vector2(108.0f, 78.0f) : new Vector2(120.0f, 78.0f);
+        // yield return null;
+        // Debug.Log(_turnImage.transform.eulerAngles.y);
+        // Debug.Log(_turnImage.transform.eulerAngles.y < 0.0f);
+        // while(_turnImage.transform.eulerAngles.y < 350.0f){
+        //     yield return null;
+        //     _turnImage.transform.Rotate(0.0f, 9.0f, 0.0f);
+        // }
+        // _turnImage.transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+
+        animator.Play("TurnChangeEnd", 0, 0.0f);
+        yield return null;
+        stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        while(stateInfo.normalizedTime < 1.0f){
+            yield return null;
+            stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        }
+
+
+
+        //_turnImage.transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+
     }
 }

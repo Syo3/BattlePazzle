@@ -41,35 +41,38 @@ public class Block : MonoBehaviour {
 		switch(_state){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:
 			//_sprite.sprite = ResourceManager.LoadSprite("Image/panel_2");
-            setColor          = Common.Const.MASTER_COLOR * 0.5f;
+            setColor          = Common.Const.MASTER_COLOR;
 			break;
 		case (int)Common.Const.PLAYER_TYPE.GUEST:
 			//_sprite.sprite = ResourceManager.LoadSprite("Image/panel_1");
-            setColor          = Common.Const.GUEST_COLOR * 0.5f;
+            setColor          = Common.Const.GUEST_COLOR;
 			//_sprite.color      = Common.Const.GUEST_COLOR;
 			break;
 		}
+        Debug.Log(setColor);
         setColor.a        = 1.0f;
+        setColor.r *= 0.007f;
+        setColor.b *= 0.007f;
+        Debug.Log(setColor);
         _sprite.color      = setColor;
+        Debug.Log(_sprite.color);
 
         // _gradients._Color1 = _sprite.color;
         // _gradients._Color2 = _sprite.color;
         // _gradients._Color3 = _sprite.color;
         // _gradients._Color4 = _sprite.color;
 
-        _gradients._Color1 = Color.white;
-        _gradients._Color2 = Color.white;
-        _gradients._Color3 = Color.white;
-        _gradients._Color4 = Color.white;
+        _gradients._Color1   = Color.white * 0.8f;
+        _gradients._Color1.a = 0.0f;
+        _gradients._Color2 = _gradients._Color1;
+        _gradients._Color3 = _gradients._Color1;
+        _gradients._Color4 = _gradients._Color1;
 
 	}
 
     void Update()
     {
-               Debug.Log(_gradients._Color1.a);
-
         CheckVertexColor();
-       Debug.Log(_gradients._Color1.a);
     }
 
     public void Move(Vector3 targetPosition,int listX, int listY, bool destroyFlg=false)
@@ -84,7 +87,6 @@ public class Block : MonoBehaviour {
     #region private function
     private void CheckVertexColor()
     {
-        Debug.Log("color check");
         // 地震の場所が必要
         // 配列座標
         // 左上は x , y + 1
