@@ -9,56 +9,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e6292b2c06870d4495f009f912b9600, type: 3}
-  m_Name: Block Profile
+  m_Name: Block Profile 1
   m_EditorClassIdentifier: 
   settings:
-  - {fileID: 114085811376759670}
-  - {fileID: 114108767770254730}
-  - {fileID: 114725145623938566}
---- !u!114 &114085811376759670
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b924e2dad56384a8df2a1e111bb675, type: 3}
-  m_Name: Vignette
-  m_EditorClassIdentifier: 
-  active: 1
-  enabled:
-    overrideState: 1
-    value: 1
-  mode:
-    overrideState: 1
-    value: 0
-  color:
-    overrideState: 1
-    value: {r: 0, g: 0, b: 0, a: 1}
-  center:
-    overrideState: 1
-    value: {x: 0.5, y: 0.5}
-  intensity:
-    overrideState: 1
-    value: 0.5
-  smoothness:
-    overrideState: 1
-    value: 0.348
-  roundness:
-    overrideState: 1
-    value: 1
-  rounded:
-    overrideState: 1
-    value: 1
-  mask:
-    overrideState: 0
-    value: {fileID: 0}
-    defaultState: 1
-  opacity:
-    overrideState: 0
-    value: 1
---- !u!114 &114108767770254730
+  - {fileID: 114754066138132648}
+  - {fileID: 114083095672504412}
+  - {fileID: 114926536103672762}
+--- !u!114 &114083095672504412
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
@@ -1368,7 +1325,50 @@ MonoBehaviour:
       - 0.5
       - 0.5
       - 0.5
---- !u!114 &114725145623938566
+--- !u!114 &114754066138132648
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40b924e2dad56384a8df2a1e111bb675, type: 3}
+  m_Name: Vignette
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  mode:
+    overrideState: 1
+    value: 0
+  color:
+    overrideState: 1
+    value: {r: 0, g: 0, b: 0, a: 1}
+  center:
+    overrideState: 1
+    value: {x: 0.5, y: 0.5}
+  intensity:
+    overrideState: 1
+    value: 0.5
+  smoothness:
+    overrideState: 1
+    value: 0.348
+  roundness:
+    overrideState: 1
+    value: 1
+  rounded:
+    overrideState: 1
+    value: 1
+  mask:
+    overrideState: 0
+    value: {fileID: 0}
+    defaultState: 1
+  opacity:
+    overrideState: 0
+    value: 1
+--- !u!114 &114926536103672762
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}

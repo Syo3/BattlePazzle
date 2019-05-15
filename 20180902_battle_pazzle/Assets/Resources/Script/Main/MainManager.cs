@@ -63,6 +63,8 @@ public class MainManager : MonoBehaviour {
     private GameObject _areaVertexPrefab;
     [SerializeField, Tooltip("頂点ライト")]
     private GameObject _areaVertextLightPrefab;
+    [SerializeField, Tooltip("開始演出管理")]
+    private StartViewManager _startViewManager;
 
 	// デバッグ用
 	[SerializeField]
@@ -144,6 +146,9 @@ public class MainManager : MonoBehaviour {
     }
     public GameObject AreaVertextLightPrefab{
         get{return _areaVertextLightPrefab;}
+    }
+    public StartViewManager StartViewManager{
+        get{return _startViewManager;}
     }
 	#endregion
 

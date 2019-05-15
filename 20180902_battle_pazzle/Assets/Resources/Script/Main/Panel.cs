@@ -9,6 +9,8 @@ public class Panel : MonoBehaviour {
 	private SpriteRenderer _sprite;
 	[SerializeField, Tooltip("配置可能表示")]
 	private SpriteRenderer _placementMask;
+    [SerializeField, Tooltip("アニメーター")]
+    private Animator _animator;
 	#endregion
 
 	#region private field
@@ -45,6 +47,7 @@ public class Panel : MonoBehaviour {
 			break;
 		}
 		_state = state;
+
 	}
 
 	public IEnumerator Flash()
@@ -82,4 +85,18 @@ public class Panel : MonoBehaviour {
         }
         transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
     }
+
+    public void SetTurn(bool flg)
+    {
+        if(_placementMask.enabled == false){
+            return;
+        }
+        if(flg){
+            _animator.Play("PlayerTurnFlash", 0);
+        }
+        else{
+            _animator.Play("EnemyTurnFlash", 0);
+        }
+    }
+
 }

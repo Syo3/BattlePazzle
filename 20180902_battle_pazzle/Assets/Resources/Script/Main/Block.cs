@@ -49,13 +49,10 @@ public class Block : MonoBehaviour {
 			//_sprite.color      = Common.Const.GUEST_COLOR;
 			break;
 		}
-        Debug.Log(setColor);
         setColor.a        = 1.0f;
         setColor.r *= 0.007f;
         setColor.b *= 0.007f;
-        Debug.Log(setColor);
         _sprite.color      = setColor;
-        Debug.Log(_sprite.color);
 
         // _gradients._Color1 = _sprite.color;
         // _gradients._Color2 = _sprite.color;

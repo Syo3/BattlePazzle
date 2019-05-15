@@ -52,6 +52,19 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
     }
 
     /// <summary>
+    /// 拡大チェック
+    /// </summary>
+    public void ScaleCheck()
+    {
+        if(_scaleAnimation != null){
+            StopCoroutine(_scaleAnimation);
+            _scaleAnimation = null;
+        }
+        PositionReset();
+    }
+
+
+    /// <summary>
     /// クリック ドラッグ終了時
     /// </summary>
     /// <param name="eventData"></param>

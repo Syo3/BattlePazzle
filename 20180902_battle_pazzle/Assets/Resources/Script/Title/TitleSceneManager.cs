@@ -25,6 +25,10 @@ namespace Title{
         private Button _menuCloseButton;
         [SerializeField, Tooltip("名前入力エリア")]
         private NameArea _nameArea;
+        [SerializeField, Tooltip("Logoアニメーター")]
+        private Animator _logoAnimator;
+        [SerializeField, Tooltip("Logoパネル")]
+        private List<LogoPanel> _logoPanelList;
         #endregion
 
         void Start()
@@ -38,6 +42,10 @@ namespace Title{
                 sceneContainer = Instantiate(_sceneContainer).GetComponent<SceneContainer>();
                 DontDestroyOnLoad(sceneContainer);
             }
+            _fadeManager.SetCallBack(()=>{
+                _logoAnimator.Play("TitleAnimation", 0, 0.0f);
+                StartCoroutine( CheckLogoAnimation() );
+            });
             // フェードイン
             StartCoroutine(_fadeManager.FadeIn());
             // 開始 通常
@@ -75,6 +83,19 @@ namespace Title{
                 SceneManager.LoadScene("Main");
             });
             StartCoroutine(_fadeManager.FadeOut());
+        }
+
+        private IEnumerator CheckLogoAnimation()
+        {
+            yield return null;
+            var info = _logoAnimator.GetCurrentAnimatorStateInfo(0);
+            while(info.normalizedTime < 1.0f){
+                yield return null;
+                info = _logoAnimator.GetCurrentAnimatorStateInfo(0);
+            }
+            for(var i = 0; i < _logoPanelList.Count; ++i){
+                _logoPanelList[i].PlayAnimation();
+            }
         }
     }
 }

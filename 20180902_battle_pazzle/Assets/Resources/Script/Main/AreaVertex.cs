@@ -45,7 +45,7 @@ public class AreaVertex : MonoBehaviour {
             var dist = Vector3.Distance( vertexLight[i].transform.position, _transformCache.position);
             var add  = (1.0f - dist * 0.6f);
             _color.a += Mathf.Clamp(add, 0.0f, 0.6f);
-            //_color.a = Mathf.Clamp(_color.a, 0.0f, 0.8f);
+            _color.a = Mathf.Clamp(_color.a, 0.0f, 0.6f);
         }
     }
 }

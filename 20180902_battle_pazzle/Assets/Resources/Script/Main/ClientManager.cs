@@ -10,6 +10,7 @@ public class ClientManager : MonoBehaviour {
     public enum EEventType : byte
     {
         PlayerName = 1,
+        StartAnimationEnd,
     }
     #endregion
 
@@ -41,6 +42,7 @@ public class ClientManager : MonoBehaviour {
     private int _lightCreateInterval;
     private bool _initFlg;
     private string _enemyPlayerName;
+    private bool _enemyInitFlg;
 	#endregion
 
 	#region access
@@ -103,12 +105,12 @@ public class ClientManager : MonoBehaviour {
 			_playerType     = Common.Const.PLAYER_TYPE.MASTER;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.MASTER, (int)Common.Const.PLAYER_TYPE.GUEST };
 			//GameObject.Find( "GameObject/UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あなたのターン";
-            _mainManager.PlayerTurnImageManager.SetTurnImage(true);
+            //_mainManager.PlayerTurnImageManager.SetTurnImage(true);
 			for(var i = 0; i < 2; ++i){
 				territoryList[i].Init(i+1, (int)_playerType);
 				territoryList[i].SetSize(_territoryLineNum);
 			}
-			_turnTimeLimitCoroutine = StartCoroutine(TimeLimitCount());
+			//_turnTimeLimitCoroutine = StartCoroutine(TimeLimitCount());
 		}
 		// ゲスト
 		else{
@@ -116,7 +118,7 @@ public class ClientManager : MonoBehaviour {
 			_playerType     = Common.Const.PLAYER_TYPE.GUEST;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.GUEST, (int)Common.Const.PLAYER_TYPE.MASTER };
 			//GameObject.Find( "GameObject/UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あいてのターン";
-            _mainManager.PlayerTurnImageManager.SetTurnImage(false);
+            //_mainManager.PlayerTurnImageManager.SetTurnImage(false);
 
 			for(var i = 1; i >= 0; --i){
 				territoryList[i].Init(i+1, (int)_playerType);
@@ -124,8 +126,7 @@ public class ClientManager : MonoBehaviour {
 			}
 		}
 		GameObject.Find( "TurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = Common.Const.GAME_END_TURN.ToString();
-;
-        PhotonNetwork.RaiseEvent( (byte)EEventType.PlayerName, "Hello!", true, RaiseEventOptions.Default );
+        //PhotonNetwork.RaiseEvent( (byte)EEventType.PlayerName, "Hello!", true, RaiseEventOptions.Default );
 		//_mainManager.TerritoryLine.SetPos(_territoryLineNum);
 		_mainManager.TerritoryLine.Init();
 
@@ -188,8 +189,9 @@ public class ClientManager : MonoBehaviour {
 			holdBlock.Init(_mainManager);
 			_holdBlockList.Add(holdBlock);
 		}
-        _initFlg = true;
+        //_initFlg = true;
 
+        StartCoroutine(StartAnimationEndCheck());        
         // プレイヤーネームとレートを送信
         PhotonNetwork.RaiseEvent( (byte)EEventType.PlayerName, PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player"), true, RaiseEventOptions.Default );
 	}
@@ -373,9 +375,9 @@ public class ClientManager : MonoBehaviour {
 			_photonView.RPC("TurnChange", PhotonTargets.All, obj);
 		}
         // 遅延発生ため
-        if(playerType != _playerType){
+        //if(playerType != _playerType){
     		UpdatePlacementArea();
-        }
+        //}
     }
 
 
@@ -391,19 +393,27 @@ public class ClientManager : MonoBehaviour {
 			UpdatePlacementArea();
 			return;
 		}
-		if(Common.Const.PLAYER_TYPE.MASTER == playerType){
-			_turnFlg = (int)Common.Const.PLAYER_TYPE.GUEST;
-		}
-		else{
-			_turnFlg = (int)Common.Const.PLAYER_TYPE.MASTER;
-		}
+        _turnFlg = Common.Const.PLAYER_TYPE.MASTER == playerType ? (int)Common.Const.PLAYER_TYPE.GUEST : (int)Common.Const.PLAYER_TYPE.MASTER;
 		// 終了ターン数経過
-		if(_playerType == Common.Const.PLAYER_TYPE.MASTER){
-			if(_turnCnt + 1 > Common.Const.GAME_END_TURN){
-				GameEndTurnCheck();
-				return;
-			}
+		if(_playerType == Common.Const.PLAYER_TYPE.MASTER && _turnCnt > Common.Const.GAME_END_TURN){
+            GameEndTurnCheck();
+            return;
 		}
+        // 掴んでいるブロックの位置初期化
+        for(var i = 0; i < _holdBlockList.Count; ++i){
+            _holdBlockList[i].ScaleCheck();
+        }
+
+        // 置けるアニメーション更新
+        var nowTurnFlg = _turnFlg == (int)_playerType;
+        for(var i = 0; i < _areaList.Count; ++i){
+
+            for(var j = 0; j < _areaList[i].Count; ++j){
+                _areaList[i][j].Panel.SetTurn(nowTurnFlg);
+            }
+        }
+
+
 		// ターンカウント
 		if(playerType == _playerType){
 			++_turnCnt;
@@ -421,15 +431,13 @@ public class ClientManager : MonoBehaviour {
 		if(_turnFlg == (int)_playerType){
 //			GameObject.Find( "UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あなたのターン";
             _mainManager.PlayerTurnImageManager.SetTurnImage(true);
-
 			_turnTimeLimitCoroutine = StartCoroutine(TimeLimitCount());
 		}
 		else{
 //			GameObject.Find( "UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あいてのターン";
             _mainManager.PlayerTurnImageManager.SetTurnImage(false);
-
+            _turnTimeLimitCoroutine = StartCoroutine(TimeLimitCount());
 		}
-
 		// 置ける範囲更新
 		UpdatePlacementArea();
 	}
@@ -461,6 +469,22 @@ public class ClientManager : MonoBehaviour {
         _mainManager.VictoryView.SetContent(victoryString);
 		Invoke("EndGame", 1.0f);
 	}
+
+    [PunRPC]
+	public void GameStart()
+	{		
+        switch(_playerType){
+        case Common.Const.PLAYER_TYPE.MASTER:
+            _mainManager.PlayerTurnImageManager.SetTurnImage(true);
+            _turnTimeLimitCoroutine = StartCoroutine(TimeLimitCount());
+            break;
+        case Common.Const.PLAYER_TYPE.GUEST:
+            _mainManager.PlayerTurnImageManager.SetTurnImage(false);
+            _turnTimeLimitCoroutine = StartCoroutine(TimeLimitCount());
+            break;
+        }
+	}
+
 
 	/// <summary>
 	/// ブロック更新処理
@@ -689,13 +713,16 @@ public class ClientManager : MonoBehaviour {
 	/// <returns></returns>
 	private IEnumerator TimeLimitCount()
 	{
+        var startTime = Time.time;
 		// ターン計測
 		while(true){
-
 			_turnTimeLimit -= Time.deltaTime;
-            _mainManager.TimeLimitClock.SetClock(Common.Const.TURN_TIME, _turnTimeLimit);
-			if(_turnTimeLimit < 0.0f){
-				_turnTimeLimit = 0.0f;
+            
+            var nowTime = 30.0f - startTime - Time.time;
+            nowTime = nowTime < 0.0f ? 0.0f : nowTime;
+            _mainManager.TimeLimitClock.SetClock(Common.Const.TURN_TIME, nowTime);
+			if(nowTime < 0.0f){
+				//_turnTimeLimit = 0.0f;
 				break;
 			}
 			GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = ((int)_turnTimeLimit).ToString();
@@ -747,14 +774,37 @@ public class ClientManager : MonoBehaviour {
         case EEventType.PlayerName:
             //eventMessage    = string.Format( "[{0}] {1} - Sender({2})", eventType, (string)i_content, i_senderid );
             _enemyPlayerName = content.ToString();
+            _mainManager.StartViewManager.YouNameText.text   = PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player");
+            _mainManager.StartViewManager.EnemyNameText.text = _enemyPlayerName;
+            System.Action callback = () => {
+                _initFlg = true;
+                PhotonNetwork.RaiseEvent( (byte)EEventType.StartAnimationEnd, true, true, RaiseEventOptions.Default );
+            };
+            _mainManager.StartViewManager.PlayAnimator(callback);
+
+            break;
+        case EEventType.StartAnimationEnd:
+            _enemyInitFlg = true;
             break;
         default:
             break;
         }
         // あれば表示
-        if( !string.IsNullOrEmpty( eventMessage ) ){
-            _mainManager.PlayerNameText.text = eventMessage;
+        // if( !string.IsNullOrEmpty( eventMessage ) ){
+        //     _mainManager.PlayerNameText.text = eventMessage;
+        // }
+    }
+
+    private IEnumerator StartAnimationEndCheck()
+    {
+        while(_initFlg != true || _enemyInitFlg != true){
+            yield return null;
         }
-    }}
+        if(_playerType == Common.Const.PLAYER_TYPE.MASTER){
+            // 開始rpc
+            _photonView.RPC("GameStart", PhotonTargets.All);
+        }
+    }
+}
 
 

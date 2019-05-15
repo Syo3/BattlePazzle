@@ -17,14 +17,24 @@ public class PlayerTurnImageManager : MonoBehaviour {
     private IEnumerator TurnChangeAnimation(bool flg)
     {
         var animator = GetComponent<Animator>();
+        // 再生中か
+        var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if(stateInfo.normalizedTime < 1.0f){
+            animator.enabled = false;
+            _turnImage.transform.eulerAngles = new Vector3(0.0f, 90.0f, 0.0f);
+            yield return null;
+            animator.enabled = true;
+            _turnImage.transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+        }
+
+        
         animator.Play("TurnChangeStart", 0, 0.0f);
         yield return null;
-        var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         Debug.Log(stateInfo.normalizedTime);
         while(stateInfo.normalizedTime < 1.0f){
             yield return null;
             stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            Debug.Log(stateInfo.normalizedTime);
         }
         
 

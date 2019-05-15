@@ -27,6 +27,9 @@ public class PassView : MonoBehaviour {
         _clientManager = clientManager;
         // パスボタン
         _passButton.onClick.AddListener(()=>{
+            if(!_clientManager.CheckNowTurn()){
+                return;
+            }
             _clientManager.PassTurn();
             Show(false);
         });
