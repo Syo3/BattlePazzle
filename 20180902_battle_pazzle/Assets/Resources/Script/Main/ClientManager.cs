@@ -178,8 +178,10 @@ public class ClientManager : MonoBehaviour {
 			}
 		}
 		// 置ける場所設定
+        var nowTurnFlg = _turnFlg == (int)_playerType;
 		for(var i = 0; i < Common.Const.NUM_WIDTH; ++i){
 			_areaList[0][i].SetPlacementFlg(true);
+            _areaList[0][i].Panel.SetTurn(nowTurnFlg);
 		}
 		// 掴むブロック作成
 		_holdBlockList = new List<HoldBlock>();
@@ -718,11 +720,12 @@ public class ClientManager : MonoBehaviour {
 		while(true){
 			_turnTimeLimit -= Time.deltaTime;
             
-            var nowTime = 30.0f - startTime - Time.time;
+            var nowTime = 30.0f + startTime - Time.time;
             nowTime = nowTime < 0.0f ? 0.0f : nowTime;
             _mainManager.TimeLimitClock.SetClock(Common.Const.TURN_TIME, nowTime);
-			if(nowTime < 0.0f){
-				//_turnTimeLimit = 0.0f;
+            Debug.Log(nowTime);
+			if(nowTime <= 0.0f){
+				_turnTimeLimit = 0.0f;
 				break;
 			}
 			GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = ((int)_turnTimeLimit).ToString();
@@ -798,6 +801,7 @@ public class ClientManager : MonoBehaviour {
     private IEnumerator StartAnimationEndCheck()
     {
         while(_initFlg != true || _enemyInitFlg != true){
+            Debug.Log(_initFlg+"___"+_enemyInitFlg);
             yield return null;
         }
         if(_playerType == Common.Const.PLAYER_TYPE.MASTER){

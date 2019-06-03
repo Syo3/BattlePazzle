@@ -91,12 +91,15 @@ public class Panel : MonoBehaviour {
         if(_placementMask.enabled == false){
             return;
         }
-        if(flg){
-            _animator.Play("PlayerTurnFlash", 0);
-        }
-        else{
-            _animator.Play("EnemyTurnFlash", 0);
-        }
+        _animator.Play("New State", 0);
+        var animationName = flg ? "PlayerTurnFlash" : "EnemyTurnFlash";
+        _animator.Play(animationName, 0);
+        // if(flg){
+        //     _animator.Play("PlayerTurnFlash", 0);
+        // }
+        // else{
+        //     _animator.Play("EnemyTurnFlash", 0);
+        // }
     }
 
 }

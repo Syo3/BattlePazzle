@@ -37,7 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4272167306674210}
   - component: {fileID: 212851351442450838}
-  - component: {fileID: 95028418703596380}
+  - component: {fileID: 95165026718725138}
   m_Layer: 0
   m_Name: PlacementMask
   m_TagString: Untagged
@@ -72,7 +72,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &95028418703596380
+--- !u!95 &95165026718725138
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
@@ -81,7 +81,7 @@ Animator:
   m_GameObject: {fileID: 1672525850980694}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0b3b76d6f3e574b5c8ec7cb570dcf62c, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2802dcf551aa64ef987230588c53fa63, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sprite: {fileID: 212779446245763262}
   _placementMask: {fileID: 212851351442450838}
-  _animator: {fileID: 95028418703596380}
+  _animator: {fileID: 95165026718725138}
 --- !u!212 &212779446245763262
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -185,7 +185,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 06470903042d54244802281ac7e19d0a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
