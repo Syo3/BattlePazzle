@@ -18,12 +18,16 @@ public class Block : MonoBehaviour {
     private int _listX;
     private int _listY;
     private ClientManager _clientManager;
+    private bool _moveFlg;
 	#endregion
 
 	#region access
 	public int State{
 		get{return _state;}
 	}
+    public bool MoveFlg{
+        get{return _moveFlg;}
+    }
 	#endregion
 
 	#region public function
@@ -33,6 +37,7 @@ public class Block : MonoBehaviour {
 	/// <param name="set_state">Set state.</param>
 	public void Init(int set_state, ClientManager clientManager, int listX, int listY)
 	{
+        _moveFlg       = false;
         _clientManager = clientManager;
         _listX         = listX;
         _listY         = listY;
@@ -74,6 +79,7 @@ public class Block : MonoBehaviour {
 
     public void Move(Vector3 targetPosition,int listX, int listY, bool destroyFlg=false)
     {
+        _moveFlg        = true;
         _listX          = listX;
         _listY          = listY;
         _targetPosition = targetPosition;
@@ -114,6 +120,7 @@ public class Block : MonoBehaviour {
         if(destroyFlg){
             Destroy(gameObject);
         }
+        _moveFlg = false;
     }
 	#endregion
 }

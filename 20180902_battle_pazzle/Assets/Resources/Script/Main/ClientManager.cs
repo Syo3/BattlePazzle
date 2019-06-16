@@ -316,6 +316,7 @@ public class ClientManager : MonoBehaviour {
 		if(_playerType == playerType){
 			_areaList.Reverse();
 		}
+        Block holdMoveBlock = null;
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 
 			if(_areaList[i][0].Panel.State == (int)playerType){
@@ -328,6 +329,7 @@ public class ClientManager : MonoBehaviour {
 					if(i - lineCnt >= 0 && _areaList[i-lineCnt][j].Block == null){
 						_areaList[i-lineCnt][j].Block = _areaList[i][j].Block;
 						_areaList[i-lineCnt][j].Block.Move(_areaList[i-lineCnt][j].Panel.transform.position, j, i-lineCnt);
+                        holdMoveBlock = _areaList[i-lineCnt][j].Block;
 					}
 					else{
                         // ブロック押し出し
@@ -361,6 +363,11 @@ public class ClientManager : MonoBehaviour {
 		}
 		// 陣地更新
 		UpdateTerritory();
+
+        while(holdMoveBlock.MoveFlg){
+            yield return null;
+        }
+
 
 		// 勝敗判定
 		if(_territoryLineNum >= Common.Const.NUM_HEIGHT){

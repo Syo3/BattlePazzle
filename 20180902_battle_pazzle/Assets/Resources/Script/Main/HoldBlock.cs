@@ -173,7 +173,8 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
     {
         ResetBlockList();
         ResetBlockContainer();
-        transform.position = _defaultPosition;
+        PositionReset();
+        _blockParent.transform.localPosition = Vector3.zero;
     }
 
     /// <summary>
