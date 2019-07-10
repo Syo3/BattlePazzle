@@ -174,7 +174,6 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         ResetBlockList();
         ResetBlockContainer();
         PositionReset();
-        _blockParent.transform.localPosition = Vector3.zero;
     }
 
     /// <summary>
@@ -191,6 +190,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
             }
         }
         _blockParent.transform.localScale = new Vector3(kDefaultSize, kDefaultSize, kDefaultSize);
+        _blockParent.transform.localPosition = Vector3.zero;
     }
 
     /// <summary>

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public static class BlockSerializer{
 
+
 	public const int width  = 8;
 	public const int height = 8;
-
 	public static readonly byte[] mem_block_list = new byte[sizeof(int)*Common.Const.NUM_WIDTH*Common.Const.NUM_HEIGHT];
 
 	/// <summary>

@@ -5,6 +5,10 @@ using System.Linq;
 
 public class Block : MonoBehaviour {
 
+    #region define
+    public const float kMoveFrame = 20.0f;
+    #endregion
+
 	#region SerializeField
 	[SerializeField, Tooltip("スプライト")]
 	private SpriteRenderer _sprite;
@@ -111,7 +115,7 @@ public class Block : MonoBehaviour {
 
     private IEnumerator MoveTarget(bool destroyFlg)
     {
-        var moveVec = (_targetPosition - transform.position) / 20.0f;
+        var moveVec = (_targetPosition - transform.position) / kMoveFrame;
         while(_targetPosition.y - transform.position.y > 0.1f || _targetPosition.y - transform.position.y < -0.1f){
             yield return null;
             transform.position += moveVec;            

@@ -4,10 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 public class PlayerTurnImageManager : MonoBehaviour {
 
+    #region SerializeField
     [SerializeField, Tooltip("現在ターン画像リスト")]
     private List<Sprite> _turnSpriteList;
     [SerializeField, Tooltip("現在ターンImage")]
     private Image _turnImage;
+    #endregion
+
+    #region private field
+    private System.Action _callback;
+    #endregion
 
     public void SetTurnImage(bool flg)
     {
@@ -27,7 +33,6 @@ public class PlayerTurnImageManager : MonoBehaviour {
             _turnImage.transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
         }
 
-        
         animator.Play("TurnChangeStart", 0, 0.0f);
         yield return null;
         stateInfo = animator.GetCurrentAnimatorStateInfo(0);
@@ -65,8 +70,13 @@ public class PlayerTurnImageManager : MonoBehaviour {
         }
 
 
-
+        if(_callback != null) _callback();
         //_turnImage.transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
 
+    }
+
+    public void SetCallback(System.Action callback)
+    {
+        _callback = callback;
     }
 }

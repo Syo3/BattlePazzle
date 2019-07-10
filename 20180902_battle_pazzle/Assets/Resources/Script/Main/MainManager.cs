@@ -21,6 +21,8 @@ public class MainManager : MonoBehaviour {
 	private GameObject _placementBlockPrefab;
 	[SerializeField, Tooltip("削除エフェクト")]
 	private GameObject _destroyEffectPrefab;
+    [SerializeField, Tooltip("押し出しエフェクト")]
+    private GameObject _pushedEffectPrefab;
 	[SerializeField, Tooltip("パネル親行列")]
 	private Transform _panelParent;
 	[SerializeField, Tooltip("掴みブロック親")]
@@ -99,6 +101,9 @@ public class MainManager : MonoBehaviour {
 	public GameObject DestroyEffectPrefab{
 		get{return _destroyEffectPrefab;}
 	}
+    public GameObject PushedEffectPrefab{
+        get{return _pushedEffectPrefab;}
+    }
 	public Transform PanelParentTransform{
 		get{return _panelParent;}
 	}
@@ -236,7 +241,7 @@ public class MainManager : MonoBehaviour {
 		StopCoroutine(_matchAnimationCoroutine);
 		GameObject.Find("MatchText").GetComponent<TMPro.TextMeshProUGUI>().text = "";
 		#if UNITY_ANDROID || UNITY_IPHONE
-			Instantiate(_voiceManagerPrefab);
+			//Instantiate(_voiceManagerPrefab);
 		#endif
 	}
 

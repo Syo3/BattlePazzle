@@ -60,14 +60,14 @@ namespace Title{
             });
             // メニューボタン
             _menuButton.onClick.AddListener(()=>{
-                _menuView.alpha = 1.0f;
-                _menuView.interactable = true;
+                _menuView.alpha          = 1.0f;
+                _menuView.interactable   = true;
                 _menuView.blocksRaycasts = true;
             });
             // メニュー閉じるボタン
             _menuCloseButton.onClick.AddListener(()=>{
-                _menuView.alpha = 0.0f;
-                _menuView.interactable = false;
+                _menuView.alpha          = 0.0f;
+                _menuView.interactable   = false;
                 _menuView.blocksRaycasts = false;
             });
         }
