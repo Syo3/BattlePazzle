@@ -33,8 +33,11 @@ public class StartViewManager : MonoBehaviour {
     public void PlayAnimator(System.Action animationCallback)
     {
         _animationCallback = animationCallback;
-        _animator.Play("StartVSAnimation", 0, 0.0f);
-        StartCoroutine(AnimationEndCheck());
+        Debug.Log(_animator);
+        if(_animator != null){
+            _animator.Play("StartVSAnimation", 0, 0.0f);
+            StartCoroutine(AnimationEndCheck());
+        }
     }
     #endregion
 

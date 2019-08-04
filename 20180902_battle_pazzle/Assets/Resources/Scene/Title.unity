@@ -592,6 +592,15 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 212604073153050350, guid: 91ab26b2f7c644b368a59a780822cc4f,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 891282043}
+    - target: {fileID: 1228442042676396, guid: 91ab26b2f7c644b368a59a780822cc4f, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 91ab26b2f7c644b368a59a780822cc4f, type: 2}
   m_IsPrefabParent: 0
@@ -1015,6 +1024,42 @@ RectTransform:
   m_AnchoredPosition: {x: -40, y: 140}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!21 &891282043
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 2DxFX/Standard/4Gradients
+  m_Shader: {fileID: 4800000, guid: f8385957cb1001f4196051a3c3ba3977, type: 3}
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Alpha: 0
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color1: {r: 1, g: 1, b: 1, a: 0.50980395}
+    - _Color2: {r: 1, g: 1, b: 1, a: 0.5019608}
+    - _Color3: {r: 1, g: 1, b: 1, a: 0.5019608}
+    - _Color4: {r: 1, g: 1, b: 1, a: 0.5019608}
 --- !u!1 &1103911777
 GameObject:
   m_ObjectHideFlags: 0
@@ -1842,7 +1887,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1863607121245204, guid: 32695669c9f2b4aa7af1b7ff2f61c694, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 32695669c9f2b4aa7af1b7ff2f61c694, type: 2}

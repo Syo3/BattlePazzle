@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212604073153050350}
   - component: {fileID: 114308758813921670}
   - component: {fileID: 95518615718288522}
+  - component: {fileID: 114752805038439812}
   m_Layer: 0
   m_Name: DestroyEffect
   m_TagString: Untagged
@@ -73,6 +74,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sprite: {fileID: 212604073153050350}
   _animator: {fileID: 95518615718288522}
+--- !u!114 &114752805038439812
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1228442042676396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba34afa98e0da04984137096f98f122, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ForceMaterial: {fileID: 0}
+  ActiveChange: 1
+  _Color1: {r: 1, g: 1, b: 1, a: 0.50980395}
+  _Color2: {r: 1, g: 1, b: 1, a: 0.5019608}
+  _Color3: {r: 1, g: 1, b: 1, a: 0.5019608}
+  _Color4: {r: 1, g: 1, b: 1, a: 0.5019608}
+  _Alpha: 1
+  ShaderChange: 0
+  ActiveUpdate: 1
 --- !u!212 &212604073153050350
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -109,7 +130,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: b80bd285eedb34b478a8771a8959332b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

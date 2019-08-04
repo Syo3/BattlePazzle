@@ -14,6 +14,8 @@ public class PopupView : MonoBehaviour {
 	private Button _closeButton;
 	[SerializeField, Tooltip("タイトルボタン")]
 	private Button _titleButton;
+    [SerializeField, Tooltip("文言")]
+    private TMPro.TextMeshProUGUI _popupText;
 	#endregion
 
 	#region private field
@@ -28,10 +30,6 @@ public class PopupView : MonoBehaviour {
 	public void Init(MainManager mainManager)
 	{
 		_mainManager = mainManager;
-		// リセットボタン
-		_reStartButton.onClick.AddListener(()=>{
-			Debug.Log("リセット");
-		});
 		// 閉じるボタン
 		_closeButton.onClick.AddListener(()=>{
 			StartCoroutine(ClosePopupView());
@@ -56,6 +54,15 @@ public class PopupView : MonoBehaviour {
 	{
 		StartCoroutine(OpenPopupView());
 	}
+
+    /// <summary>
+    /// 相手が退出した場合表示
+    /// </summary>
+    public void SetExitView()
+    {
+        _closeButton.gameObject.SetActive(false);
+        _popupText.text = "相手がルームを退出しました\nタイトルに戻ります";
+    }
 
 	/// <summary>
 	/// フェードアウト

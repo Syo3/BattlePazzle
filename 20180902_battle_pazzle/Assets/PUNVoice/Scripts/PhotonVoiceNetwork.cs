@@ -410,6 +410,7 @@ public class UnityVoiceFrontend : Voice.LoadBalancingFrontend
 
     public override void DebugReturn(DebugLevel level, string message)
     {
+        return;
         message = string.Format("PUNVoice: {0}", message);
         if (level == DebugLevel.ERROR)
         {

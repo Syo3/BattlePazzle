@@ -54,7 +54,6 @@ public class DestroyEffect : MonoBehaviour {
 	private IEnumerator Animation(){
 
 		yield return new WaitForSeconds(_animationStartTime);
-        _soundManager.PlayOnShot(0);
         if(_animationType == 0){
     		_animator.Play("DestroyEffect");
         }
@@ -67,6 +66,7 @@ public class DestroyEffect : MonoBehaviour {
 			_stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 			yield return null;
 		}
+        _soundManager.PlayOnShot(0);
 		Destroy(gameObject);
 	}
 }

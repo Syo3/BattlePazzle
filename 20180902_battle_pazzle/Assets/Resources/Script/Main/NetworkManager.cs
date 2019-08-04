@@ -64,6 +64,8 @@ public class NetworkManager : MonoBehaviour {
 		PhotonNetwork.Disconnect();
 		if(!_mainManager.ClientManager.GameEndFlg){
 			// 表示
+            _mainManager.PopupView.SetExitView();
+            _mainManager.PopupView.Open();
 			//GameObject.Find("GameObject/UserTurnText").GetComponent<TMPro.TextMeshProUGUI>().text = "あいてがルームから退出しました";
 		}
 	}

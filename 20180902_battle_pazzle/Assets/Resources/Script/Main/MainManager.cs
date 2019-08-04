@@ -67,6 +67,10 @@ public class MainManager : MonoBehaviour {
     private GameObject _areaVertextLightPrefab;
     [SerializeField, Tooltip("開始演出管理")]
     private StartViewManager _startViewManager;
+    [SerializeField, Tooltip("パーティクル紫")]
+    private ParticleSystem _particlePurple;
+    [SerializeField, Tooltip("パーティクル黄")]
+    private ParticleSystem _particleYellow;
 
 	// デバッグ用
 	[SerializeField]
@@ -154,6 +158,9 @@ public class MainManager : MonoBehaviour {
     }
     public StartViewManager StartViewManager{
         get{return _startViewManager;}
+    }
+    public PopupView PopupView{
+        get{return _popupView;}
     }
 	#endregion
 

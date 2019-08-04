@@ -110,7 +110,6 @@ public class ClientManager : MonoBehaviour {
 				territoryList[i].Init(i+1, (int)_playerType);
 				territoryList[i].SetSize(_territoryLineNum);
 			}
-			//_turnTimeLimitCoroutine = StartCoroutine(TimeLimitCount());
 		}
 		// ゲスト
 		else{
@@ -301,11 +300,11 @@ public class ClientManager : MonoBehaviour {
 					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (i+j-destroyStart)*0.1f);
 					Destroy(_areaList[i][j].Block.gameObject);
 					_areaList[i][j].Block = null;
-                    lastDestroyTime = (i+j-destroyStart);
+                    lastDestroyTime       = (i+j-destroyStart);
 				}
 			}
 		}
-        StartCoroutine(MoveBlock(panelList, playerType, lineCnt, lastDestroyTime*0.1f+1.5f));
+        StartCoroutine(MoveBlock(panelList, playerType, lineCnt, lastDestroyTime*0.1f+2.5f));
         
 	}
 
@@ -363,11 +362,11 @@ public class ClientManager : MonoBehaviour {
 		// 陣地更新
 		UpdateTerritory();
 
-        while(holdMoveBlock.MoveFlg){
+        while(holdMoveBlock != null && holdMoveBlock.MoveFlg){
             yield return null;
         }
 
-
+        yield return new WaitForSeconds (2.0f);
 		// 勝敗判定
 		if(_territoryLineNum >= Common.Const.NUM_HEIGHT){
 			Debug.Log("win");
@@ -482,14 +481,15 @@ public class ClientManager : MonoBehaviour {
     [PunRPC]
 	public void GameStart()
 	{		
+        _mainManager.PlayerTurnImageManager.SetCallback(()=>{
+            _turnTimeLimitCoroutine = StartCoroutine(TimeLimitCount());
+        });
         switch(_playerType){
         case Common.Const.PLAYER_TYPE.MASTER:
             _mainManager.PlayerTurnImageManager.SetTurnImage(true);
-            _turnTimeLimitCoroutine = StartCoroutine(TimeLimitCount());
             break;
         case Common.Const.PLAYER_TYPE.GUEST:
             _mainManager.PlayerTurnImageManager.SetTurnImage(false);
-            _turnTimeLimitCoroutine = StartCoroutine(TimeLimitCount());
             break;
         }
 	}
@@ -805,6 +805,10 @@ public class ClientManager : MonoBehaviour {
         // }
     }
 
+    /// <summary>
+    /// マッチアニメーション終了チェック　相手プレイヤーと同期する
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator StartAnimationEndCheck()
     {
         while(_initFlg != true || _enemyInitFlg != true){
