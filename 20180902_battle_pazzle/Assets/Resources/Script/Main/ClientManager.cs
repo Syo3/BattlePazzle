@@ -97,8 +97,9 @@ public class ClientManager : MonoBehaviour {
         // イベント登録
         PhotonNetwork.OnEventCall += OnRaiseEvent;
 		List<int> panel_object_list;
-		var territoryList = _mainManager.TerritoryList;
-		GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = _turnTimeLimit.ToString();
+		var territoryList                   = _mainManager.TerritoryList;
+		_mainManager.TimeLimitText.text     = _turnTimeLimit.ToString();
+        _mainManager.TimeLimitText.fontSize = 56;
 		// マスタークライアント
 		if(_player.IsMasterClient){
 			Debug.Log( "Master" );
@@ -731,14 +732,21 @@ public class ClientManager : MonoBehaviour {
             nowTime = nowTime < 0.0f ? 0.0f : nowTime;
             _mainManager.TimeLimitClock.SetClock(Common.Const.TURN_TIME, nowTime);
             Debug.Log(nowTime);
+
+
+
 			if(nowTime <= 0.0f){
 				_turnTimeLimit = 0.0f;
 				break;
 			}
-			GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = ((int)_turnTimeLimit).ToString();
+			_mainManager.TimeLimitText.text = ((int)_turnTimeLimit).ToString();
+            if(nowTime < 10.0f){
+                _mainManager.TimeLimitText.fontSize = 56 + (nowTime - (float)(int)nowTime)*10.0f;
+            }
 			yield return null;
 		}
-		GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = ((int)_turnTimeLimit).ToString();
+		_mainManager.TimeLimitText.text     = ((int)_turnTimeLimit).ToString();
+        _mainManager.TimeLimitText.fontSize = 56;
 		// ターン変更処理
 		PassTurn();
 	}

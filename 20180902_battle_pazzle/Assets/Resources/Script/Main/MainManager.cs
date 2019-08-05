@@ -67,6 +67,8 @@ public class MainManager : MonoBehaviour {
     private GameObject _areaVertextLightPrefab;
     [SerializeField, Tooltip("開始演出管理")]
     private StartViewManager _startViewManager;
+    [SerializeField, Tooltip("タイムリミットテキスト")]
+    private TMPro.TextMeshProUGUI _timeLimitText;
     [SerializeField, Tooltip("パーティクル紫")]
     private ParticleSystem _particlePurple;
     [SerializeField, Tooltip("パーティクル黄")]
@@ -161,6 +163,9 @@ public class MainManager : MonoBehaviour {
     }
     public PopupView PopupView{
         get{return _popupView;}
+    }
+    public TMPro.TextMeshProUGUI TimeLimitText{
+        get{return _timeLimitText;}
     }
 	#endregion
 
