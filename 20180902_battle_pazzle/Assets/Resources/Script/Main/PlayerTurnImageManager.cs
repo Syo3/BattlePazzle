@@ -20,6 +20,18 @@ public class PlayerTurnImageManager : MonoBehaviour {
         StartCoroutine(TurnChangeAnimation(flg));
     }
 
+    /// <summary>
+    /// 相手ターン中ですよ　アニメーション
+    /// </summary>
+    public void SetEnemyTurnAnimation()
+    {
+        var animator  = GetComponent<Animator>();
+        var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        // 再生中なら終了
+        if(stateInfo.normalizedTime < 1.0f) return;
+        animator.Play("EnemyTurnNow", 0, 0.0f);
+    }
+
     private IEnumerator TurnChangeAnimation(bool flg)
     {
         var animator = GetComponent<Animator>();

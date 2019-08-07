@@ -12,8 +12,6 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
     #region SerializeField
     [SerializeField, Tooltip("表示用親要素")]
     private GameObject _blockParent;
-    [SerializeField, Tooltip("アニメーター")]
-    private Animator _animator;
     #endregion
 
     #region private field
@@ -24,6 +22,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
     private int _blockGroupID;
     private bool _holdFlg;
     private Coroutine _scaleAnimation;
+    private Coroutine _rotateAnimation;
     #endregion
 
     #region access
@@ -111,6 +110,11 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
     public void OnDrag( PointerEventData eventData )
     {
         if(!_mainManager.ClientManager.CheckNowTurn()){
+            // 相手ターンの掴めませんアニメーション
+            if(_rotateAnimation == null){
+                _rotateAnimation = StartCoroutine(EnemyTurnHoldAnimation());
+                _mainManager.PlayerTurnImageManager.SetEnemyTurnAnimation();
+            }
             return;
         }
         // マウスの位置に動かす
@@ -133,19 +137,24 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         if(!_mainManager.ClientManager.CheckNowTurn()){
             return;
         }
+        CheckEnemyTurnHoldAnimation();
+        // タップアニメーション
         for(var i = 0; i < _blockList.Count; ++i){
 
             for(var j = 0; j < _blockList[i].Count; ++j){
                 _blockList[i][j].SetDragColor();
             }
         }
-        //_blockParent.transform.localPosition = new Vector3(0.0f, Common.Const.BLOCK_SIZE * 3.0f, 0.0f);
-        //_blockParent.transform.localScale    = Vector3.one;
         _scaleAnimation = StartCoroutine(ScaleAnimation());
     }
     #endregion
 
+
     #region private function
+    /// <summary>
+    /// 拡大アニメーション
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator ScaleAnimation()
     {
         if(_holdFlg){
@@ -165,6 +174,42 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         _blockParent.transform.localScale    = Vector3.one;
         _scaleAnimation                      = null;
     }
+
+    /// <summary>
+    /// 掴めませんアニメーション
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator EnemyTurnHoldAnimation()
+    {
+        var cnt      = 0;
+        var moveRate = 10.0f;
+        var rotate   = transform.eulerAngles;
+        while(cnt < 4){
+
+            yield return null;
+            rotate.z += moveRate;
+            if(System.Math.Abs(rotate.z) >= 29.0f){
+                moveRate *= -1.0f;
+                ++cnt;
+            }
+            transform.eulerAngles = rotate;
+        }
+        transform.eulerAngles = Vector3.zero;
+        _rotateAnimation      = null;
+    }
+
+    /// <summary>
+    /// アニメーション中かチェック
+    /// </summary>
+    private void CheckEnemyTurnHoldAnimation()
+    {
+        if(_rotateAnimation == null) return;
+        // アニメーションしていれば停止
+        StopCoroutine(_rotateAnimation);
+        _rotateAnimation      = null;
+        transform.eulerAngles = Vector3.zero;
+    }
+
 
     /// <summary>
     /// 初期化
