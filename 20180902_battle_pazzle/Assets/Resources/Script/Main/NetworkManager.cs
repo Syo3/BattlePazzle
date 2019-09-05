@@ -8,6 +8,7 @@ public class NetworkManager : MonoBehaviour {
 	#region private field
 	private int _state;
 	private MainManager _mainManager;
+    private string _roomPassword;
 	#endregion
 
 	#region access
@@ -18,15 +19,24 @@ public class NetworkManager : MonoBehaviour {
 	public MainManager MainManager{
 		set{_mainManager = value;}
 	}
+    public string RoomPassword{
+        set{_roomPassword = value;}
+    }
 	#endregion
 
 	// Use this for initialization
 	void Start()
 	{
+	}
+
+    public void Init(string password)
+    {
 		_state = 0;
+        _roomPassword = password;
 		// ネットワーク準備
 		PhotonNetwork.ConnectUsingSettings( "v1.0.0" );
-	}
+
+    }
 
 	#region photon function
 	/// <summary>
@@ -35,8 +45,21 @@ public class NetworkManager : MonoBehaviour {
 	void OnJoinedLobby()
 	{
 		Debug.Log("ロビーに入りました。");
-		// ルームに入室する
-		PhotonNetwork.JoinRandomRoom();
+
+
+        // TODO: パスワードない場合
+        if(_roomPassword == ""){
+            // ルームに入室する
+            PhotonNetwork.JoinRandomRoom();
+        }
+        else{
+            // パスワードある場合
+            ExitGames.Client.Photon.Hashtable expectedCustomProperties = new ExitGames.Client.Photon.Hashtable() {
+            { "password",   "test" },
+            };
+            PhotonNetwork.JoinRandomRoom(expectedCustomProperties, 0);
+        }
+
 	}
 
 	/// <summary>
@@ -119,6 +142,15 @@ public class NetworkManager : MonoBehaviour {
 		roomOptions.IsOpen       = true;
 		roomOptions.MaxPlayers   = 2;
 		roomOptions.EmptyRoomTtl = 1000;
+        // パスワード設定
+        if(_roomPassword != ""){
+            roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {
+                { "password",   _roomPassword },
+            };
+        }
+
+
+
 		// ルーム名が被ると作成できないため
 		int rand = Random.Range( 0, 100000000 );
 		PhotonNetwork.CreateRoom ( "random_room"+rand, roomOptions, null );

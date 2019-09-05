@@ -11,6 +11,7 @@ public class ClientManager : MonoBehaviour {
     {
         PlayerName = 1,
         StartAnimationEnd,
+        EndGame
     }
     #endregion
 
@@ -43,6 +44,8 @@ public class ClientManager : MonoBehaviour {
     private bool _initFlg;
     private string _enemyPlayerName;
     private bool _enemyInitFlg;
+    private bool _deleteNowFlg;
+    private Block _spawnCheckBlock;
 	#endregion
 
 	#region access
@@ -64,6 +67,9 @@ public class ClientManager : MonoBehaviour {
 	public bool GameEndFlg{
 		get{return _gameEndFlg;}
 	}
+    public bool InitFlg{
+        get{return _initFlg;}
+    }
     public List<List<AreaVertex>> AreaVertexList{
         get{return _areaVertexList;}
     }
@@ -195,7 +201,7 @@ public class ClientManager : MonoBehaviour {
 
         StartCoroutine(StartAnimationEndCheck());        
         // プレイヤーネームとレートを送信
-        PhotonNetwork.RaiseEvent( (byte)EEventType.PlayerName, PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player"), true, RaiseEventOptions.Default );
+        PhotonNetwork.RaiseEvent( (byte)EEventType.PlayerName, PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player")+":"+PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500"), true, RaiseEventOptions.Default );
 	}
 
 
@@ -242,15 +248,16 @@ public class ClientManager : MonoBehaviour {
 				if(list[i][j] > 0 && _areaList[i][j].Block == null /*&& _areaList[i][j].Panel.State == list[i][j]*/){
 
 					var block = Instantiate(_mainManager.BlockPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * _mainManager.WorldTransform.localScale.x + worldPosition, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<Block>();
-					block.Init(list[i][j], this, j, i);
+					block.Init(list[i][j], this, j, i, playerType != _playerType);
 					_areaList[i][j].Block = block;
+                    _spawnCheckBlock      = block;
 				}
 			}
 		}
 
 		// 最後にターン終了扱いにしてターンを更新
 		//m_turn_cnt = ++m_turn_cnt % 2;
-		// 敵と味方でY軸が逆になるのがネックよねー
+		// 敵と味方でY軸が逆になるのがネック
 		if(playerType == _playerType){
 			Invoke("AreaUpdateCheck", 0.5f);
 		}
@@ -264,6 +271,14 @@ public class ClientManager : MonoBehaviour {
 	/// <param name="playerType"></param>
 	private void DeleteBlock(List<List<int>> list, List<List<int>> panelList,Common.Const.PLAYER_TYPE playerType, int lineCnt)
 	{
+        _deleteNowFlg   = true;
+        if(_spawnCheckBlock != null && _spawnCheckBlock.SpawnAnimationFlg){
+
+            // FIXME: 生成待ち処理　すごいバグになったので様子見
+            // StartCoroutine(SpawnWait(()=>{
+            //     DeleteBlock(list, panelList, playerType, lineCnt);
+            // }));
+        }
 		// 受信側プレイヤーは反転表示
 		var checkStartY = Common.Const.NUM_HEIGHT;
 		var checkEndY   = 0;
@@ -309,6 +324,14 @@ public class ClientManager : MonoBehaviour {
         
 	}
 
+    /// <summary>
+    /// 削除して ブロック移動
+    /// </summary>
+    /// <param name="panelList"></param>
+    /// <param name="playerType"></param>
+    /// <param name="lineCnt"></param>
+    /// <param name="waitTime"></param>
+    /// <returns></returns>
     private IEnumerator MoveBlock(List<List<int>> panelList, Common.Const.PLAYER_TYPE playerType, int lineCnt, float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
@@ -362,12 +385,19 @@ public class ClientManager : MonoBehaviour {
 		}
 		// 陣地更新
 		UpdateTerritory();
-
-        while(holdMoveBlock != null && holdMoveBlock.MoveFlg){
+        // 待ち時間
+        Debug.Log("holdMoveBlock:"+holdMoveBlock);
+        while(_mainManager.TerritoryList[0].MoveFlg || (holdMoveBlock != null && holdMoveBlock.MoveFlg)){
             yield return null;
         }
+        //yield return null;
+        yield return new WaitForSeconds (1.0f);
+        // yie
+		//UpdatePlacementArea();
 
-        yield return new WaitForSeconds (2.0f);
+        _deleteNowFlg   = false;
+
+
 		// 勝敗判定
 		if(_territoryLineNum >= Common.Const.NUM_HEIGHT){
 			Debug.Log("win");
@@ -384,7 +414,6 @@ public class ClientManager : MonoBehaviour {
 		}
         // 遅延発生ため
         //if(playerType != _playerType){
-    		UpdatePlacementArea();
         //}
     }
 
@@ -397,8 +426,21 @@ public class ClientManager : MonoBehaviour {
 	/// <param name="playerType"></param>
 	public void TurnChange(Common.Const.PLAYER_TYPE playerType)
 	{
+        // 遅延対策
+        if(_deleteNowFlg){
+
+            StartCoroutine(DeleteWait(()=>{
+                Debug.Log("Start Turn Change");
+                UpdatePlacementArea();
+                TurnChange(playerType);
+            }));
+            return;
+        }
+
+
+
 		if(_mainManager._debugFlg){
-			UpdatePlacementArea();
+			//UpdatePlacementArea();
 			return;
 		}
         _turnFlg = Common.Const.PLAYER_TYPE.MASTER == playerType ? (int)Common.Const.PLAYER_TYPE.GUEST : (int)Common.Const.PLAYER_TYPE.MASTER;
@@ -435,20 +477,27 @@ public class ClientManager : MonoBehaviour {
 			_turnTimeLimitCoroutine = null;
 		}
 
-		// 表示
-		if(_turnFlg == (int)_playerType){
-//			GameObject.Find( "UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あなたのターン";
-            _mainManager.PlayerTurnImageManager.SetTurnImage(true);
-		}
-		else{
-//			GameObject.Find( "UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あいてのターン";
-            _mainManager.PlayerTurnImageManager.SetTurnImage(false);
-		}
+		// ターン表示
+        _mainManager.PlayerTurnImageManager.SetTurnImage(_turnFlg == (int)_playerType);
         _mainManager.PlayerTurnImageManager.SetCallback(()=>{
+            if(_turnTimeLimitCoroutine != null){
+                StopCoroutine(_turnTimeLimitCoroutine);
+            }            
+            _turnTimeLimit = Common.Const.TURN_TIME;
             _turnTimeLimitCoroutine = StartCoroutine(TimeLimitCount());
         });
-		// 置ける範囲更新
-		UpdatePlacementArea();
+
+		// 置ける範囲更新 受信側がまだ移動中の可能性があるため
+        // 移動していない
+        Debug.Log("territory move flg:"+_mainManager.TerritoryList[0].MoveFlg);
+        Debug.Log("delete now flg:"+_deleteNowFlg);
+        // if(!_mainManager.TerritoryList[0].MoveFlg){
+//        if(!_deleteNowFlg){
+    		UpdatePlacementArea();
+        // }
+        // else{
+        //     StartCoroutine(CheckBlockMoveNow(nowTurnFlg));
+        // }
 	}
 
 	[PunRPC]
@@ -461,14 +510,18 @@ public class ClientManager : MonoBehaviour {
 		_gameEndFlg       = true;
         var victoryString = "";
 		if(!drawFlg){
+            var rate = int.Parse(PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500"));
 			// 勝ち
 			if(_playerType == playerType){
                 victoryString = "Win";
+                rate         += 15;
 			}
 			// 負け
 			else{
                 victoryString = "Lose";
+                rate         -= 15;
 			}
+            PlayerPrefs.SetString(Common.Const.PLAYER_RATE_KEY, rate.ToString());
 		}
 		// 引き分け
 		else{
@@ -477,6 +530,12 @@ public class ClientManager : MonoBehaviour {
 		// 終了表示
         _mainManager.VictoryView.SetContent(victoryString);
 		Invoke("EndGame", 1.0f);
+        // タイムリミット表示
+        if(_turnTimeLimitCoroutine != null){
+            StopCoroutine(_turnTimeLimitCoroutine);
+        }
+        PhotonNetwork.RaiseEvent( (byte)EEventType.EndGame, "", true, RaiseEventOptions.Default );
+
 	}
 
     [PunRPC]
@@ -558,6 +617,7 @@ public class ClientManager : MonoBehaviour {
 	/// </summary>
 	private void UpdatePlacementArea()
 	{
+        Debug.Log("update placement area");
 		// 初期化
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 			
@@ -607,6 +667,23 @@ public class ClientManager : MonoBehaviour {
 				_areaList[0][i].SetPlacementFlg(true);
 			}
 		}
+        
+        // デバッグ用
+        var areaText = "";
+		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
+			
+			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
+                if( _areaList[i][j].Block != null){
+                    areaText += _areaList[i][j].Block.State+",";
+                }
+                else{
+                    areaText += 0+",";
+                }
+            }
+                areaText += "\n";
+        }
+        Debug.Log(areaText);
+
 	}
 
 	/// <summary>
@@ -648,6 +725,11 @@ public class ClientManager : MonoBehaviour {
 			_mainManager.TerritoryList[0].ChangeSize(Common.Const.NUM_HEIGHT-_territoryLineNum);
 		}
 		_mainManager.TerritoryLine.SetPos(_territoryLineNum);
+
+
+
+        // ここでパーティクル弄れたらいいな
+
 	}
 
 	/// <summary>
@@ -731,7 +813,7 @@ public class ClientManager : MonoBehaviour {
             var nowTime = 30.0f + startTime - Time.time;
             nowTime = nowTime < 0.0f ? 0.0f : nowTime;
             _mainManager.TimeLimitClock.SetClock(Common.Const.TURN_TIME, nowTime);
-            Debug.Log(nowTime);
+            //Debug.Log(nowTime);
 
 
 
@@ -748,7 +830,11 @@ public class ClientManager : MonoBehaviour {
 		_mainManager.TimeLimitText.text     = ((int)_turnTimeLimit).ToString();
         _mainManager.TimeLimitText.fontSize = 56;
 		// ターン変更処理
-		PassTurn();
+		// if(!CheckNowTurn()){
+		// 	yield break;
+		// }
+        // パスと同じ処理
+        PassTurn();
 	}
 
 	/// <summary>
@@ -791,9 +877,12 @@ public class ClientManager : MonoBehaviour {
         switch( eventType ){
         case EEventType.PlayerName:
             //eventMessage    = string.Format( "[{0}] {1} - Sender({2})", eventType, (string)i_content, i_senderid );
-            _enemyPlayerName = content.ToString();
-            _mainManager.StartViewManager.YouNameText.text   = PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player");
-            _mainManager.StartViewManager.EnemyNameText.text = _enemyPlayerName;
+            var contentList  = content.ToString().Split(':');
+            _enemyPlayerName = contentList[0];
+            var enemyRate    = contentList[1];
+            // _mainManager.StartViewManager.YouNameText.text   = PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player");
+            // _mainManager.StartViewManager.EnemyNameText.text = _enemyPlayerName;
+            _mainManager.StartViewManager.Init(PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player"), _enemyPlayerName, PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500"), enemyRate);
             System.Action callback = () => {
                 _initFlg = true;
                 PhotonNetwork.RaiseEvent( (byte)EEventType.StartAnimationEnd, true, true, RaiseEventOptions.Default );
@@ -803,6 +892,16 @@ public class ClientManager : MonoBehaviour {
             break;
         case EEventType.StartAnimationEnd:
             _enemyInitFlg = true;
+            break;
+        // ゲーム終了
+        case EEventType.EndGame:
+            if(_gameEndFlg){
+                // 切断制御
+                // 退出
+                PhotonNetwork.LeaveRoom();
+                // 切断
+                PhotonNetwork.Disconnect();
+            }
             break;
         default:
             break;
@@ -827,6 +926,78 @@ public class ClientManager : MonoBehaviour {
             // 開始rpc
             _photonView.RPC("GameStart", PhotonTargets.All);
         }
+    }
+
+    /// <summary>
+    /// 移動中か判定
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator CheckBlockMoveNow(bool nowTurnFlg)
+    {
+
+        // 待ち時間
+        while(_deleteNowFlg){
+            Debug.Log("移動中");
+            for(var i = 0; i < _areaList.Count; ++i){
+
+                for(var j = 0; j < _areaList[i].Count; ++j){
+                    _areaList[i][j].Panel.StopAnimator();
+                }
+            }
+
+            yield return null;
+        }
+        for(var i = 0; i < _areaList.Count; ++i){
+
+            for(var j = 0; j < _areaList[i].Count; ++j){
+                _areaList[i][j].Panel.StopAnimator();
+            }
+        }
+
+
+        while(_mainManager.TerritoryList[0].MoveFlg){
+            Debug.Log("移動中 check territory");
+            yield return null;
+        }
+        Debug.Log("ゆっくりまつ");
+        yield return new WaitForSeconds (10.0f);
+
+
+        Debug.Log("移動終了");
+        Debug.Log("now turn flg:"+nowTurnFlg);
+//        yield return null;
+        for(var i = 0; i < _areaList.Count; ++i){
+
+            for(var j = 0; j < _areaList[i].Count; ++j){
+                _areaList[i][j].Panel.StopAnimator();
+            }
+        }
+        UpdatePlacementArea();
+        yield return null;
+        for(var i = 0; i < _areaList.Count; ++i){
+
+            for(var j = 0; j < _areaList[i].Count; ++j){
+                _areaList[i][j].Panel.SetTurn(nowTurnFlg);
+            }
+        }
+    }
+
+
+    private IEnumerator DeleteWait(System.Action callback)
+    {
+        while(_deleteNowFlg){
+            Debug.Log("delete wait");
+            yield return null;
+        }
+        callback();
+    }
+
+    private IEnumerator SpawnWait(System.Action callback)
+    {
+        while(_spawnCheckBlock != null && _spawnCheckBlock.SpawnAnimationFlg){
+            yield return null;
+        }
+        callback();
     }
 }
 

@@ -86,6 +86,7 @@ public class MainManager : MonoBehaviour {
 	private int _blockListKey;
 	private int debugCounter = 0;
 	private Coroutine _matchAnimationCoroutine;
+    private string _roomPassword;
 	#endregion
 
 	#region access
@@ -182,14 +183,17 @@ public class MainManager : MonoBehaviour {
         _victoryView.Init(this);
         _passView.Init(_clientManager);
 
-		// デバッグフラグチェック
+		// シーン遷移チェック
+        _roomPassword      = "";
 		var sceneContainer = FindObjectOfType<SceneContainer>();
 		if(sceneContainer != null){
-			_debugFlg = sceneContainer.DebugFlg;
+			_debugFlg     = sceneContainer.DebugFlg;
+            _roomPassword = sceneContainer.Password;
 		}
 		_popupView.Init(this);
 		// メニューボタン
 		_menuButton.onClick.AddListener(()=>{
+            _popupView.SetTitleMenuView();
 			_popupView.Open();
 		});
 		// パスボタン
@@ -198,6 +202,8 @@ public class MainManager : MonoBehaviour {
 		});
 		_matchAnimationCoroutine = StartCoroutine(MatchingAnimation());
 		_blockListKey = 0;
+        // ネットワーク接続
+        _network_mgr.Init(_roomPassword);
 	}
 
 	// Update is called once per frame
@@ -311,7 +317,7 @@ public class MainManager : MonoBehaviour {
 				_holdBlockData[i].Add(new List<int>());
 				var blockLine = blockLineList[j].Split(':');
 				for(var n = 0; n < blockLine.Length; ++n){
-					Debug.Log(blockLine[n]);
+					//Debug.Log(blockLine[n]);
 					_holdBlockData[i][j].Add(int.Parse(blockLine[n]));
 				}
 			}

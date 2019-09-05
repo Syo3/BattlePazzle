@@ -48,7 +48,7 @@ public class PlayerTurnImageManager : MonoBehaviour {
         animator.Play("TurnChangeStart", 0, 0.0f);
         yield return null;
         stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        Debug.Log(stateInfo.normalizedTime);
+        //Debug.Log(stateInfo.normalizedTime);
         while(stateInfo.normalizedTime < 1.0f){
             yield return null;
             stateInfo = animator.GetCurrentAnimatorStateInfo(0);

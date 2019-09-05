@@ -88,9 +88,7 @@ public class Panel : MonoBehaviour {
 
     public void SetTurn(bool flg)
     {
-        if(_placementMask.enabled == false){
-            return;
-        }
+        if(_placementMask.enabled == false) return;
         _animator.Play("New State", 0);
         var animationName = flg ? "PlayerTurnFlash" : "EnemyTurnFlash";
         _animator.Play(animationName, 0);
@@ -100,6 +98,11 @@ public class Panel : MonoBehaviour {
         // else{
         //     _animator.Play("EnemyTurnFlash", 0);
         // }
+    }
+
+    public void StopAnimator()
+    {
+        _animator.Play("New State", 0);
     }
 
 }

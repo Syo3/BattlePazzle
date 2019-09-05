@@ -23,6 +23,7 @@ public class Block : MonoBehaviour {
     private int _listY;
     private ClientManager _clientManager;
     private bool _moveFlg;
+    private bool _spawnAnimationFlg;
 	#endregion
 
 	#region access
@@ -32,6 +33,9 @@ public class Block : MonoBehaviour {
     public bool MoveFlg{
         get{return _moveFlg;}
     }
+    public bool SpawnAnimationFlg{
+        get{return _spawnAnimationFlg;}
+    }
 	#endregion
 
 	#region public function
@@ -39,7 +43,7 @@ public class Block : MonoBehaviour {
 	/// 初期設定
 	/// </summary>
 	/// <param name="set_state">Set state.</param>
-	public void Init(int set_state, ClientManager clientManager, int listX, int listY)
+	public void Init(int set_state, ClientManager clientManager, int listX, int listY, bool spawnAnimationFlg=false)
 	{
         _moveFlg       = false;
         _clientManager = clientManager;
@@ -68,16 +72,22 @@ public class Block : MonoBehaviour {
         // _gradients._Color3 = _sprite.color;
         // _gradients._Color4 = _sprite.color;
 
-        _gradients._Color1   = Color.white * 0.8f;
+        _gradients._Color1   = Color.white * 1.0f;
         _gradients._Color1.a = 0.0f;
         _gradients._Color2 = _gradients._Color1;
         _gradients._Color3 = _gradients._Color1;
         _gradients._Color4 = _gradients._Color1;
 
+
+        _spawnAnimationFlg = spawnAnimationFlg;
+        if(spawnAnimationFlg){
+            StartCoroutine(SpawnAnimation());
+        }
 	}
 
     void Update()
     {
+        if(_spawnAnimationFlg)return;
         CheckVertexColor();
     }
 
@@ -113,6 +123,11 @@ public class Block : MonoBehaviour {
     }
 
 
+    /// <summary>
+    /// 移動アニメーション
+    /// </summary>
+    /// <param name="destroyFlg"></param>
+    /// <returns></returns>
     private IEnumerator MoveTarget(bool destroyFlg)
     {
         var moveVec = (_targetPosition - transform.position) / kMoveFrame;
@@ -126,5 +141,73 @@ public class Block : MonoBehaviour {
         }
         _moveFlg = false;
     }
+
+    /// <summary>
+    /// 生成時アニメーション 
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator SpawnAnimation()
+    {
+        // 透明　→　黑　→　街灯の色（加速するとか2dfxで作る方がいい鴨？）　点滅
+        // 現在の色を保存
+        var saveBlockColor     = _sprite.color;
+        var savegradientsColor = new Color[]{_gradients._Color1, _gradients._Color2, _gradients._Color3, _gradients._Color4};
+        _sprite.color = Color.clear;
+        _gradients._Color1 = Color.clear;
+        _gradients._Color2 = Color.clear;
+        _gradients._Color3 = Color.clear;
+        _gradients._Color4 = Color.clear;
+
+        // 黑
+        var color = Color.gray;
+        color.a   = 0.0f;
+        while(color.a < 0.8f){
+
+            yield return null;
+            color.a      += 0.08f;
+            _sprite.color = color;
+        }
+        color         = Color.gray;
+        _sprite.color = color;
+        yield return null;
+        // 色つけ
+        var addColor  = (saveBlockColor - color) / 20.0f;
+        Debug.Log("color:"+Mathf.Abs(color.r - saveBlockColor.r));
+        while(Mathf.Abs(color.r - saveBlockColor.r) > 0.01f){
+
+            Debug.Log(Mathf.Abs(color.r - saveBlockColor.r));
+            yield return null;
+            color += addColor;
+            _sprite.color = color;
+        }
+        _sprite.color      = saveBlockColor;        
+        yield return null;
+        yield return null;
+        yield return null;
+        yield return null;
+        yield return null;
+        yield return null;
+        _sprite.color      = saveBlockColor * 0.5f;
+        yield return null;
+        yield return null;
+        yield return null;
+        _sprite.color      = saveBlockColor;        
+        yield return null;
+        yield return null;
+        yield return null;
+        _sprite.color      = saveBlockColor * 0.5f;
+        yield return null;
+        yield return null;
+        yield return null;
+        _sprite.color      = saveBlockColor;
+        _gradients._Color1 = savegradientsColor[0];
+        _gradients._Color2 = savegradientsColor[1];
+        _gradients._Color3 = savegradientsColor[2];
+        _gradients._Color4 = savegradientsColor[3];
+        _spawnAnimationFlg = false;
+    }
 	#endregion
+
+
+
 }

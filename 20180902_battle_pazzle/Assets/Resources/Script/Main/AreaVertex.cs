@@ -43,9 +43,13 @@ public class AreaVertex : MonoBehaviour {
         for(var i = 0; i < vertexLight.Count; ++i){
 
             var dist = Vector3.Distance( vertexLight[i].transform.position, _transformCache.position);
-            var add  = (1.0f - dist * 0.6f);
-            _color.a += Mathf.Clamp(add, 0.0f, 0.6f);
-            _color.a = Mathf.Clamp(_color.a, 0.0f, 0.6f);
+            
+            // 単体の明るさと影響範囲
+            var add  = (1.0f - dist * 1.6f);
+            // 単体の明るさ
+            _color.a += Mathf.Clamp(add, 0.0f, 0.5f);
+            // 最大の明るさ
+            _color.a = Mathf.Clamp(_color.a, 0.0f, 0.5f);
         }
     }
 }

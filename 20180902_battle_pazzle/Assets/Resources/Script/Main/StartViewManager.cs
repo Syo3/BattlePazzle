@@ -14,6 +14,10 @@ public class StartViewManager : MonoBehaviour {
     private TMPro.TextMeshProUGUI _youNameText;
     [SerializeField, Tooltip("相手の名前")]
     private TMPro.TextMeshProUGUI _enemyNameText;
+    [SerializeField, Tooltip("自分のレート")]
+    private TMPro.TextMeshProUGUI _youRateText;
+    [SerializeField, Tooltip("相手のレート")]
+    private TMPro.TextMeshProUGUI _enemyRateText;
     #endregion
 
     #region private field
@@ -30,6 +34,21 @@ public class StartViewManager : MonoBehaviour {
     #endregion
 
     #region public function
+    /// <summary>
+    /// 表示初期化
+    /// </summary>
+    public void Init(string youName, string enemyName, string youRate, string enemyRate)
+    {
+        _youNameText.text   = youName;
+        _enemyNameText.text = enemyName;
+        _youRateText.text   = youRate;
+        _enemyRateText.text = enemyRate;
+    }
+
+    /// <summary>
+    /// アニメーション開始
+    /// </summary>
+    /// <param name="animationCallback"></param>
     public void PlayAnimator(System.Action animationCallback)
     {
         _animationCallback = animationCallback;

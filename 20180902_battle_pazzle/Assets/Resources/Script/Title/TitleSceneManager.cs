@@ -29,11 +29,20 @@ namespace Title{
         private Animator _logoAnimator;
         [SerializeField, Tooltip("Logoパネル")]
         private List<LogoPanel> _logoPanelList;
+        [SerializeField, Tooltip("パスワード入力ビュー")]
+        private PasswordInputView _passwordView;
+        #endregion
+
+        #region access
+        public GameObject SceneContainer{
+            get{return _sceneContainer;}
+        }
         #endregion
 
         void Start()
         {
             _nameArea.Init();
+            _passwordView.Init(this);
             // playerpref 確認
             Debug.Log(PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player"));
             // シーンコンテナ取得
@@ -55,8 +64,9 @@ namespace Title{
             });
             // 開始 デバッグ
             _startButtonDebug.onClick.AddListener(()=>{
-                sceneContainer.DebugFlg = true;
-                StartGame();
+                //sceneContainer.DebugFlg = true;
+                //StartGame();
+                _passwordView.Show(true);
             });
             // メニューボタン
             _menuButton.onClick.AddListener(()=>{
@@ -75,7 +85,7 @@ namespace Title{
         /// <summary>
         /// Mainシーン遷移
         /// </summary>
-        private void StartGame()
+        public void StartGame()
         {
             _startButton.interactable      = false;
             _startButtonDebug.interactable = false;

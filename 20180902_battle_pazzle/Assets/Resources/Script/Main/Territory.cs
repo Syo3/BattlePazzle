@@ -12,7 +12,14 @@ public class Territory : MonoBehaviour {
 	#region private field
 	private int _playerType;
 	private int _direction;
+    private bool _moveFlg;
 	#endregion
+
+    #region access
+    public bool MoveFlg{
+        get{return _moveFlg;}
+    }
+    #endregion
 
 	#region public function
 	/// <summary>
@@ -22,6 +29,7 @@ public class Territory : MonoBehaviour {
 	/// <param name="parentPlayerType"></param>
 	public void Init(int playerType, int parentPlayerType)
 	{
+        _moveFlg = false;
 		switch(playerType){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:
 			_sprite.color = Common.Const.MASTER_COLOR;
@@ -49,6 +57,7 @@ public class Territory : MonoBehaviour {
 
     public void ChangeSize(int line)
     {
+        _moveFlg = true;
         Debug.Log("change size");
         StartCoroutine(SizeChangeAnimation(line));
     }
@@ -70,6 +79,8 @@ public class Territory : MonoBehaviour {
         }
         _sprite.size            = targetSize;
         transform.localPosition = targetPosition;
+        _moveFlg                = false;
+        Debug.Log("change size end");
     }
 	#endregion
 }
