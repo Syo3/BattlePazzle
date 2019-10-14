@@ -33,6 +33,7 @@ public class NetworkManager : MonoBehaviour {
     {
 		_state = 0;
         _roomPassword = password;
+        Debug.Log("password:"+_roomPassword);
 		// ネットワーク準備
 		PhotonNetwork.ConnectUsingSettings( "v1.0.0" );
 
