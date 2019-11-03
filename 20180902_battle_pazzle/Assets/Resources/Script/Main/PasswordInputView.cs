@@ -12,7 +12,16 @@ public class PasswordInputView : MonoBehaviour {
     private TMPro.TMP_InputField _textInputField;
     [SerializeField, Tooltip("決定ボタン")]
     private Button _executeButton;
-    // 戻るボタンいるよな
+    [SerializeField, Tooltip("パスワードキャンセルボタン")]
+    private Button _passwordCancelButton;
+    [SerializeField, Tooltip("ボタン管理　パスワードOKボタン")]
+    private ButtonManager _passwordOkButtonMaanager;
+    [SerializeField, Tooltip("ボタン管理　パスワードキャンセルボタン")]
+    private ButtonManager _passwordCancelButtonManager;
+    [SerializeField, Tooltip("ボタン管理　開始ボタン")]
+    private ButtonManager _startButtonManager;
+    [SerializeField, Tooltip("ボタン管理　ルームマッチボタン")]
+    private ButtonManager _roomMatchButtonManager;
     #endregion
 
     #region private field
@@ -21,6 +30,7 @@ public class PasswordInputView : MonoBehaviour {
     #region public function
     public void Init(Title.TitleSceneManager titleSceneManager)
     {
+        // パスワードOKボタン
         _executeButton.onClick.AddListener(()=>{
             // コンテナ
             var password = _textInputField.text;
@@ -30,13 +40,51 @@ public class PasswordInputView : MonoBehaviour {
         	DontDestroyOnLoad(sceneContainer);
             titleSceneManager.StartGame();
         });
+        // パスワードキャンセルボタン
+        _passwordCancelButton.onClick.AddListener(()=>{
+            Show(false);
+        });
     }
 
+    /// <summary>
+    /// 表示
+    /// </summary>
+    /// <param name="flg"></param>
     public void Show(bool flg)
     {
-        _canvasGroup.alpha = flg ? 1.0f : 0.0f;
-        _canvasGroup.interactable = flg;
-        _canvasGroup.blocksRaycasts = flg;
+        StartCoroutine( flg ? "FadeInCoroutine" : "FadeOutCoroutine" );
+    }
+    #endregion
+
+    #region private function
+    private IEnumerator FadeInCoroutine()
+    {
+        _startButtonManager.FadeOut();
+        _roomMatchButtonManager.FadeOut();
+        while(_canvasGroup.alpha < 1.0f){
+            yield return null;
+            _canvasGroup.alpha += 0.05f;
+        }
+        _canvasGroup.alpha = 1.0f;
+        _passwordOkButtonMaanager.FadeIn();
+        _passwordCancelButtonManager.FadeIn();
+        _canvasGroup.interactable   = true;
+        _canvasGroup.blocksRaycasts = true;
+    }
+
+    private IEnumerator FadeOutCoroutine()
+    {
+        _passwordOkButtonMaanager.FadeOut();
+        _passwordCancelButtonManager.FadeOut();
+        while(_canvasGroup.alpha > 0.0f){
+            yield return null;
+            _canvasGroup.alpha -= 0.05f;
+        }
+        _canvasGroup.alpha          = 0.0f;
+        _canvasGroup.interactable   = false;
+        _canvasGroup.blocksRaycasts = false;
+        _startButtonManager.FadeIn();
+        _roomMatchButtonManager.FadeIn();
     }
     #endregion
 }

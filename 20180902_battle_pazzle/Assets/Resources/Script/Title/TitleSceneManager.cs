@@ -21,8 +21,6 @@ namespace Title{
         private CanvasGroup _menuView;
         [SerializeField, Tooltip("メニューボタン")]
         private Button _menuButton;
-        [SerializeField, Tooltip("メニュー閉じるボタン")]
-        private Button _menuCloseButton;
         [SerializeField, Tooltip("名前入力エリア")]
         private NameArea _nameArea;
         [SerializeField, Tooltip("Logoアニメーター")]
@@ -62,23 +60,16 @@ namespace Title{
                 sceneContainer.DebugFlg = false;
                 StartGame();
             });
-            // 開始 デバッグ
+            // ルームマッチ
             _startButtonDebug.onClick.AddListener(()=>{
-                //sceneContainer.DebugFlg = true;
-                //StartGame();
                 _passwordView.Show(true);
             });
+
+
+
             // メニューボタン
             _menuButton.onClick.AddListener(()=>{
-                _menuView.alpha          = 1.0f;
-                _menuView.interactable   = true;
-                _menuView.blocksRaycasts = true;
-            });
-            // メニュー閉じるボタン
-            _menuCloseButton.onClick.AddListener(()=>{
-                _menuView.alpha          = 0.0f;
-                _menuView.interactable   = false;
-                _menuView.blocksRaycasts = false;
+                _nameArea.Show(true);
             });
         }
 
