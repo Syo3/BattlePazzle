@@ -14,6 +14,8 @@ public class VictoryView : MonoBehaviour {
     private Button _titleButton;
     [SerializeField, Tooltip("再マッチボタン")]
     private Button _retryButton;
+    [SerializeField, Tooltip("")]
+    private CanvasGroup _buttonCanvasGroup;
     #endregion
 
     #region private field
@@ -55,6 +57,26 @@ public class VictoryView : MonoBehaviour {
         _canvasGroup.alpha          = 1.0f;
         _canvasGroup.interactable   = true;
         _canvasGroup.blocksRaycasts = true;
+        StartCoroutine(ButtonShowWait());
+    }
+    #endregion
+
+    #region private function
+    private IEnumerator ButtonShowWait()
+    {
+        yield return new WaitForSeconds(1.5f);
+        // 広告判定
+        var ads_count = PlayerPrefs.GetInt("ads_count", 0);
+        if(ads_count > 1){
+            // TODO: 乱数ないから必ず表示されるーよ
+            #if UNITY_ANDROID || UNITY_IOS
+            _mainManager.AdsManager.ShowRewardedAd();
+            #endif
+            PlayerPrefs.SetInt("ads_count", 0);
+        }
+        _buttonCanvasGroup.alpha          = 1.0f;
+        _buttonCanvasGroup.interactable   = true;
+        _buttonCanvasGroup.blocksRaycasts = true;
     }
     #endregion
 }

@@ -73,6 +73,10 @@ public class MainManager : MonoBehaviour {
     private ParticleSystem _particlePurple;
     [SerializeField, Tooltip("パーティクル黄")]
     private ParticleSystem _particleYellow;
+    [SerializeField, Tooltip("チュートリアル表示")]
+    private GameObject _tutorialObject;
+    [SerializeField, Tooltip("キャンバス親要素")]
+    private GameObject _canvasParent;
 
 	// デバッグ用
 	[SerializeField]
@@ -167,6 +171,12 @@ public class MainManager : MonoBehaviour {
     }
     public TMPro.TextMeshProUGUI TimeLimitText{
         get{return _timeLimitText;}
+    }
+    public GameObject TutorialObject{
+        get{return _tutorialObject;}
+    }
+    public GameObject CanvasParent{
+        get{return _canvasParent;}
     }
 	#endregion
 

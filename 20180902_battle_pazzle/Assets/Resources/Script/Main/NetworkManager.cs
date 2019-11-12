@@ -46,28 +46,13 @@ public class NetworkManager : MonoBehaviour {
 	void OnJoinedLobby()
 	{
 		Debug.Log("ロビーに入りました。");
-
-        // TODO: パスワードない場合
+        // パスワードない場合
         if(_roomPassword == ""){
-            Debug.Log("login test");
-            // ルームに入室する
-            ExitGames.Client.Photon.Hashtable expectedCustomProperties = new ExitGames.Client.Photon.Hashtable() {
-            { "random",   "1" },
-            };
-
-            //PhotonNetwork.JoinRandomRoom(expectedCustomProperties, 2);
             PhotonNetwork.JoinRandomRoom();
         }
+        // パスワードあり
         else{
-            // パスワードある場合
-            // ExitGames.Client.Photon.Hashtable expectedCustomProperties = new ExitGames.Client.Photon.Hashtable() {
-            // { "password",   "password" },
-            // };
-            
-            // TODO: 多分入室処理が違う
-
-            		var roomOptions          = new RoomOptions();
-
+    		var roomOptions          = new RoomOptions();
             roomOptions.IsVisible    = false;
             roomOptions.IsOpen       = true;
             roomOptions.MaxPlayers   = 2;
@@ -75,15 +60,8 @@ public class NetworkManager : MonoBehaviour {
             roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {
                 { "password",   _roomPassword },
             };
-
-
             var roomName = _roomPassword;
-
-            //PhotonNetwork.JoinRandomRoom(expectedCustomProperties, 0);
-            Debug.Log("join room");
             PhotonNetwork.JoinOrCreateRoom(_roomPassword, roomOptions, null);
-                        Debug.Log("join room check");
-
         }
 
 	}
@@ -93,7 +71,7 @@ public class NetworkManager : MonoBehaviour {
 	/// </summary>
 	void OnJoinedRoom()
 	{
-		GameObject.Find("RoomNameText").GetComponent<TMPro.TextMeshProUGUI>().text = PhotonNetwork.room.Name;
+		//GameObject.Find("RoomNameText").GetComponent<TMPro.TextMeshProUGUI>().text = PhotonNetwork.room.Name;
 		Debug.Log("ルームへ入室しました。");
 		Debug.Log( PhotonNetwork.countOfPlayersInRooms );
 		if(PhotonNetwork.playerList.Length == 2){
@@ -115,6 +93,7 @@ public class NetworkManager : MonoBehaviour {
 			// 表示
             _mainManager.PopupView.SetExitView();
             _mainManager.PopupView.Open();
+            _mainManager.ClientManager.StopTimeLimitCoroutine();
 			//GameObject.Find("GameObject/UserTurnText").GetComponent<TMPro.TextMeshProUGUI>().text = "あいてがルームから退出しました";
 		}
 	}
@@ -162,42 +141,13 @@ public class NetworkManager : MonoBehaviour {
 	private void CreateRoom()
 	{
 		// ルームがないと入室に失敗するため、その時は自分で作る
-		// 引数でルーム名を指定できる
 		var roomOptions          = new RoomOptions();
 		roomOptions.MaxPlayers   = 2;
-		//roomOptions.EmptyRoomTtl = 1000;
-        var roomName             = "";
-        // パスワード設定
-        if(_roomPassword != ""){
-            Debug.Log("match make password");
-            roomOptions.IsVisible    = false;
-            roomOptions.IsOpen       = false;
-
-            roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {
-                { "password",   "password" },
-            };
-            roomName = _roomPassword;
-        }
-        else{
-
-    		var rand = Random.Range( 0, 100000000 );
-            roomName = "random_room"+rand;
-
-            roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {
-                { "password",   "random" },
-            };
-            Debug.Log("room password random");
-        }
-        // roomOptions.CustomRoomPropertiesForLobby = new string[]{ "ramdom", "test" };
-        // roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {
-        //     { "random", 1 },
-        // };
-
-
-
+		roomOptions.EmptyRoomTtl = 1000;
 		// ルーム名が被ると作成できないため
-		PhotonNetwork.CreateRoom ( roomName, roomOptions, null );
-		var hashTable = new Hashtable();
+        var rand                 = Random.Range( 0, 100000000 );
+        var roomName             = "random_room"+rand;
+		PhotonNetwork.CreateRoom( roomName, roomOptions, null );
 	}
 	#endregion
 }

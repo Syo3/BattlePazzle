@@ -29,6 +29,8 @@ namespace Title{
         private List<LogoPanel> _logoPanelList;
         [SerializeField, Tooltip("パスワード入力ビュー")]
         private PasswordInputView _passwordView;
+        [SerializeField, Tooltip("プライバシーポリシーリンク")]
+        private Button _privacyPolicyButton;
         #endregion
 
         #region access
@@ -70,6 +72,10 @@ namespace Title{
             // メニューボタン
             _menuButton.onClick.AddListener(()=>{
                 _nameArea.Show(true);
+            });
+            // プライバシーポリシー
+            _privacyPolicyButton.onClick.AddListener(()=>{
+                Application.OpenURL("http://syo883.xsrv.jp/index.php");
             });
         }
 

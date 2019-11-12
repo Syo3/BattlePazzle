@@ -46,6 +46,8 @@ public class ClientManager : MonoBehaviour {
     private bool _enemyInitFlg;
     private bool _deleteNowFlg;
     private Block _spawnCheckBlock;
+    private GameObject _tutorialObject;
+    private float _initCheckCount;
 	#endregion
 
 	#region access
@@ -462,6 +464,15 @@ public class ClientManager : MonoBehaviour {
                 _areaList[i][j].Panel.SetTurn(nowTurnFlg);
             }
         }
+        // チュートリアル処理
+        if(_tutorialObject != null){
+            Destroy(_tutorialObject);
+            _tutorialObject = null;
+            PlayerPrefs.SetInt("tutorial_1", 1);
+        }
+        if(nowTurnFlg){
+            SetTutorial();
+        }
 
 
 		// ターンカウント
@@ -547,9 +558,11 @@ public class ClientManager : MonoBehaviour {
         switch(_playerType){
         case Common.Const.PLAYER_TYPE.MASTER:
             _mainManager.PlayerTurnImageManager.SetTurnImage(true);
+            SetTutorial();
             break;
         case Common.Const.PLAYER_TYPE.GUEST:
             _mainManager.PlayerTurnImageManager.SetTurnImage(false);
+            
             break;
         }
 	}
@@ -564,6 +577,17 @@ public class ClientManager : MonoBehaviour {
 		var obj = new object[]{range_list, _playerType};
 		_photonView.RPC("UpdateBlock", PhotonTargets.All, obj);
 	}
+
+    /// <summary>
+    /// ターンチェックコルーチン終了
+    /// </summary>
+    public void StopTimeLimitCoroutine()
+    {
+        if(_turnTimeLimitCoroutine != null){
+            StopCoroutine(_turnTimeLimitCoroutine);
+        }
+    }
+
 
 	/// <summary>
 	/// エリア更新判定
@@ -728,7 +752,7 @@ public class ClientManager : MonoBehaviour {
 
 
 
-        // ここでパーティクル弄れたらいいな
+        // TODO:ここでパーティクル弄れたらいいな
 
 	}
 
@@ -829,10 +853,6 @@ public class ClientManager : MonoBehaviour {
 		}
 		_mainManager.TimeLimitText.text     = ((int)_turnTimeLimit).ToString();
         _mainManager.TimeLimitText.fontSize = 56;
-		// ターン変更処理
-		// if(!CheckNowTurn()){
-		// 	yield break;
-		// }
         // パスと同じ処理
         PassTurn();
 	}
@@ -872,16 +892,17 @@ public class ClientManager : MonoBehaviour {
     /// <param name="senderid"></param>
     private void OnRaiseEvent( byte eventcode, object content, int senderid )
     {
-        string eventMessage = null;
-        var eventType   = (EEventType)eventcode;
+        Debug.Log(eventcode);
+        Debug.Log(content);
+        var eventType = (EEventType)eventcode;
         switch( eventType ){
+        // 開始アニメーション開始
         case EEventType.PlayerName:
-            //eventMessage    = string.Format( "[{0}] {1} - Sender({2})", eventType, (string)i_content, i_senderid );
+            // 二重送信チェック
+            if(_enemyPlayerName != null) return;
             var contentList  = content.ToString().Split(':');
             _enemyPlayerName = contentList[0];
             var enemyRate    = contentList[1];
-            // _mainManager.StartViewManager.YouNameText.text   = PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player");
-            // _mainManager.StartViewManager.EnemyNameText.text = _enemyPlayerName;
             _mainManager.StartViewManager.Init(PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player"), _enemyPlayerName, PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500"), enemyRate);
             System.Action callback = () => {
                 _initFlg = true;
@@ -889,13 +910,22 @@ public class ClientManager : MonoBehaviour {
             };
             _mainManager.StartViewManager.PlayAnimator(callback);
 
+            // adsカウントアップ
+            var ads_count = PlayerPrefs.GetInt("ads_count", 1);
+            ++ads_count;
+            PlayerPrefs.SetInt("ads_count", ads_count);
             break;
+        // 開始アニメーション終了
         case EEventType.StartAnimationEnd:
             _enemyInitFlg = true;
             break;
         // ゲーム終了
         case EEventType.EndGame:
             if(_gameEndFlg){
+                // タイムリミット停止
+                if(_turnTimeLimitCoroutine != null){
+                    StopCoroutine(_turnTimeLimitCoroutine);
+                }
                 // 切断制御
                 // 退出
                 PhotonNetwork.LeaveRoom();
@@ -906,10 +936,6 @@ public class ClientManager : MonoBehaviour {
         default:
             break;
         }
-        // あれば表示
-        // if( !string.IsNullOrEmpty( eventMessage ) ){
-        //     _mainManager.PlayerNameText.text = eventMessage;
-        // }
     }
 
     /// <summary>
@@ -918,8 +944,18 @@ public class ClientManager : MonoBehaviour {
     /// <returns></returns>
     private IEnumerator StartAnimationEndCheck()
     {
+        yield return null;
         while(_initFlg != true || _enemyInitFlg != true){
-            Debug.Log(_initFlg+"___"+_enemyInitFlg);
+            //Debug.Log(_initFlg+"___"+_enemyInitFlg);
+            // 片方だけ送られない場合があったため再送チェック処理
+            if(_initFlg){
+                _initCheckCount += Time.deltaTime;
+                if(_initCheckCount > 5.0f){
+                    PhotonNetwork.RaiseEvent( (byte)EEventType.PlayerName, PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player")+":"+PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500"), true, RaiseEventOptions.Default );
+                    _initCheckCount = 0.0f;
+                }
+            }
+
             yield return null;
         }
         if(_playerType == Common.Const.PLAYER_TYPE.MASTER){
@@ -998,6 +1034,15 @@ public class ClientManager : MonoBehaviour {
             yield return null;
         }
         callback();
+    }
+
+    private void SetTutorial()
+    {
+        if(PlayerPrefs.GetInt("tutorial_1", 0) == 0){
+            // 生成
+            _tutorialObject = Instantiate(_mainManager.TutorialObject, Vector3.zero, Quaternion.identity, _mainManager.CanvasParent.transform);
+            _tutorialObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.0f, -170.0f);
+        }
     }
 }
 
