@@ -48,6 +48,9 @@ public class ClientManager : MonoBehaviour {
     private Block _spawnCheckBlock;
     private GameObject _tutorialObject;
     private float _initCheckCount;
+    private ParticleSystem _playerParticle;
+    private ParticleSystem _enemyParticle;
+
 	#endregion
 
 	#region access
@@ -119,6 +122,8 @@ public class ClientManager : MonoBehaviour {
 				territoryList[i].Init(i+1, (int)_playerType);
 				territoryList[i].SetSize(_territoryLineNum);
 			}
+            _playerParticle = _mainManager.ParticlePurple;
+            _enemyParticle  = _mainManager.ParticleYellow; 
 		}
 		// ゲスト
 		else{
@@ -132,6 +137,8 @@ public class ClientManager : MonoBehaviour {
 				territoryList[i].Init(i+1, (int)_playerType);
 				territoryList[i].SetSize(_territoryLineNum);
 			}
+            _playerParticle = _mainManager.ParticleYellow;
+            _enemyParticle  = _mainManager.ParticlePurple; 
 		}
 		GameObject.Find( "TurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = Common.Const.GAME_END_TURN.ToString();
         //PhotonNetwork.RaiseEvent( (byte)EEventType.PlayerName, "Hello!", true, RaiseEventOptions.Default );
@@ -322,9 +329,67 @@ public class ClientManager : MonoBehaviour {
 				}
 			}
 		}
+        // ブロック移動
         StartCoroutine(MoveBlock(panelList, playerType, lineCnt, lastDestroyTime*0.1f+2.5f));
-        
+        // パーティクル演出
+        var emission          = _playerType != playerType ? _enemyParticle.emission : _playerParticle.emission;
+        emission.rateOverTime = 100.0f;
+        if(_playerType != playerType){
+            var particleMain = _enemyParticle.main;
+            particleMain.startSpeed = new ParticleSystem.MinMaxCurve(25.0f, 1.0f);
+            particleMain.startSize  = new ParticleSystem.MinMaxCurve(5.0f);
+        }
+        else{
+            var particleMain = _playerParticle.main;
+            particleMain.startSpeed = new ParticleSystem.MinMaxCurve(25.0f, 1.0f);           
+            particleMain.startSize  = new ParticleSystem.MinMaxCurve(5.0f);
+        }
+
+        Invoke("ResetParticle", 2.0f);
+        // LINE!　演出
+        if(lineCnt < 2){
+            _mainManager.SoundManager.PlayOnShot(4);
+            // 削除演出
+            _mainManager.LineDestoryAnimator.Play("LineMatchEffectParent_MatchLine", 0, 0.0f);
+            _mainManager.DestroyLineNumText.text = lineCnt.ToString();
+        }
+        else{
+            StartCoroutine(LineDestoryAnimationMultiple(lineCnt));
+        }
 	}
+
+    private void ResetParticle()
+    {
+        var emission            = _enemyParticle.emission;
+        emission.rateOverTime   = 2.0f;
+        var particleMain        = _enemyParticle.main;
+        particleMain.startSpeed = new ParticleSystem.MinMaxCurve(0.8f);
+        particleMain.startSize  = new ParticleSystem.MinMaxCurve(1.0f);
+        emission                = _playerParticle.emission;
+        emission.rateOverTime   = 2.0f;
+        particleMain            = _playerParticle.main;
+        particleMain.startSpeed = new ParticleSystem.MinMaxCurve(0.8f);
+        particleMain.startSize  = new ParticleSystem.MinMaxCurve(1.0f);
+
+    }
+
+    private IEnumerator LineDestoryAnimationMultiple(int lineCnt)
+    {
+        for(var i = 1; i < lineCnt; ++i){
+
+            _mainManager.LineDestoryAnimator.Play("LineMatchEffectParent_MatchLineNext", 0, 0.0f);
+            _mainManager.DestroyLineNumText.text = i.ToString();
+            _mainManager.SoundManager.PlayOnShot(4);
+            yield return null;
+            var nowState = _mainManager.LineDestoryAnimator.GetCurrentAnimatorStateInfo(0);
+            while(nowState.normalizedTime < 1.0f){
+                yield return null;
+                nowState = _mainManager.LineDestoryAnimator.GetCurrentAnimatorStateInfo(0);
+            }
+        }
+        _mainManager.LineDestoryAnimator.Play("LineMatchEffectParent_MatchLineMultiple", 0, 0.0f);
+        _mainManager.DestroyLineNumText.text = lineCnt.ToString();
+    }
 
     /// <summary>
     /// 削除して ブロック移動
@@ -453,7 +518,10 @@ public class ClientManager : MonoBehaviour {
 		}
         // 掴んでいるブロックの位置初期化
         for(var i = 0; i < _holdBlockList.Count; ++i){
+
             _holdBlockList[i].ScaleCheck();
+            // 掴めない色にする
+            _holdBlockList[i].SetTurnColor();
         }
 
         // 置けるアニメーション更新
@@ -524,11 +592,19 @@ public class ClientManager : MonoBehaviour {
             var rate = int.Parse(PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500"));
 			// 勝ち
 			if(_playerType == playerType){
+
+                // TODO: とりあえずSE
+                _mainManager.SoundManager.PlayOnShot(2);
+
                 victoryString = "Win";
                 rate         += 15;
 			}
 			// 負け
 			else{
+
+                // TODO: なんかSE欲しい
+                _mainManager.SoundManager.PlayOnShot(3);
+
                 victoryString = "Lose";
                 rate         -= 15;
 			}

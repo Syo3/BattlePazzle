@@ -66,7 +66,7 @@ public class DestroyEffect : MonoBehaviour {
 			_stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 			yield return null;
 		}
-        _soundManager.PlayOnShot(0);
+        _soundManager.PlayOnShot(5);
 		Destroy(gameObject);
 	}
 }

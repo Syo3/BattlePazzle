@@ -13,6 +13,8 @@ public class PlacementBlock : MonoBehaviour {
 	private int _positionX;
 	private int _positionY;
 	private int _playerType;
+    private Transform _transform;
+    private Coroutine _coroutine;
 	#endregion
 
 	#region access
@@ -39,6 +41,8 @@ public class PlacementBlock : MonoBehaviour {
 		_positionX  = x;
 		_positionY  = y;
 		_playerType = playerType;
+        _transform  = transform;
+        _coroutine  = null;
 		SetPlacementColor();
 	}
 
@@ -73,5 +77,70 @@ public class PlacementBlock : MonoBehaviour {
 		}
 
 	}
+
+    /// <summary>
+    /// 相手ターン中の色変更
+    /// </summary>
+    /// <param name="flg"></param>
+    public void SetTurnColor(bool flg)
+    {
+        if(!flg){
+            _sprite.color  = Common.Const.OTHER_COLOR;
+            return;
+        }
+        SetPlacementColor();
+    }
+
+    /// <summary>
+    /// ホールド開始
+    /// </summary>
+    public void StartHold()
+    {
+        _coroutine = StartCoroutine(StartHoldCoroutine());
+    }
+
+    /// <summary>
+    /// ホールド終了
+    /// </summary>
+    public void EndHold()
+    {
+        _coroutine = StartCoroutine(EndHoldCoroutine());
+    }
 	#endregion
+
+    #region private function
+    private IEnumerator StartHoldCoroutine()
+    {
+        var angle  = _transform.eulerAngles;
+        angle.z    = 0.0f;
+        var time   = 0.0f;
+        var target = (Random.Range(0, 2) * 2 - 1 ) * 90.0f;
+        while(Mathf.Abs(angle.z - target) > 5.0f){
+            yield return null;
+            time  += Time.deltaTime * 2.0f;
+            angle.z                = Mathf.Lerp(angle.z, target + target * 0.1f, time);
+            _transform.eulerAngles = angle;
+        }
+        angle.z   = 90.0f;
+        _transform.eulerAngles = angle;
+        _coroutine = null;
+    }
+
+    private IEnumerator EndHoldCoroutine()
+    {
+        var angle = _transform.eulerAngles;
+        var time  = 0.0f;
+        while(angle.z > 0.0f){
+            yield return null;
+//            angle.z               += -720.0f * Time.deltaTime;
+            time += Time.deltaTime * 2.0f;
+            angle.z                = Mathf.Lerp(angle.z, 0.0f, time);
+            _transform.eulerAngles = angle;
+        }
+        angle.z                = 0.0f;
+        _transform.eulerAngles = angle;
+        _coroutine             = null;
+    }
+
+    #endregion
 }

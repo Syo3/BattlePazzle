@@ -83,6 +83,13 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         SendBlock();
         _blockParent.transform.localPosition = Vector3.zero;
         _holdFlg                             = false;
+        // タップアニメーション
+        for(var i = 0; i < _blockList.Count; ++i){
+
+            for(var j = 0; j < _blockList[i].Count; ++j){
+                _blockList[i][j].EndHold();
+            }
+        }
     }
 
     /// <summary>
@@ -143,9 +150,25 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
 
             for(var j = 0; j < _blockList[i].Count; ++j){
                 _blockList[i][j].SetDragColor();
+                _blockList[i][j].StartHold();
             }
         }
         _scaleAnimation = StartCoroutine(ScaleAnimation());
+    }
+
+    /// <summary>
+    /// 相手ターンの色設定
+    /// </summary>
+    public void SetTurnColor()
+    {
+        var turnFlg = _mainManager.ClientManager.CheckNowTurn();
+        for(var i = 0; i < _blockList.Count; ++i){
+
+            for(var j = 0; j < _blockList[i].Count; ++j){
+                _blockList[i][j].SetTurnColor(turnFlg);
+            }
+        }
+
     }
     #endregion
 
@@ -294,6 +317,10 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
         StartCoroutine(CreateAnimation());
     }
 
+    /// <summary>
+    /// 配置ブロック生成アニメーション
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator CreateAnimation()
     {
         _blockParent.transform.localScale = Vector3.zero;

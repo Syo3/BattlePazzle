@@ -48,15 +48,17 @@ public class NetworkManager : MonoBehaviour {
 		Debug.Log("ロビーに入りました。");
         // パスワードない場合
         if(_roomPassword == ""){
+            Debug.Log("パスワードなしでルームを作成");
             PhotonNetwork.JoinRandomRoom();
         }
         // パスワードあり
         else{
+            Debug.Log("パスワードありでルームを作成");
     		var roomOptions          = new RoomOptions();
             roomOptions.IsVisible    = false;
             roomOptions.IsOpen       = true;
             roomOptions.MaxPlayers   = 2;
-            roomOptions.EmptyRoomTtl = 1000;
+            roomOptions.EmptyRoomTtl = 100000;
             roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {
                 { "password",   _roomPassword },
             };
@@ -101,7 +103,7 @@ public class NetworkManager : MonoBehaviour {
 	/// <summary>
 	/// ルームの入室に失敗すると呼ばれる
 	/// </summary>
-	void OnPhotonRandomJoinFailed()
+	public void OnPhotonRandomJoinFailed()
 	{
 		Debug.Log("ルームの入室に失敗しました。");
 		CreateRoom();
@@ -111,10 +113,16 @@ public class NetworkManager : MonoBehaviour {
 	/// ルーム作成失敗
 	/// </summary>
 	/// <param name="codeAndMsg">Code and message.</param>
-	void OnPhotonCreateRoomFailed(object[] codeAndMsg)
-	{
-		CreateRoom();
-	}
+	// public void OnPhotonCreateRoomFailed(object[] codeAndMsg)
+	// {
+	// 	Debug.Log("ルームの作成に失敗しました。");
+	// 	CreateRoom();
+	// }
+
+    public void OnPhotonCreateRoomFailed()
+    {
+        Debug.Log("OnPhotonCreateRoomFailed got called. This can happen if the room exists (even if not visible). Try another room name.");
+    }
 
 	/// <summary>
 	/// ルームに誰かが入ると呼ばれる
@@ -143,11 +151,14 @@ public class NetworkManager : MonoBehaviour {
 		// ルームがないと入室に失敗するため、その時は自分で作る
 		var roomOptions          = new RoomOptions();
 		roomOptions.MaxPlayers   = 2;
-		roomOptions.EmptyRoomTtl = 1000;
+		roomOptions.EmptyRoomTtl = 100000;
+        roomOptions.isVisible    = true;
+        roomOptions.isOpen       = true;
 		// ルーム名が被ると作成できないため
         var rand                 = Random.Range( 0, 100000000 );
         var roomName             = "random_room"+rand;
 		PhotonNetwork.CreateRoom( roomName, roomOptions, null );
+        Debug.Log("ルームを作成しました:"+roomName);
 	}
 	#endregion
 }

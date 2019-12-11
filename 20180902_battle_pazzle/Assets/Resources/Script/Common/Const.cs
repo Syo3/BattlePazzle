@@ -4,6 +4,7 @@
 
         public const string PLAYER_NAME_KEY = "PlayerNameKey";
         public const string PLAYER_RATE_KEY = "PlayerRateKey";
+        public const string VOLUME_KEY      = "BGMVolumeKey";
 
 		public const int NUM_WIDTH  = 8;
 		public const int NUM_HEIGHT = 8;
@@ -23,6 +24,8 @@
         public static readonly UnityEngine.Color MASTER_COLOR = new UnityEngine.Color(90.0f * 0.9f, 0.0f, 190.0f * 0.9f, 1.0f);
 //        public static readonly UnityEngine.Color GUEST_COLOR  = new UnityEngine.Color(255.0f, 0.0f, 0.0f, 1.0f);
         public static readonly UnityEngine.Color GUEST_COLOR  = new UnityEngine.Color(100.0f * 0.9f, 190.0f * 0.9f, 0.0f, 1.0f);
+
+        public static readonly UnityEngine.Color OTHER_COLOR  = new UnityEngine.Color(80.0f, 80.0f, 80.0f, 1.0f);
 
 		public enum PLAYER_TYPE{
 			MASTER = 1,

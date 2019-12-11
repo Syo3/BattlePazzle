@@ -77,6 +77,10 @@ public class MainManager : MonoBehaviour {
     private GameObject _tutorialObject;
     [SerializeField, Tooltip("キャンバス親要素")]
     private GameObject _canvasParent;
+    [SerializeField, Tooltip("ライン削除演出アニメーター")]
+    private Animator _lineDestoryAnimator;
+    [SerializeField, Tooltip("ライン削除演出数値入力テキスト")]
+    private TMPro.TextMeshProUGUI _destoryLineNumText;
 
 	// デバッグ用
 	[SerializeField]
@@ -178,6 +182,18 @@ public class MainManager : MonoBehaviour {
     public GameObject CanvasParent{
         get{return _canvasParent;}
     }
+    public Animator LineDestoryAnimator{
+        get{return _lineDestoryAnimator;}
+    }
+    public TMPro.TextMeshProUGUI DestroyLineNumText{
+        get{return _destoryLineNumText;}
+    }
+    public ParticleSystem ParticlePurple{
+        get{return _particlePurple;}
+    }
+    public ParticleSystem ParticleYellow{
+        get{return _particleYellow;}
+    }
 	#endregion
 
 	void Awake()
@@ -192,6 +208,7 @@ public class MainManager : MonoBehaviour {
 		_blockListKey = 0;
         _victoryView.Init(this);
         _passView.Init(_clientManager);
+        _soundManager.Init();
 
 		// シーン遷移チェック
         _roomPassword      = "";
@@ -263,6 +280,8 @@ public class MainManager : MonoBehaviour {
 	/// </summary>
 	private void CreateGame()
 	{
+        _soundManager.PlayOnShot(1);
+
 		//var clientManager    = PhotonNetwork.Instantiate("Prefab/ClientManager", Vector3.zero, Quaternion.identity, 0).GetComponent<ClientManager>();
 		_clientManager.Init(this);
 		// アニメーション終了
@@ -386,4 +405,18 @@ public class MainManager : MonoBehaviour {
 		DontDestroyOnLoad(sceneContainer);
         sceneContainer.DebugFlg = _debugFlg;
     }
+
+    /// <summary>
+    /// タスクキルされた
+    /// </summary>
+    private void OnApplicationQuit()
+    {
+        // FIXME: 相手が途中抜けした後こっちもタスキルすると減産されてしまう
+        if(ClientManager.InitFlg && !ClientManager.GameEndFlg){
+            var rate = int.Parse(PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500"));
+            PlayerPrefs.SetString(Common.Const.PLAYER_RATE_KEY, (rate-15).ToString());
+        }
+    }
+
+    
 }

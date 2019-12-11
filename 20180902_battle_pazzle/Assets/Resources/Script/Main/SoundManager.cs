@@ -12,6 +12,18 @@ public class SoundManager : MonoBehaviour{
     #endregion
 
     #region public function
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    public void Init()
+    {
+        _audioSource.volume = PlayerPrefs.GetFloat(Common.Const.VOLUME_KEY, 1.0f);
+    }
+
+    /// <summary>
+    /// SE再生
+    /// </summary>
+    /// <param name="seID"></param>
     public void PlayOnShot(int seID)
     {
         if(seID >= _seList.Count){

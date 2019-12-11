@@ -31,6 +31,8 @@ namespace Title{
         private PasswordInputView _passwordView;
         [SerializeField, Tooltip("プライバシーポリシーリンク")]
         private Button _privacyPolicyButton;
+        [SerializeField, Tooltip("サウンド設定")]
+        private SoundSettingsManager _soundSettingsManager;
         #endregion
 
         #region access
@@ -43,6 +45,7 @@ namespace Title{
         {
             _nameArea.Init();
             _passwordView.Init(this);
+            _soundSettingsManager.Init();
             // playerpref 確認
             Debug.Log(PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player"));
             // シーンコンテナ取得
