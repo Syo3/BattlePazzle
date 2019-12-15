@@ -616,7 +616,8 @@ public class ClientManager : MonoBehaviour {
 		}
 		// 終了表示
         _mainManager.VictoryView.SetContent(victoryString);
-		Invoke("EndGame", 1.0f);
+        _mainManager.GameEndAnimator.Play("VictoryText_GameEnd", 0, 0.0f);
+		Invoke("EndGame", 2.0f);
         // タイムリミット表示
         if(_turnTimeLimitCoroutine != null){
             StopCoroutine(_turnTimeLimitCoroutine);
@@ -643,6 +644,23 @@ public class ClientManager : MonoBehaviour {
         }
 	}
 
+    /// <summary>
+    /// タップされた時の音
+    /// </summary>
+    /// <param name="playerType"></param>
+    /// <param name="xPos"></param>
+    /// <param name="yPos"></param>
+    [PunRPC]
+	public void PlayBlockTapSound(Common.Const.PLAYER_TYPE playerType, int xPos, int yPos)
+	{
+        if(_playerType != playerType){
+            _mainManager.SoundManager.PlayOnShot(6+xPos);
+            // ブロックがあればブロック移動
+            if(_areaList[Common.Const.NUM_HEIGHT-yPos-1][Common.Const.NUM_WIDTH-xPos-1].Block != null){
+                _areaList[Common.Const.NUM_HEIGHT-yPos-1][Common.Const.NUM_WIDTH-xPos-1].Block.StartTapAnimation();
+            }
+        }
+	}
 
 	/// <summary>
 	/// ブロック更新処理
@@ -711,6 +729,18 @@ public class ClientManager : MonoBehaviour {
 			_photonView.RPC("TurnChange", PhotonTargets.All, obj);
 		}
 	}
+
+    /// <summary>
+    /// ブロックがタップされた際に呼び出す
+    /// </summary>
+    /// <param name="xPos"></param>
+    /// <param name="yPos"></param>
+    public void SendBlockTap(int xPos, int yPos)
+    {
+        var obj = new object[]{_playerType, xPos, yPos};
+        _mainManager.SoundManager.PlayOnShot(6+xPos);
+        _photonView.RPC("PlayBlockTapSound", PhotonTargets.All, obj);
+    }
 
 	/// <summary>
 	/// 配置できる場所を更新
@@ -923,7 +953,7 @@ public class ClientManager : MonoBehaviour {
 			}
 			_mainManager.TimeLimitText.text = ((int)_turnTimeLimit).ToString();
             if(nowTime < 10.0f){
-                _mainManager.TimeLimitText.fontSize = 56 + (nowTime - (float)(int)nowTime)*10.0f;
+                _mainManager.TimeLimitText.fontSize  = 56 + (nowTime - (float)(int)nowTime)*10.0f;
             }
 			yield return null;
 		}

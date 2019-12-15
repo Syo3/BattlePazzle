@@ -1536,6 +1536,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1824b6977d69d41e4add760fd293ec9a, type: 3}
   - {fileID: 8300000, guid: 5e22618c81c5a4fc4966ca438177350b, type: 3}
   - {fileID: 8300000, guid: 2f41305c2bf2944eab3f1501683aa719, type: 3}
+  - {fileID: 8300000, guid: f95081921669d4f88ab1edefbc964bf3, type: 3}
+  - {fileID: 8300000, guid: 307295d85eadb4dfaab0c57c24ceaac8, type: 3}
+  - {fileID: 8300000, guid: 2026e3c385e1749419d515fef3e69068, type: 3}
+  - {fileID: 8300000, guid: ae5fb4f7d2d2a44368a83ae684f29d68, type: 3}
+  - {fileID: 8300000, guid: 01f6df75cd6814131ae8b3bcd0fb669c, type: 3}
+  - {fileID: 8300000, guid: 6a9384f694bf04c9a96758339659eb48, type: 3}
+  - {fileID: 8300000, guid: e9d572823f8f549d5bf83c9b6a15398e, type: 3}
+  - {fileID: 8300000, guid: b650e0b65894442aab31e83bd6e56761, type: 3}
 --- !u!4 &269891243
 Transform:
   m_ObjectHideFlags: 0
@@ -7018,6 +7026,7 @@ GameObject:
   - component: {fileID: 415489328}
   - component: {fileID: 415489330}
   - component: {fileID: 415489329}
+  - component: {fileID: 415489331}
   m_Layer: 5
   m_Name: VictoryText
   m_TagString: Untagged
@@ -7033,7 +7042,7 @@ RectTransform:
   m_GameObject: {fileID: 415489327}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+  m_LocalScale: {x: 1, y: 1, z: 0.99999994}
   m_Children: []
   m_Father: {fileID: 1017348718}
   m_RootOrder: 0
@@ -7163,6 +7172,24 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 415489327}
+--- !u!95 &415489331
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 415489327}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2ffe6d0604fdb405a8c10813c4dac096, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &420549872
 GameObject:
   m_ObjectHideFlags: 0
@@ -9137,6 +9164,7 @@ MonoBehaviour:
   _canvasParent: {fileID: 1968869851}
   _lineDestoryAnimator: {fileID: 528784827}
   _destoryLineNumText: {fileID: 204333449}
+  _gameEndAnimator: {fileID: 415489331}
   _debugFlg: 0
 --- !u!4 &717853833
 Transform:

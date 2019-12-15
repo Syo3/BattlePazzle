@@ -81,7 +81,8 @@ public class MainManager : MonoBehaviour {
     private Animator _lineDestoryAnimator;
     [SerializeField, Tooltip("ライン削除演出数値入力テキスト")]
     private TMPro.TextMeshProUGUI _destoryLineNumText;
-
+    [SerializeField, Tooltip("勝利演出アニメーター")]
+    private Animator _gameEndAnimator;
 	// デバッグ用
 	[SerializeField]
 	public bool _debugFlg;
@@ -193,6 +194,9 @@ public class MainManager : MonoBehaviour {
     }
     public ParticleSystem ParticleYellow{
         get{return _particleYellow;}
+    }
+    public Animator GameEndAnimator{
+        get{return _gameEndAnimator;}
     }
 	#endregion
 

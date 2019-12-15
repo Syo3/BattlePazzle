@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using System.Linq;
 
-public class Block : MonoBehaviour {
+public class Block : MonoBehaviour, IPointerClickHandler {
 
     #region define
     public const float kMoveFrame = 20.0f;
@@ -24,6 +25,8 @@ public class Block : MonoBehaviour {
     private ClientManager _clientManager;
     private bool _moveFlg;
     private bool _spawnAnimationFlg;
+    private Coroutine _tapAnimationCoroutine;
+    private Vector3 _tapAnimationPositionCache;
 	#endregion
 
 	#region access
@@ -91,6 +94,13 @@ public class Block : MonoBehaviour {
         CheckVertexColor();
     }
 
+    /// <summary>
+    /// 消した時の移動
+    /// </summary>
+    /// <param name="targetPosition"></param>
+    /// <param name="listX"></param>
+    /// <param name="listY"></param>
+    /// <param name="destroyFlg"></param>
     public void Move(Vector3 targetPosition,int listX, int listY, bool destroyFlg=false)
     {
         _moveFlg        = true;
@@ -98,6 +108,27 @@ public class Block : MonoBehaviour {
         _listY          = listY;
         _targetPosition = targetPosition;
         StartCoroutine(MoveTarget(destroyFlg));
+    }
+
+    /// <summary>
+    /// クリック
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnPointerClick ( PointerEventData eventData )
+    {
+        Debug.Log("AAA");
+        StartTapAnimation();
+        _clientManager.SendBlockTap(_listX, _listY);
+    }
+
+    public void StartTapAnimation()
+    {
+        if(_tapAnimationCoroutine != null){
+            StopCoroutine(_tapAnimationCoroutine);
+            transform.position = _tapAnimationPositionCache;
+        }
+        _tapAnimationCoroutine = StartCoroutine(TapAnimation());
+
     }
     #endregion
 
@@ -114,7 +145,6 @@ public class Block : MonoBehaviour {
         var color2 = _clientManager.AreaVertexList[_listY+1][_listX+1];
         var color3 = _clientManager.AreaVertexList[_listY][_listX];
         var color4 = _clientManager.AreaVertexList[_listY][_listX+1];
-
 
         _gradients._Color1.a = color1.Color.a;
         _gradients._Color2.a = color2.Color.a;
@@ -172,10 +202,8 @@ public class Block : MonoBehaviour {
         yield return null;
         // 色つけ
         var addColor  = (saveBlockColor - color) / 20.0f;
-        Debug.Log("color:"+Mathf.Abs(color.r - saveBlockColor.r));
         while(Mathf.Abs(color.r - saveBlockColor.r) > 0.01f){
 
-            Debug.Log(Mathf.Abs(color.r - saveBlockColor.r));
             yield return null;
             color += addColor;
             _sprite.color = color;
@@ -205,6 +233,20 @@ public class Block : MonoBehaviour {
         _gradients._Color3 = savegradientsColor[2];
         _gradients._Color4 = savegradientsColor[3];
         _spawnAnimationFlg = false;
+    }
+
+    private IEnumerator TapAnimation()
+    {
+        var transformCache = transform;
+        var position       = transformCache.position;
+        _tapAnimationPositionCache = position;
+        var up             = 0.1f;
+        while(up > -0.1f){
+            yield return null;
+            position.y             += up;
+            transformCache.position = position;
+            up                     -= 0.025f;
+        }
     }
 	#endregion
 
