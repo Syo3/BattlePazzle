@@ -75,6 +75,7 @@ public class NetworkManager : MonoBehaviour {
 	{
 		//GameObject.Find("RoomNameText").GetComponent<TMPro.TextMeshProUGUI>().text = PhotonNetwork.room.Name;
 		Debug.Log("ルームへ入室しました。");
+        GameObject.Find("DebugConsoleText").GetComponent<TMPro.TextMeshProUGUI>().text = "ルームへ入室しました:"+PhotonNetwork.room.Name;
 		Debug.Log( PhotonNetwork.countOfPlayersInRooms );
 		if(PhotonNetwork.playerList.Length == 2){
 			_state = 1;
@@ -105,6 +106,7 @@ public class NetworkManager : MonoBehaviour {
 	/// </summary>
 	public void OnPhotonRandomJoinFailed()
 	{
+        GameObject.Find("DebugConsoleText").GetComponent<TMPro.TextMeshProUGUI>().text = "ルームの入室に失敗しました。";
 		Debug.Log("ルームの入室に失敗しました。");
 		CreateRoom();
 	}
@@ -130,6 +132,7 @@ public class NetworkManager : MonoBehaviour {
 	/// <param name="player">入ったプレイヤー</param>
 	void OnPhotonPlayerConnected( PhotonPlayer new_player )
 	{
+        GameObject.Find("DebugConsoleText").GetComponent<TMPro.TextMeshProUGUI>().text = "プレイヤーが入室しました";
 		Debug.Log( "プレイヤーが入室しました。");
 		Debug.Log( PhotonNetwork.playerList.Length );
 		// マスタクライアントから開始命令を実行
@@ -159,6 +162,7 @@ public class NetworkManager : MonoBehaviour {
         var roomName             = "random_room"+rand;
 		PhotonNetwork.CreateRoom( roomName, roomOptions, null );
         Debug.Log("ルームを作成しました:"+roomName);
+        GameObject.Find("DebugConsoleText").GetComponent<TMPro.TextMeshProUGUI>().text = "ルームを作成しました:"+roomName;
 	}
 	#endregion
 }

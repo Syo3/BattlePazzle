@@ -423,4 +423,11 @@ public class MainManager : MonoBehaviour {
     }
 
     
+    /// <summary>
+    /// デバッグ用
+    /// </summary>
+    public void TestWinButton()
+    {
+        _clientManager.TestWin();
+    }
 }

@@ -96,6 +96,10 @@ public class PlacementBlock : MonoBehaviour {
     /// </summary>
     public void StartHold()
     {
+        if(_coroutine != null){
+            StopCoroutine(_coroutine);
+            _coroutine = null;
+        }
         _coroutine = StartCoroutine(StartHoldCoroutine());
     }
 
@@ -104,6 +108,10 @@ public class PlacementBlock : MonoBehaviour {
     /// </summary>
     public void EndHold()
     {
+        if(_coroutine != null){
+            StopCoroutine(_coroutine);
+            _coroutine = null;
+        }
         _coroutine = StartCoroutine(EndHoldCoroutine());
     }
 	#endregion
@@ -111,6 +119,7 @@ public class PlacementBlock : MonoBehaviour {
     #region private function
     private IEnumerator StartHoldCoroutine()
     {
+        _transform.eulerAngles = Vector3.zero;
         var angle  = _transform.eulerAngles;
         angle.z    = 0.0f;
         var time   = 0.0f;
@@ -128,6 +137,7 @@ public class PlacementBlock : MonoBehaviour {
 
     private IEnumerator EndHoldCoroutine()
     {
+        _transform.eulerAngles = new Vector3(0.0f, 0.0f, 90.0f);
         var angle = _transform.eulerAngles;
         var time  = 0.0f;
         while(angle.z > 0.0f){

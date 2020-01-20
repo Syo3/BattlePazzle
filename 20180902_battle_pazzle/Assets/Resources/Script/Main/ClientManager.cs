@@ -529,6 +529,7 @@ public class ClientManager : MonoBehaviour {
         for(var i = 0; i < _areaList.Count; ++i){
 
             for(var j = 0; j < _areaList[i].Count; ++j){
+                Debug.Log(i+"_"+j);
                 _areaList[i][j].Panel.SetTurn(nowTurnFlg);
             }
         }
@@ -561,6 +562,7 @@ public class ClientManager : MonoBehaviour {
         _mainManager.PlayerTurnImageManager.SetCallback(()=>{
             if(_turnTimeLimitCoroutine != null){
                 StopCoroutine(_turnTimeLimitCoroutine);
+                _turnTimeLimitCoroutine = null;
             }            
             _turnTimeLimit = Common.Const.TURN_TIME;
             _turnTimeLimitCoroutine = StartCoroutine(TimeLimitCount());
@@ -621,6 +623,7 @@ public class ClientManager : MonoBehaviour {
         // タイムリミット表示
         if(_turnTimeLimitCoroutine != null){
             StopCoroutine(_turnTimeLimitCoroutine);
+            _turnTimeLimitCoroutine = null;
         }
         PhotonNetwork.RaiseEvent( (byte)EEventType.EndGame, "", true, RaiseEventOptions.Default );
 
@@ -679,6 +682,7 @@ public class ClientManager : MonoBehaviour {
     {
         if(_turnTimeLimitCoroutine != null){
             StopCoroutine(_turnTimeLimitCoroutine);
+            _turnTimeLimitCoroutine = null;
         }
     }
 
@@ -1031,6 +1035,7 @@ public class ClientManager : MonoBehaviour {
                 // タイムリミット停止
                 if(_turnTimeLimitCoroutine != null){
                     StopCoroutine(_turnTimeLimitCoroutine);
+                    _turnTimeLimitCoroutine = null;
                 }
                 // 切断制御
                 // 退出
@@ -1149,6 +1154,14 @@ public class ClientManager : MonoBehaviour {
             _tutorialObject = Instantiate(_mainManager.TutorialObject, Vector3.zero, Quaternion.identity, _mainManager.CanvasParent.transform);
             _tutorialObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.0f, -170.0f);
         }
+    }
+
+    public void TestWin()
+    {
+        // 勝利ユーザー送信
+        _gameEndFlg = true;
+        var obj     = new object[]{_playerType, false};
+        _photonView.RPC("GameEnd", PhotonTargets.All, obj);
     }
 }
 

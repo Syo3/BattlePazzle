@@ -17,7 +17,7 @@ public class SoundManager : MonoBehaviour{
     /// </summary>
     public void Init()
     {
-        _audioSource.volume = PlayerPrefs.GetFloat(Common.Const.VOLUME_KEY, 1.0f);
+        _audioSource.volume = PlayerPrefs.GetFloat(Common.Const.VOLUME_KEY, 0.5f);
     }
 
     /// <summary>
