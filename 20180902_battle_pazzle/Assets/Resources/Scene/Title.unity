@@ -1527,8 +1527,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioSource: {fileID: 723062045}
   _seList:
-  - {fileID: 8300000, guid: 8d6091ef277028e49a645c25bc825129, type: 3}
-  - {fileID: 8300000, guid: 5d865055384c411449bc553803624efc, type: 3}
+  - {fileID: 8300000, guid: 6d30646eb60564d1ea8c2ddac5621c00, type: 3}
+  - {fileID: 8300000, guid: c9e6e87b43d4f477ba29422a48990f49, type: 3}
 --- !u!82 &723062045
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5702,10 +5702,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4faf46d9ae41f1c46892997a804c20af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BloomAmount: 1
-  BlurAmount: 1
-  BloomThreshold: 0
-  material: {fileID: 2100000, guid: 6ced9dc3165b9bd439f57ddcee8abac6, type: 2}
 --- !u!1 &1779325026
 GameObject:
   m_ObjectHideFlags: 0
@@ -6854,11 +6850,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 1
+  m_isInputParsingRequired: 0
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
