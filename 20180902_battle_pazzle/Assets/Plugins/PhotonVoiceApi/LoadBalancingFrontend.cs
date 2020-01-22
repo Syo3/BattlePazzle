@@ -230,7 +230,7 @@ namespace ExitGames.Client.Photon.Voice
             {
                 if (voice.DebugEchoMode)
                 {
-                    opt.Receivers = ReceiverGroup.All;
+                    //opt.Receivers = ReceiverGroup.All;
                 }
                 this.OpRaiseEvent(VoiceEventCode.GetCode(channelId), content, opt, sendOpt);
             }
