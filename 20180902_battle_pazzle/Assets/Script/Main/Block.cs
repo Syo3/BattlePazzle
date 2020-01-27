@@ -51,6 +51,7 @@ public class Block : MonoBehaviour, IPointerClickHandler {
         _moveFlg       = false;
         _clientManager = clientManager;
         _listX         = listX;
+        Debug.Log("ListY:"+_listY);
         _listY         = listY;
 		_state         = set_state;
         Color setColor = Color.clear;
@@ -105,6 +106,7 @@ public class Block : MonoBehaviour, IPointerClickHandler {
     {
         _moveFlg        = true;
         _listX          = listX;
+        Debug.Log("Move ListY:"+_listY);
         _listY          = listY;
         _targetPosition = targetPosition;
         StartCoroutine(MoveTarget(destroyFlg));
@@ -247,6 +249,7 @@ public class Block : MonoBehaviour, IPointerClickHandler {
             transformCache.position = position;
             up                     -= 0.025f;
         }
+        _tapAnimationCoroutine = null;
     }
 	#endregion
 

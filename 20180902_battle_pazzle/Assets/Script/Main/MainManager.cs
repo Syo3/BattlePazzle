@@ -83,6 +83,12 @@ public class MainManager : MonoBehaviour {
     private TMPro.TextMeshProUGUI _destoryLineNumText;
     [SerializeField, Tooltip("勝利演出アニメーター")]
     private Animator _gameEndAnimator;
+    [SerializeField, Tooltip("ポストプロセス")]
+    private UnityEngine.Rendering.PostProcessing.PostProcessVolume _postProcessVolume;
+    [SerializeField, Tooltip("ポストプロセス")]
+    private UnityEngine.Rendering.PostProcessing.PostProcessLayer _postProcessLayer;
+
+
 	// デバッグ用
 	[SerializeField]
 	public bool _debugFlg;
@@ -209,6 +215,11 @@ public class MainManager : MonoBehaviour {
 
 	void Start()
 	{
+        // ライトモード
+        var lightModeFlg           = PlayerPrefs.GetInt(Common.Const.LIGHT_MODE_KEY, 1) == 1;
+        _postProcessLayer.enabled  = lightModeFlg;
+        _postProcessVolume.enabled = lightModeFlg;
+        // 初期化
 		_blockListKey = 0;
         _victoryView.Init(this);
         _passView.Init(_clientManager);

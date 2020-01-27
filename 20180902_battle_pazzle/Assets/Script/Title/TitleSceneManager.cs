@@ -33,7 +33,22 @@ namespace Title{
         private Button _privacyPolicyButton;
         [SerializeField, Tooltip("サウンド設定")]
         private SoundSettingsManager _soundSettingsManager;
+        [SerializeField, Tooltip("ポストプロセス")]
+        private UnityEngine.Rendering.PostProcessing.PostProcessVolume _postProcessVolume;
+        [SerializeField, Tooltip("ポストプロセス")]
+        private UnityEngine.Rendering.PostProcessing.PostProcessLayer _postProcessLayer;
+        [SerializeField, Tooltip("ライトモードボタン")]
+        private Button _lightModeButton;
+        [SerializeField, Tooltip("ライトモードボタンハンドル")]
+        private Image _lightModeButtonHandle;
+        [SerializeField, Tooltip("テキスト")]
+        private TMPro.TextMeshProUGUI _lightModeText;
+        [SerializeField, Tooltip("レート表示")]
+        private TMPro.TextMeshProUGUI _rateText;
         #endregion
+
+        private bool _lightModeFlg;
+        private Coroutine _lightModeCoroutine;
 
         #region access
         public GameObject SceneContainer{
@@ -80,6 +95,38 @@ namespace Title{
             _privacyPolicyButton.onClick.AddListener(()=>{
                 Application.OpenURL("http://syo883.xsrv.jp/index.php");
             });
+            // ライトモード
+            _lightModeFlg                = PlayerPrefs.GetInt(Common.Const.LIGHT_MODE_KEY, 1) == 1;
+            _postProcessLayer.enabled    = _lightModeFlg;
+            _postProcessVolume.enabled   = _lightModeFlg;
+
+            _lightModeButtonHandle.rectTransform.anchoredPosition = _lightModeFlg ? new Vector3(-22.9f, 0.0f, 0.0f) : new Vector3(22.9f, 0.0f, 0.0f);
+            _lightModeButtonHandle.color = _lightModeFlg ? Color.white : Color.magenta;
+            _lightModeButton.image.color = _lightModeFlg ? Color.gray  : Color.magenta * 0.8f;
+            _lightModeText.text          = _lightModeFlg ? "OFF" : "ON";
+            _lightModeText.alignment     = _lightModeFlg ? TMPro.TextAlignmentOptions.MidlineRight : TMPro.TextAlignmentOptions.MidlineLeft;
+            _lightModeButton.onClick.AddListener(()=>{
+
+                if(_lightModeCoroutine != null) return;
+
+
+                _lightModeFlg                 = !_lightModeFlg;
+                // _lightModeButtonHandle.rectTransform.anchoredPosition = _lightModeFlg ? new Vector3(-22.9f, 0.0f, 0.0f) : new Vector3(22.9f, 0.0f, 0.0f);
+                // _lightModeButtonHandle.color = _lightModeFlg ? Color.white : Color.magenta;
+                // _lightModeButton.image.color = _lightModeFlg ? Color.gray  : Color.magenta * 0.8f;
+                // _lightModeText.text          = _lightModeFlg ? "OFF" : "ON";
+                // _lightModeText.alignment     = _lightModeFlg ? TMPro.TextAlignmentOptions.MidlineRight : TMPro.TextAlignmentOptions.MidlineLeft;
+
+
+
+                _postProcessLayer.enabled  = _lightModeFlg;
+                _postProcessVolume.enabled = _lightModeFlg;
+                PlayerPrefs.SetInt(Common.Const.LIGHT_MODE_KEY, _lightModeFlg ? 1 : 0);
+                _lightModeCoroutine = StartCoroutine(SetLightModeEffect());
+            });
+
+            // レート
+            _rateText.text = PlayerPrefs.GetInt(Common.Const.PLAYER_RATE_KEY, 1500).ToString();
         }
 
         /// <summary>
@@ -95,6 +142,10 @@ namespace Title{
             StartCoroutine(_fadeManager.FadeOut());
         }
 
+        /// <summary>
+        /// ロゴアニメーション
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator CheckLogoAnimation()
         {
             yield return null;
@@ -106,6 +157,39 @@ namespace Title{
             for(var i = 0; i < _logoPanelList.Count; ++i){
                 _logoPanelList[i].PlayAnimation();
             }
+        }
+
+        /// <summary>
+        /// ライトモード切り替えアニメーション
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator SetLightModeEffect()
+        {
+            // 目標値設定
+            var targetX     = _lightModeFlg ? -22.9f : 22.9f;
+            var startX      = _lightModeFlg ? 22.9f  : -22.9f;
+            var targetAngle = _lightModeFlg ? 180.0f : 0.0f;
+            var startAngle  = _lightModeFlg ? 0.0f   : 180.0f;
+            var time        = 0.0f;
+            var checkTime   = 0.3f;
+            _lightModeButtonHandle.rectTransform.anchoredPosition = new Vector2(Mathf.Lerp(startX, targetX, time / checkTime), 0.0f);
+            _lightModeButtonHandle.rectTransform.eulerAngles      = new Vector3(0.0f, 0.0f, Mathf.Lerp(startAngle, targetAngle, time / checkTime));
+            while(time < checkTime){
+
+                yield return null;
+                time += Time.deltaTime;
+                _lightModeButtonHandle.rectTransform.anchoredPosition = new Vector2(Mathf.Lerp(startX, targetX, time / checkTime), 0.0f);
+                _lightModeButtonHandle.rectTransform.eulerAngles      = new Vector3(0.0f, 0.0f, Mathf.Lerp(startAngle, targetAngle, time / checkTime));
+            }
+            _lightModeButtonHandle.rectTransform.anchoredPosition = new Vector2(targetX, 0.0f);
+            _lightModeButtonHandle.rectTransform.eulerAngles      = new Vector3(0.0f, 0.0f, targetAngle);
+            // 変更
+            _lightModeButtonHandle.rectTransform.anchoredPosition = _lightModeFlg ? new Vector3(-22.9f, 0.0f, 0.0f) : new Vector3(22.9f, 0.0f, 0.0f);
+            _lightModeButtonHandle.color = _lightModeFlg ? Color.white : Color.magenta;
+            _lightModeButton.image.color = _lightModeFlg ? Color.gray  : Color.magenta * 0.8f;
+            _lightModeText.text          = _lightModeFlg ? "OFF" : "ON";
+            _lightModeText.alignment     = _lightModeFlg ? TMPro.TextAlignmentOptions.MidlineRight : TMPro.TextAlignmentOptions.MidlineLeft;
+            _lightModeCoroutine          = null;
         }
     }
 }

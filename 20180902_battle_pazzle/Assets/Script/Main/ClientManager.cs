@@ -220,14 +220,13 @@ public class ClientManager : MonoBehaviour {
 	{
         if(_initFlg != true) return;
         // 初期一　x,y 移動方向 x 発生間隔
-        if(_lightCreateInterval >= 240){
-            var areaVertexLight  = Instantiate(_mainManager.AreaVertextLightPrefab, new Vector3(Random.Range(0, 2) * 10.0f - 5.0f, Random.Range(-4.0f, 4.0f), 0.0f) * _scaleRate + _worldPosition, Quaternion.identity, _parentTransform).GetComponent<AreaVertexLight>();
+        if(_lightCreateInterval >= 180){
+            var areaVertexLight  = Instantiate(_mainManager.AreaVertextLightPrefab, new Vector3(Random.Range(0, 2) * 10.0f - 5.0f, Random.Range(-3.5f, 3.5f), 0.0f) * _scaleRate + _worldPosition, Quaternion.identity, _parentTransform).GetComponent<AreaVertexLight>();
             areaVertexLight.Init(this);
             _areaVertexLightList.Add(areaVertexLight);
             _lightCreateInterval = Random.Range(0, 240);
         }
         ++_lightCreateInterval;
-
 
 	}
 
