@@ -87,6 +87,8 @@ public class MainManager : MonoBehaviour {
     private UnityEngine.Rendering.PostProcessing.PostProcessVolume _postProcessVolume;
     [SerializeField, Tooltip("ポストプロセス")]
     private UnityEngine.Rendering.PostProcessing.PostProcessLayer _postProcessLayer;
+    [SerializeField, Tooltip("マッチング表示")]
+    private MatchMakeUI _matchMakeUI;
 
 
 	// デバッグ用
@@ -100,8 +102,7 @@ public class MainManager : MonoBehaviour {
 	private List<int> _blockSelectedList;
 	private int _blockListKey;
 	private int debugCounter = 0;
-	private Coroutine _matchAnimationCoroutine;
-    private string _roomPassword;
+   private string _roomPassword;
 	#endregion
 
 	#region access
@@ -242,7 +243,6 @@ public class MainManager : MonoBehaviour {
 		_passButton.onClick.AddListener(()=>{
             _passView.Show(true);
 		});
-		_matchAnimationCoroutine = StartCoroutine(MatchingAnimation());
 		_blockListKey = 0;
         // ネットワーク接続
         _network_mgr.Init(_roomPassword);
@@ -300,8 +300,7 @@ public class MainManager : MonoBehaviour {
 		//var clientManager    = PhotonNetwork.Instantiate("Prefab/ClientManager", Vector3.zero, Quaternion.identity, 0).GetComponent<ClientManager>();
 		_clientManager.Init(this);
 		// アニメーション終了
-		StopCoroutine(_matchAnimationCoroutine);
-		GameObject.Find("MatchText").GetComponent<TMPro.TextMeshProUGUI>().text = "";
+        Destroy(_matchMakeUI.gameObject);
 		#if UNITY_ANDROID || UNITY_IPHONE
 			//Instantiate(_voiceManagerPrefab);
 		#endif
@@ -387,30 +386,6 @@ public class MainManager : MonoBehaviour {
 				}
 			}
 			checkList.Add(_holdBlockGroupList[_blockSelectedList[i]]);
-		}
-	}
-
-	/// <summary>
-	/// マッチングアニメーション
-	/// </summary>
-	/// <returns></returns>
-	private IEnumerator MatchingAnimation()
-	{
-		var text = GameObject.Find("MatchText").GetComponent<TMPro.TextMeshProUGUI>();
-		var cnt  = 0;
-		var dotNum = 0;
-		while(true){
-
-			text.text = "Matching"+new string('.', dotNum);
-			++cnt;
-			if(cnt > 19){
-				++dotNum;
-				if(dotNum > 3){
-					dotNum = 0;
-				}
-				cnt = 0;
-			}
-			yield return null;
 		}
 	}
 

@@ -288,9 +288,6 @@ public class ClientManager : MonoBehaviour {
             // }));
         }
 		// 受信側プレイヤーは反転表示
-		var checkStartY = Common.Const.NUM_HEIGHT;
-		var checkEndY   = 0;
-		var loopAddNum  = -1;
 		if(_playerType != playerType){
 			for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 				panelList[i].Reverse();
@@ -300,9 +297,6 @@ public class ClientManager : MonoBehaviour {
 			list.Reverse();
 
 			// ブロックを移動させる関係で受信側は逆で判定
-			checkStartY = 0;
-			checkEndY   = Common.Const.NUM_HEIGHT;
-			loopAddNum  = 1;
 			_territoryLineNum -= lineCnt;
 		}
 		else{

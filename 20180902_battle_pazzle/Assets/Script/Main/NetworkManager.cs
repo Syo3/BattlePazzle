@@ -108,11 +108,11 @@ public class NetworkManager : MonoBehaviour {
 	/// ルーム作成失敗
 	/// </summary>
 	/// <param name="codeAndMsg">Code and message.</param>
-	// public void OnPhotonCreateRoomFailed(object[] codeAndMsg)
-	// {
-	// 	Debug.Log("ルームの作成に失敗しました。");
-	// 	CreateRoom();
-	// }
+	public void OnPhotonCreateRoomFailed(object[] codeAndMsg)
+	{
+		Debug.Log("ルームの作成に失敗しました。");
+		CreateRoom();
+	}
 
     public void OnPhotonCreateRoomFailed()
     {

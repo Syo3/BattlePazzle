@@ -126,7 +126,7 @@ namespace Title{
             });
 
             // レート
-            _rateText.text = PlayerPrefs.GetInt(Common.Const.PLAYER_RATE_KEY, 1500).ToString();
+            _rateText.text = PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500");
         }
 
         /// <summary>

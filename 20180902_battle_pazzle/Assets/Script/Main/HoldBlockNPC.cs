@@ -64,7 +64,7 @@ public class HoldBlockNPC : MonoBehaviour {
             _singlePlayManager.MainManager.GetBlockData();
         }
         _blockGroupID = blockGroupID;
-        var blcokData = _singlePlayManager.MainManager.GetBlockData();
+        //var blcokData = _singlePlayManager.MainManager.GetBlockData();
     }
 
     /// <summary>
