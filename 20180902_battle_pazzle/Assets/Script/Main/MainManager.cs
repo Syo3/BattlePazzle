@@ -89,7 +89,8 @@ public class MainManager : MonoBehaviour {
     private UnityEngine.Rendering.PostProcessing.PostProcessLayer _postProcessLayer;
     [SerializeField, Tooltip("マッチング表示")]
     private MatchMakeUI _matchMakeUI;
-
+    [SerializeField, Tooltip("削除パーティクル")]
+    private GameObject _destroyParticle;
 
 	// デバッグ用
 	[SerializeField]
@@ -204,6 +205,9 @@ public class MainManager : MonoBehaviour {
     }
     public Animator GameEndAnimator{
         get{return _gameEndAnimator;}
+    }
+    public GameObject DestroyParticle{
+        get{return _destroyParticle;}
     }
 	#endregion
 

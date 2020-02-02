@@ -280,13 +280,13 @@ public class ClientManager : MonoBehaviour {
 	private void DeleteBlock(List<List<int>> list, List<List<int>> panelList,Common.Const.PLAYER_TYPE playerType, int lineCnt)
 	{
         _deleteNowFlg   = true;
-        if(_spawnCheckBlock != null && _spawnCheckBlock.SpawnAnimationFlg){
+        // if(_spawnCheckBlock != null && _spawnCheckBlock.SpawnAnimationFlg){
 
-            // FIXME: 生成待ち処理　すごいバグになったので様子見
-            // StartCoroutine(SpawnWait(()=>{
-            //     DeleteBlock(list, panelList, playerType, lineCnt);
-            // }));
-        }
+        //     // FIXME: 生成待ち処理　すごいバグになったので様子見
+        //     // StartCoroutine(SpawnWait(()=>{
+        //     //     DeleteBlock(list, panelList, playerType, lineCnt);
+        //     // }));
+        // }
 		// 受信側プレイヤーは反転表示
 		if(_playerType != playerType){
 			for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
@@ -295,7 +295,6 @@ public class ClientManager : MonoBehaviour {
 			}
 			panelList.Reverse();
 			list.Reverse();
-
 			// ブロックを移動させる関係で受信側は逆で判定
 			_territoryLineNum -= lineCnt;
 		}
@@ -306,6 +305,7 @@ public class ClientManager : MonoBehaviour {
 		var destroyStart    = 0;
         var worldPosition   = _mainManager.WorldTransform.position;
         var lastDestroyTime = 0.0f;
+        var rate            = 5.0f;
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 
 			for(var j = 0; j < Common.Const.NUM_WIDTH; ++j){
@@ -315,7 +315,8 @@ public class ClientManager : MonoBehaviour {
 						destroyStart = i + j;
 					}
 					var effect = Instantiate(_mainManager.DestroyEffectPrefab, _areaList[i][j].Block.transform.position, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<DestroyEffect>();
-					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (i+j-destroyStart)*0.1f);
+					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (i+j-destroyStart)*0.1f, _mainManager.DestroyParticle);
+//					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (+Mathf.Abs(i - Common.Const.NUM_HEIGHT / 2) + Mathf.Abs(j - Common.Const.NUM_HEIGHT / 2) + destroyStart)*0.2f);
 					Destroy(_areaList[i][j].Block.gameObject);
 					_areaList[i][j].Block = null;
                     lastDestroyTime       = (i+j-destroyStart);
@@ -917,7 +918,7 @@ public class ClientManager : MonoBehaviour {
 					}
 					var effect = Instantiate(_mainManager.DestroyEffectPrefab, _areaList[i][j].Block.transform.position, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<DestroyEffect>();
 					Debug.Log(_areaList[i][j].Block.State);
-					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (i+j-destroyStart)*0.1f);
+					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (i+j-destroyStart)*0.1f, _mainManager.DestroyParticle);
 					Destroy(_areaList[i][j].Block.gameObject);
 					_areaList[i][j].Block = null;
 				}

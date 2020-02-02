@@ -16,6 +16,7 @@ public class DestroyEffect : MonoBehaviour {
 	private AnimatorStateInfo _stateInfo;
 	private float _animationStartTime;
     private int _animationType;
+    private GameObject _destroyParticle;
 	#endregion
 
     public int AnimationType{
@@ -28,11 +29,12 @@ public class DestroyEffect : MonoBehaviour {
 	/// </summary>
 	/// <param name="playerType"></param>
 	/// <param name="animationStart"></param>
-	public void Init(int playerType,SoundManager soundManager, float animationStart=0.0f)
+	public void Init(int playerType,SoundManager soundManager, float animationStart=0.0f, GameObject destroyParticle=null)
 	{
         _animationType      = 0;
         _soundManager       = soundManager;
 		_animationStartTime = animationStart;
+        _destroyParticle    = destroyParticle;
 		switch(playerType){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:
 			//_sprite.sprite = ResourceManager.LoadSprite("Image/panel_2");
@@ -66,6 +68,10 @@ public class DestroyEffect : MonoBehaviour {
 			_stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 			yield return null;
 		}
+        if(_destroyParticle != null){
+            var particleAttractor = Instantiate(_destroyParticle, transform.position, Quaternion.identity).transform.GetChild(0).GetComponent<particleAttractorLinear>();
+            particleAttractor.target = GameObject.Find("TerritoryLine").transform.Find( ( (int)( ( transform.position.x - Common.Const.BLOCK_SIZE_HALF ) / Common.Const.BLOCK_SIZE + ( transform.position.y - Common.Const.BLOCK_SIZE_HALF ) / Common.Const.BLOCK_SIZE ) ) % 2 == 0 ? "Right" : "Left");
+        }
         _soundManager.PlayOnShot(5);
 		Destroy(gameObject);
 	}

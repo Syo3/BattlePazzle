@@ -152,7 +152,8 @@ public class NetworkManager : MonoBehaviour {
 		// ルーム名が被ると作成できないため
         var rand                 = Random.Range( 0, 100000000 );
         var roomName             = "random_room"+rand;
-		PhotonNetwork.CreateRoom( roomName, roomOptions, null );
+//		PhotonNetwork.CreateRoom( roomName, roomOptions, null );
+        PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, null);
         Debug.Log("ルームを作成しました:"+roomName);
 	}
 	#endregion

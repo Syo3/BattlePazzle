@@ -45,8 +45,8 @@ public class PopupView : MonoBehaviour {
                 var rate = int.Parse(PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500"));
                 PlayerPrefs.SetString(Common.Const.PLAYER_RATE_KEY, (rate-15).ToString());
             }
-                // 退出
-                PhotonNetwork.LeaveRoom();
+            // 退出
+            PhotonNetwork.LeaveRoom();
 			// 切断
 			PhotonNetwork.Disconnect();
             
