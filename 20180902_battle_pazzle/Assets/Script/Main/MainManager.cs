@@ -91,6 +91,10 @@ public class MainManager : MonoBehaviour {
     private MatchMakeUI _matchMakeUI;
     [SerializeField, Tooltip("削除パーティクル")]
     private GameObject _destroyParticle;
+    [SerializeField, Tooltip("残りターンテキスト")]
+    private TMPro.TextMeshProUGUI _turnLimitText;
+    [SerializeField, Tooltip("ターン演出テキスト")]
+    private TMPro.TextMeshProUGUI _turnChangeLimitText;
 
 	// デバッグ用
 	[SerializeField]
@@ -166,6 +170,12 @@ public class MainManager : MonoBehaviour {
     }
     public TimeLimitClock TimeLimitClock{
         get{return _timeLimitClock;}
+    }
+    public TMPro.TextMeshProUGUI TurnLimitText{
+        get{return _turnLimitText;}
+    }
+    public TMPro.TextMeshProUGUI TurnChangeLimitText{
+        get{return _turnChangeLimitText;}
     }
     public PlayerTurnImageManager PlayerTurnImageManager{
         get{return _playerTurnImageManager;}

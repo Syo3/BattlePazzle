@@ -70,7 +70,7 @@ public class DestroyEffect : MonoBehaviour {
 		}
         if(_destroyParticle != null){
             var particleAttractor = Instantiate(_destroyParticle, transform.position, Quaternion.identity).transform.GetChild(0).GetComponent<particleAttractorLinear>();
-            particleAttractor.target = GameObject.Find("TerritoryLine").transform.Find( ( (int)( ( transform.position.x - Common.Const.BLOCK_SIZE_HALF ) / Common.Const.BLOCK_SIZE + ( transform.position.y - Common.Const.BLOCK_SIZE_HALF ) / Common.Const.BLOCK_SIZE ) ) % 2 == 0 ? "Right" : "Left");
+            //particleAttractor.target = GameObject.Find("TerritoryLine").transform.Find( ( (int)( ( transform.position.x - Common.Const.BLOCK_SIZE_HALF ) / Common.Const.BLOCK_SIZE + ( transform.position.y - Common.Const.BLOCK_SIZE_HALF ) / Common.Const.BLOCK_SIZE ) ) % 2 == 0 ? "Right" : "Left");
         }
         _soundManager.PlayOnShot(5);
 		Destroy(gameObject);

@@ -116,8 +116,6 @@ public class ClientManager : MonoBehaviour {
 			Debug.Log( "Master" );
 			_playerType     = Common.Const.PLAYER_TYPE.MASTER;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.MASTER, (int)Common.Const.PLAYER_TYPE.GUEST };
-			//GameObject.Find( "GameObject/UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あなたのターン";
-            //_mainManager.PlayerTurnImageManager.SetTurnImage(true);
 			for(var i = 0; i < 2; ++i){
 				territoryList[i].Init(i+1, (int)_playerType);
 				territoryList[i].SetSize(_territoryLineNum);
@@ -130,9 +128,6 @@ public class ClientManager : MonoBehaviour {
 			Debug.Log( "Not Master" );
 			_playerType     = Common.Const.PLAYER_TYPE.GUEST;
 			panel_object_list = new List<int>{ (int)Common.Const.PLAYER_TYPE.GUEST, (int)Common.Const.PLAYER_TYPE.MASTER };
-			//GameObject.Find( "GameObject/UserTurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = "あいてのターン";
-            //_mainManager.PlayerTurnImageManager.SetTurnImage(false);
-
 			for(var i = 1; i >= 0; --i){
 				territoryList[i].Init(i+1, (int)_playerType);
 				territoryList[i].SetSize(_territoryLineNum);
@@ -140,7 +135,8 @@ public class ClientManager : MonoBehaviour {
             _playerParticle = _mainManager.ParticleYellow;
             _enemyParticle  = _mainManager.ParticlePurple; 
 		}
-		GameObject.Find( "TurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = Common.Const.GAME_END_TURN.ToString();
+		//GameObject.Find( "TurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = Common.Const.GAME_END_TURN.ToString();
+        _mainManager.TurnLimitText.text = Common.Const.GAME_END_TURN.ToString();
         //PhotonNetwork.RaiseEvent( (byte)EEventType.PlayerName, "Hello!", true, RaiseEventOptions.Default );
 		//_mainManager.TerritoryLine.SetPos(_territoryLineNum);
 		_mainManager.TerritoryLine.Init();
@@ -537,30 +533,43 @@ public class ClientManager : MonoBehaviour {
             SetTutorial();
         }
 
-
+        _mainManager.TurnChangeLimitText.enabled = false;
 		// ターンカウント
 		if(playerType == _playerType){
 			++_turnCnt;
-			GameObject.Find( "TurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = (Common.Const.GAME_END_TURN - _turnCnt + 1).ToString();
+            var showTurn = (Common.Const.GAME_END_TURN - _turnCnt + 1);
+            _mainManager.TurnLimitText.text    = showTurn.ToString();
+            _mainManager.TurnLimitText.enabled = false;
+
+            // 開始時のプレイヤーだけ走る
+            if(showTurn == Common.Const.GAME_END_TURN){
+                _mainManager.TurnChangeLimitText.text    = "0";
+            }
+            // ターン減少演出用処理
+            _mainManager.TurnChangeLimitText.enabled = true;
+            _mainManager.PlayerTurnImageManager.SetIntervalCallback(()=>{
+                _mainManager.TurnChangeLimitText.text    = showTurn.ToString();
+            });
 		}
 		// タイムリミット表示
-		_turnTimeLimit = Common.Const.TURN_TIME;
-		GameObject.Find( "TimeLimitText" ).GetComponent<TMPro.TextMeshProUGUI>().text = _turnTimeLimit.ToString();
-		if(_turnTimeLimitCoroutine != null){
-			StopCoroutine(_turnTimeLimitCoroutine);
-			_turnTimeLimitCoroutine = null;
-		}
+		_turnTimeLimit                  = Common.Const.TURN_TIME;
+		_mainManager.TimeLimitText.text = _turnTimeLimit.ToString();
+        StopTimeLimitCoroutine();
 
 		// ターン表示
         _mainManager.PlayerTurnImageManager.SetTurnImage(_turnFlg == (int)_playerType);
         _mainManager.PlayerTurnImageManager.SetCallback(()=>{
-            if(_turnTimeLimitCoroutine != null){
-                StopCoroutine(_turnTimeLimitCoroutine);
-                _turnTimeLimitCoroutine = null;
-            }            
-            _turnTimeLimit = Common.Const.TURN_TIME;
+            StopTimeLimitCoroutine();
+            _turnTimeLimit          = Common.Const.TURN_TIME;
             _turnTimeLimitCoroutine = StartCoroutine(TimeLimitCount());
+            // 自分のターン「だった」場合のみ
+            if(playerType == _playerType){
+                //GameObject.Find( "TurnText" ).GetComponent<TMPro.TextMeshProUGUI>().enabled = false;
+                _mainManager.TurnLimitText.enabled       = true;
+                _mainManager.TurnChangeLimitText.enabled = false;
+            }
         });
+        
 
 		// 置ける範囲更新 受信側がまだ移動中の可能性があるため
         // 移動していない
@@ -615,10 +624,7 @@ public class ClientManager : MonoBehaviour {
         _mainManager.GameEndAnimator.Play("VictoryText_GameEnd", 0, 0.0f);
 		Invoke("EndGame", 2.0f);
         // タイムリミット表示
-        if(_turnTimeLimitCoroutine != null){
-            StopCoroutine(_turnTimeLimitCoroutine);
-            _turnTimeLimitCoroutine = null;
-        }
+        StopTimeLimitCoroutine();
         PhotonNetwork.RaiseEvent( (byte)EEventType.EndGame, "", true, RaiseEventOptions.Default );
 
 	}
@@ -676,6 +682,9 @@ public class ClientManager : MonoBehaviour {
     {
         if(_turnTimeLimitCoroutine != null){
             StopCoroutine(_turnTimeLimitCoroutine);
+            _mainManager.TimeLimitText.rectTransform.anchorMax        = new Vector2(0.5f, 1.0f);
+            _mainManager.TimeLimitText.rectTransform.anchorMin        = new Vector2(0.5f, 1.0f);
+            _mainManager.TimeLimitText.rectTransform.anchoredPosition = new Vector3(5.0f, -60.0f, 0.0f);
             _turnTimeLimitCoroutine = null;
         }
     }
@@ -934,6 +943,7 @@ public class ClientManager : MonoBehaviour {
 	private IEnumerator TimeLimitCount()
 	{
         var startTime = Time.time;
+        var limitFlg  = false;
 		// ターン計測
 		while(true){
 			_turnTimeLimit -= Time.deltaTime;
@@ -951,12 +961,24 @@ public class ClientManager : MonoBehaviour {
 			}
 			_mainManager.TimeLimitText.text = ((int)_turnTimeLimit).ToString();
             if(nowTime < 10.0f){
-                _mainManager.TimeLimitText.fontSize  = 56 + (nowTime - (float)(int)nowTime)*10.0f;
+                _mainManager.TimeLimitText.fontSize = 65 + (1.0f - (nowTime - (float)(int)nowTime))*20.0f;
+                // 初回のみ更新
+                if(!limitFlg){
+                    _mainManager.TimeLimitText.alpha = 0.7f;
+                    _mainManager.TimeLimitText.rectTransform.anchorMax        = Vector2.one * 0.5f;
+                    _mainManager.TimeLimitText.rectTransform.anchorMin        = Vector2.one * 0.5f;
+                    _mainManager.TimeLimitText.rectTransform.anchoredPosition = new Vector3(0.0f, -30.0f, 0.0f);
+                    limitFlg = true;
+                }
             }
 			yield return null;
 		}
+        _mainManager.TimeLimitText.alpha    = 1.0f;
 		_mainManager.TimeLimitText.text     = ((int)_turnTimeLimit).ToString();
         _mainManager.TimeLimitText.fontSize = 56;
+        _mainManager.TimeLimitText.rectTransform.anchorMax = new Vector2(0.5f, 1.0f);
+        _mainManager.TimeLimitText.rectTransform.anchorMin = new Vector2(0.5f, 1.0f);
+        _mainManager.TimeLimitText.rectTransform.anchoredPosition = new Vector3(5.0f, -60.0f, 0.0f);
         // パスと同じ処理
         PassTurn();
 	}
@@ -1026,11 +1048,7 @@ public class ClientManager : MonoBehaviour {
         // ゲーム終了
         case EEventType.EndGame:
             if(_gameEndFlg){
-                // タイムリミット停止
-                if(_turnTimeLimitCoroutine != null){
-                    StopCoroutine(_turnTimeLimitCoroutine);
-                    _turnTimeLimitCoroutine = null;
-                }
+                StopTimeLimitCoroutine();
                 // 切断制御
                 // 退出
                 PhotonNetwork.LeaveRoom();

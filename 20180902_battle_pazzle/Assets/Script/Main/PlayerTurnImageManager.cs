@@ -13,6 +13,7 @@ public class PlayerTurnImageManager : MonoBehaviour {
 
     #region private field
     private System.Action _callback;
+    private System.Action _intervalCallback;
     #endregion
 
     public void SetTurnImage(bool flg)
@@ -54,7 +55,10 @@ public class PlayerTurnImageManager : MonoBehaviour {
             stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         }
         
-
+        if(_intervalCallback != null){
+             _intervalCallback();
+             _intervalCallback = null;
+        }
 
         // 回転
         // while(_turnImage.transform.eulerAngles.y < 90.0f){
@@ -82,13 +86,29 @@ public class PlayerTurnImageManager : MonoBehaviour {
         }
 
 
-        if(_callback != null) _callback();
+        if(_callback != null){
+            _callback();
+            _callback = null;
+        }
         //_turnImage.transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
 
     }
 
+    /// <summary>
+    /// 演出終了時コールバック
+    /// </summary>
+    /// <param name="callback"></param>
     public void SetCallback(System.Action callback)
     {
         _callback = callback;
+    }
+
+    /// <summary>
+    /// 演出の中間で動作するコールバック
+    /// </summary>
+    /// <param name="callback"></param>
+    public void SetIntervalCallback(System.Action callback)
+    {
+        _intervalCallback = callback;
     }
 }

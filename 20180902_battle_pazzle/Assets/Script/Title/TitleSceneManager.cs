@@ -45,6 +45,8 @@ namespace Title{
         private TMPro.TextMeshProUGUI _lightModeText;
         [SerializeField, Tooltip("レート表示")]
         private TMPro.TextMeshProUGUI _rateText;
+        [SerializeField, Tooltip("タップ管理")]
+        private GameObject _tapManagerPrefab;
         #endregion
 
         private bool _lightModeFlg;
@@ -127,6 +129,11 @@ namespace Title{
 
             // レート
             _rateText.text = PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500");
+
+            // タップ管理
+            if(GameObject.Find("TapManager(Clone)") == null){
+                DontDestroyOnLoad(Instantiate(_tapManagerPrefab));
+            }
         }
 
         /// <summary>
