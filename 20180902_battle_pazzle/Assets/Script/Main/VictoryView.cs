@@ -69,9 +69,12 @@ public class VictoryView : MonoBehaviour {
         var ads_count = PlayerPrefs.GetInt("ads_count", 0);
         if(ads_count > 1){
             // TODO: 乱数ないから必ず表示されるーよ
-            #if UNITY_ANDROID || UNITY_IOS
+            // #if UNITY_ANDROID
+            // _mainManager.AdsManager.ShowRewardedAd();
+            // #endif
+            // #if UNITY_IOS
             _mainManager.AdsManager.ShowRewardedAd();
-            #endif
+            //#endif
             PlayerPrefs.SetInt("ads_count", 0);
         }
         _buttonCanvasGroup.alpha          = 1.0f;

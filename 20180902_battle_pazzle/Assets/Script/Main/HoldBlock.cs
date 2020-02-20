@@ -168,7 +168,6 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
                 _blockList[i][j].SetTurnColor(turnFlg);
             }
         }
-
     }
     #endregion
 
@@ -394,13 +393,14 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
             }
         }
         // 配置エリアに置けていない
-        if(!placementFlg){
+        if(!placementFlg || _mainManager.ClientManager.BlockSetFlg){
             PositionReset();
             return;
         }
         _mainManager.ClientManager.UpdateBlockList(_sendBlockContainer);
         _mainManager.SoundManager.PlayOnShot(0);
         Reset();
+
     }
     #endregion
 }

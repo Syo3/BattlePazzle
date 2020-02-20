@@ -23,7 +23,7 @@ public class TapManager : MonoBehaviour {
 
 
         // タップされた
-		if(Input.GetMouseButtonUp(0)){
+		if(Input.GetMouseButtonDown(0)){
 
             var position = Input.mousePosition;
             // マウス位置座標をスクリーン座標からワールド座標に変換する

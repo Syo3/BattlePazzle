@@ -6,6 +6,7 @@
         public const string PLAYER_RATE_KEY = "PlayerRateKey";
         public const string VOLUME_KEY      = "BGMVolumeKey";
         public const string LIGHT_MODE_KEY  = "LightModeKey";
+        public const string TUTORIAL_PLAY_KEY = "TutorialPlayKey";
 
 		public const int NUM_WIDTH  = 8;
 		public const int NUM_HEIGHT = 8;

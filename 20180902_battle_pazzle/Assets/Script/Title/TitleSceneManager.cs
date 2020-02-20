@@ -47,6 +47,8 @@ namespace Title{
         private TMPro.TextMeshProUGUI _rateText;
         [SerializeField, Tooltip("タップ管理")]
         private GameObject _tapManagerPrefab;
+        [SerializeField, Tooltip("ムービー管理")]
+        private MovieManager _movieManager;
         #endregion
 
         private bool _lightModeFlg;
@@ -63,8 +65,6 @@ namespace Title{
             _nameArea.Init();
             _passwordView.Init(this);
             _soundSettingsManager.Init();
-            // playerpref 確認
-            Debug.Log(PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player"));
             // シーンコンテナ取得
             var sceneContainer = FindObjectOfType<SceneContainer>();
             if(sceneContainer == null){
@@ -86,22 +86,18 @@ namespace Title{
             _startButtonDebug.onClick.AddListener(()=>{
                 _passwordView.Show(true);
             });
-
-
-
             // メニューボタン
             _menuButton.onClick.AddListener(()=>{
                 _nameArea.Show(true);
             });
             // プライバシーポリシー
             _privacyPolicyButton.onClick.AddListener(()=>{
-                Application.OpenURL("http://syo883.xsrv.jp/index.php");
+                Application.OpenURL("http://syo883.xsrv.jp/paneon/privacypolicy/");
             });
             // ライトモード
             _lightModeFlg                = PlayerPrefs.GetInt(Common.Const.LIGHT_MODE_KEY, 1) == 1;
             _postProcessLayer.enabled    = _lightModeFlg;
             _postProcessVolume.enabled   = _lightModeFlg;
-
             _lightModeButtonHandle.rectTransform.anchoredPosition = _lightModeFlg ? new Vector3(-22.9f, 0.0f, 0.0f) : new Vector3(22.9f, 0.0f, 0.0f);
             _lightModeButtonHandle.color = _lightModeFlg ? Color.white : Color.magenta;
             _lightModeButton.image.color = _lightModeFlg ? Color.gray  : Color.magenta * 0.8f;
@@ -110,29 +106,26 @@ namespace Title{
             _lightModeButton.onClick.AddListener(()=>{
 
                 if(_lightModeCoroutine != null) return;
-
-
-                _lightModeFlg                 = !_lightModeFlg;
-                // _lightModeButtonHandle.rectTransform.anchoredPosition = _lightModeFlg ? new Vector3(-22.9f, 0.0f, 0.0f) : new Vector3(22.9f, 0.0f, 0.0f);
-                // _lightModeButtonHandle.color = _lightModeFlg ? Color.white : Color.magenta;
-                // _lightModeButton.image.color = _lightModeFlg ? Color.gray  : Color.magenta * 0.8f;
-                // _lightModeText.text          = _lightModeFlg ? "OFF" : "ON";
-                // _lightModeText.alignment     = _lightModeFlg ? TMPro.TextAlignmentOptions.MidlineRight : TMPro.TextAlignmentOptions.MidlineLeft;
-
-
-
+                _lightModeFlg              = !_lightModeFlg;
                 _postProcessLayer.enabled  = _lightModeFlg;
                 _postProcessVolume.enabled = _lightModeFlg;
                 PlayerPrefs.SetInt(Common.Const.LIGHT_MODE_KEY, _lightModeFlg ? 1 : 0);
                 _lightModeCoroutine = StartCoroutine(SetLightModeEffect());
             });
-
             // レート
             _rateText.text = PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500");
-
             // タップ管理
             if(GameObject.Find("TapManager(Clone)") == null){
                 DontDestroyOnLoad(Instantiate(_tapManagerPrefab));
+            }
+        }
+
+        void Update()
+        {
+            // バックキー
+            if(Input.GetKeyDown(KeyCode.Escape)){
+                Application.Quit();
+                return;
             }
         }
 
@@ -197,6 +190,25 @@ namespace Title{
             _lightModeText.text          = _lightModeFlg ? "OFF" : "ON";
             _lightModeText.alignment     = _lightModeFlg ? TMPro.TextAlignmentOptions.MidlineRight : TMPro.TextAlignmentOptions.MidlineLeft;
             _lightModeCoroutine          = null;
+        }
+
+        /// <summary>
+        /// チュートリアルを行ったか判定
+        /// </summary>
+        private void TutorialCheck()
+        {
+            var tutorialFlg = PlayerPrefs.GetInt(Common.Const.TUTORIAL_PLAY_KEY, 0);
+            if(tutorialFlg != 0) return;
+            // チュートリアル処理
+            _startButton.onClick.RemoveAllListeners();
+            _startButton.onClick.AddListener(()=>{
+                _movieManager.Init(()=>{
+                    // FIXME: 確認用にコメントアウト
+                    // PlayerPrefs.SetInt(Common.Const.TUTORIAL_PLAY_KEY, 1);
+                    StartGame();
+                });
+            });
+            _startButtonDebug.interactable = false;
         }
     }
 }

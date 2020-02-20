@@ -95,6 +95,8 @@ public class MainManager : MonoBehaviour {
     private TMPro.TextMeshProUGUI _turnLimitText;
     [SerializeField, Tooltip("ターン演出テキスト")]
     private TMPro.TextMeshProUGUI _turnChangeLimitText;
+    [SerializeField, Tooltip("削除パーティクルマネージャ")]
+    private DestroyParticleManager _particleManager;
 
 	// デバッグ用
 	[SerializeField]
@@ -219,6 +221,9 @@ public class MainManager : MonoBehaviour {
     public GameObject DestroyParticle{
         get{return _destroyParticle;}
     }
+    public DestroyParticleManager ParticleManager{
+        get{return _particleManager;}
+    }
 	#endregion
 
 	void Awake()
@@ -239,7 +244,7 @@ public class MainManager : MonoBehaviour {
         _victoryView.Init(this);
         _passView.Init(_clientManager);
         _soundManager.Init();
-
+        _particleManager.Init(_destroyParticle);
 		// シーン遷移チェック
         _roomPassword      = "";
 		var sceneContainer = FindObjectOfType<SceneContainer>();
@@ -286,6 +291,10 @@ public class MainManager : MonoBehaviour {
 		}
 		++debugCounter;
 
+        // バックキー
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            _popupView.Open();
+        }
 	}
 
 	public List<List<int>> GetBlockData()

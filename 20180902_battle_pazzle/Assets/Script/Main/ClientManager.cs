@@ -50,7 +50,7 @@ public class ClientManager : MonoBehaviour {
     private float _initCheckCount;
     private ParticleSystem _playerParticle;
     private ParticleSystem _enemyParticle;
-
+    private bool _blockSetFlg;
 	#endregion
 
 	#region access
@@ -81,6 +81,9 @@ public class ClientManager : MonoBehaviour {
     public List<AreaVertexLight> AreaVertexLightList{
         get{return _areaVertexLightList;}
     }
+    public bool BlockSetFlg{
+        get{return _blockSetFlg;}
+    }
 	#endregion
 
 	void Awake()
@@ -96,6 +99,7 @@ public class ClientManager : MonoBehaviour {
 	{
 		_mainManager = mainManager;
 		_gameEndFlg  = false;
+        _blockSetFlg = false;
         _lightCreateInterval = 300;
 		// ターン数
 		_turnFlg       = (int)Common.Const.PLAYER_TYPE.MASTER;
@@ -133,14 +137,11 @@ public class ClientManager : MonoBehaviour {
 				territoryList[i].SetSize(_territoryLineNum);
 			}
             _playerParticle = _mainManager.ParticleYellow;
-            _enemyParticle  = _mainManager.ParticlePurple; 
-		}
-		//GameObject.Find( "TurnText" ).GetComponent<TMPro.TextMeshProUGUI>().text = Common.Const.GAME_END_TURN.ToString();
-        _mainManager.TurnLimitText.text = Common.Const.GAME_END_TURN.ToString();
-        //PhotonNetwork.RaiseEvent( (byte)EEventType.PlayerName, "Hello!", true, RaiseEventOptions.Default );
-		//_mainManager.TerritoryLine.SetPos(_territoryLineNum);
-		_mainManager.TerritoryLine.Init();
+            _enemyParticle  = _mainManager.ParticlePurple;
 
+		}
+        _mainManager.TurnLimitText.text = Common.Const.GAME_END_TURN.ToString();
+		_mainManager.TerritoryLine.Init();
 
 		_parentTransform = _mainManager.PanelParentTransform;
 		_scaleRate       = _mainManager.WorldTransform.localScale.x;
@@ -165,12 +166,14 @@ public class ClientManager : MonoBehaviour {
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i ) {
 
 			// 上下でエリアを分ける
-			if( Common.Const.NUM_HEIGHT / 2 > i ) {
-				state_list.Add(Enumerable.Repeat(panel_object_list[0], Common.Const.NUM_WIDTH).ToList());
-			}
-			else{
-				state_list.Add(Enumerable.Repeat(panel_object_list[1], Common.Const.NUM_WIDTH).ToList());
-			}
+            var line_list = Common.Const.NUM_HEIGHT / 2 > i ? panel_object_list[0] : panel_object_list[1];
+            state_list.Add(Enumerable.Repeat(line_list, Common.Const.NUM_WIDTH).ToList());
+			// if( Common.Const.NUM_HEIGHT / 2 > i ) {
+			// 	state_list.Add(Enumerable.Repeat(panel_object_list[0], Common.Const.NUM_WIDTH).ToList());
+			// }
+			// else{
+			// 	state_list.Add(Enumerable.Repeat(panel_object_list[1], Common.Const.NUM_WIDTH).ToList());
+			// }
 			//_blockList.Add(Enumerable.Repeat(0, Common.Const.NUM_WIDTH ).ToList());
 		}
 		// ステージ作成
@@ -182,7 +185,6 @@ public class ClientManager : MonoBehaviour {
 
 				var area  = Instantiate(_mainManager.AreaPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * _scaleRate + _worldPosition, Quaternion.identity, _parentTransform).GetComponent<Area>();
 				var panel = Instantiate(_mainManager.PanelPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * _scaleRate + _worldPosition, Quaternion.identity, area.transform).GetComponent<Panel>();
-				//var panel = Instantiate(_mainManager.PanelPrefab, Vector3.zero, Quaternion.identity, area.transform).GetComponent<Panel>();
 				panel.StateChange(state_list[i][j]);
 				area.Init(panel, state_list[i][j], 0);
 				_areaList[i].Add(area);
@@ -191,6 +193,7 @@ public class ClientManager : MonoBehaviour {
 		// 置ける場所設定
         var nowTurnFlg = _turnFlg == (int)_playerType;
 		for(var i = 0; i < Common.Const.NUM_WIDTH; ++i){
+
 			_areaList[0][i].SetPlacementFlg(true);
             _areaList[0][i].Panel.SetTurn(nowTurnFlg);
 		}
@@ -200,17 +203,14 @@ public class ClientManager : MonoBehaviour {
 
 			var holdBlock = Instantiate(_mainManager.HoldBlockPrefab, new Vector3(1.6f * i - 1.6f, -3.2f, 0.0f) + _worldPosition, Quaternion.identity, _mainManager.HoldParentTransform).GetComponent<HoldBlock>();
 			holdBlock.Init(_mainManager);
+            holdBlock.SetTurnColor();
 			_holdBlockList.Add(holdBlock);
 		}
-        //_initFlg = true;
-
         StartCoroutine(StartAnimationEndCheck());        
         // プレイヤーネームとレートを送信
         PhotonNetwork.RaiseEvent( (byte)EEventType.PlayerName, PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player")+":"+PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500"), true, RaiseEventOptions.Default );
 	}
 
-
-	
 	// Update is called once per frame
 	void Update ()
 	{
@@ -237,7 +237,6 @@ public class ClientManager : MonoBehaviour {
 	{
 		// 受信側プレイヤーは反転表示
 		if(_playerType != playerType){
-
 			for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 				list[i].Reverse();
 			}
@@ -311,7 +310,7 @@ public class ClientManager : MonoBehaviour {
 						destroyStart = i + j;
 					}
 					var effect = Instantiate(_mainManager.DestroyEffectPrefab, _areaList[i][j].Block.transform.position, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<DestroyEffect>();
-					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (i+j-destroyStart)*0.1f, _mainManager.DestroyParticle);
+					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (i+j-destroyStart)*0.1f, _mainManager.ParticleManager);
 //					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (+Mathf.Abs(i - Common.Const.NUM_HEIGHT / 2) + Mathf.Abs(j - Common.Const.NUM_HEIGHT / 2) + destroyStart)*0.2f);
 					Destroy(_areaList[i][j].Block.gameObject);
 					_areaList[i][j].Block = null;
@@ -582,6 +581,7 @@ public class ClientManager : MonoBehaviour {
         // else{
         //     StartCoroutine(CheckBlockMoveNow(nowTurnFlg));
         // }
+        _blockSetFlg = false;
 	}
 
 	[PunRPC]
@@ -671,6 +671,7 @@ public class ClientManager : MonoBehaviour {
 	/// <param name="range_list"></param>
 	public void UpdateBlockList( List<List<int>> range_list )
 	{
+        _blockSetFlg = true;
 		var obj = new object[]{range_list, _playerType};
 		_photonView.RPC("UpdateBlock", PhotonTargets.All, obj);
 	}
@@ -680,7 +681,11 @@ public class ClientManager : MonoBehaviour {
     /// </summary>
     public void StopTimeLimitCoroutine()
     {
+
+
         if(_turnTimeLimitCoroutine != null){
+        
+            // FIXME: ゲーム終了時にエラーになった
             StopCoroutine(_turnTimeLimitCoroutine);
             _mainManager.TimeLimitText.rectTransform.anchorMax        = new Vector2(0.5f, 1.0f);
             _mainManager.TimeLimitText.rectTransform.anchorMin        = new Vector2(0.5f, 1.0f);
@@ -927,7 +932,7 @@ public class ClientManager : MonoBehaviour {
 					}
 					var effect = Instantiate(_mainManager.DestroyEffectPrefab, _areaList[i][j].Block.transform.position, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<DestroyEffect>();
 					Debug.Log(_areaList[i][j].Block.State);
-					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (i+j-destroyStart)*0.1f, _mainManager.DestroyParticle);
+					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (i+j-destroyStart)*0.1f, _mainManager.ParticleManager);
 					Destroy(_areaList[i][j].Block.gameObject);
 					_areaList[i][j].Block = null;
 				}
@@ -981,6 +986,7 @@ public class ClientManager : MonoBehaviour {
         _mainManager.TimeLimitText.rectTransform.anchoredPosition = new Vector3(5.0f, -60.0f, 0.0f);
         // パスと同じ処理
         PassTurn();
+        _turnTimeLimitCoroutine = null;
 	}
 
 	/// <summary>

@@ -24,6 +24,7 @@ public class PopupView : MonoBehaviour {
 
 	#region private field
 	private MainManager _mainManager;
+    private bool _openFlg;
 	#endregion
 
 	#region public function
@@ -33,6 +34,7 @@ public class PopupView : MonoBehaviour {
 	/// <param name="mainManager"></param>
 	public void Init(MainManager mainManager)
 	{
+        _openFlg     = false;
 		_mainManager = mainManager;
 		// 閉じるボタン
 		_closeButton.onClick.AddListener(()=>{
@@ -63,6 +65,7 @@ public class PopupView : MonoBehaviour {
 	/// </summary>
 	public void Open()
 	{
+        _openFlg = true;
 		StartCoroutine(OpenPopupView());
 	}
 
@@ -73,7 +76,7 @@ public class PopupView : MonoBehaviour {
     {
         _titleButtonText.text = "Title";
         _closeButton.gameObject.SetActive(false);
-        _popupText.text = "相手がルームを退出しました。\nあなたの勝利になります。";
+        _popupText.text = "相手がルームを\n退出しました。\nあなたの勝利になります。";
         // レート
         var rate = int.Parse(PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500"));
         PlayerPrefs.SetString(Common.Const.PLAYER_RATE_KEY, (rate+15).ToString());
@@ -102,6 +105,7 @@ public class PopupView : MonoBehaviour {
 	/// <returns></returns>
 	private IEnumerator ClosePopupView()
 	{
+        _openFlg = false;
 		while(_canvasGroup.alpha > 0.0f){
 			_canvasGroup.alpha -= 0.5f;
 			yield return null;
