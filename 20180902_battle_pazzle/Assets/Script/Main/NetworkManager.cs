@@ -5,10 +5,15 @@ using UnityEngine.UI;
 
 public class NetworkManager : MonoBehaviour {
 
+    #region const
+    private readonly float kRoomCheckTime = 20.0f;
+    #endregion
+
 	#region private field
 	private int _state;
 	private MainManager _mainManager;
     private string _roomPassword;
+    private float _roomCheckTimer;
 	#endregion
 
 	#region access
@@ -31,7 +36,32 @@ public class NetworkManager : MonoBehaviour {
         Debug.Log("password:"+_roomPassword);
 		// ネットワーク準備
 		PhotonNetwork.ConnectUsingSettings( "v1.0.0" );
+        _roomCheckTimer = 0.0f;
+    }
 
+    void Update()
+    {
+        
+        if(_state != 0 || _roomPassword != "") return;
+        _roomCheckTimer += Time.deltaTime;
+        if(_roomCheckTimer < kRoomCheckTime) return;
+        // 退出してルーム検索
+        if(PhotonNetwork.inRoom){
+            PhotonNetwork.room.IsOpen    = false;
+            PhotonNetwork.room.IsVisible = false;
+            PhotonNetwork.LeaveRoom();
+        }
+        var roomList = PhotonNetwork.GetRoomList();
+        Debug.Log(roomList);
+        Debug.Log(roomList.Length);
+        for(var i = 0; i < roomList.Length; ++i){
+
+            Debug.Log(roomList[i].Name);
+            Debug.Log(roomList[i].IsOpen);
+            PhotonNetwork.JoinRoom(roomList[i].Name);
+            return;
+        }
+        _roomCheckTimer = 0.0f;
     }
 
 	#region photon function
@@ -44,6 +74,7 @@ public class NetworkManager : MonoBehaviour {
         // パスワードない場合
         if(_roomPassword == ""){
             Debug.Log("パスワードなしでルームを作成");
+            if(PhotonNetwork.inRoom) return;
             PhotonNetwork.JoinRandomRoom();
         }
         // パスワードあり

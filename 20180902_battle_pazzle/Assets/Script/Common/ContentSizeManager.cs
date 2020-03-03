@@ -19,7 +19,7 @@ public class ContentSizeManager : MonoBehaviour {
 	void Start () {
 		_transform = transform;
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 

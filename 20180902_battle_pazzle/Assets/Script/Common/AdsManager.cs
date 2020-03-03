@@ -25,6 +25,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener {
     //広告呼び出し
     public void ShowRewardedAd()
     {
+        return;
         //GameObject.Find("ButtonTextText").GetComponent<UnityEngine.UI.Text>().text = "広告チェック";
         // TODO: ここでiOSが止まっている？
         if (Advertisement.IsReady("video"))

@@ -49,6 +49,8 @@ namespace Title{
         private GameObject _tapManagerPrefab;
         [SerializeField, Tooltip("ムービー管理")]
         private MovieManager _movieManager;
+        [SerializeField, Tooltip("チュートリアルボタン")]
+        private Button _tutorialButton;
         #endregion
 
         private bool _lightModeFlg;
@@ -118,6 +120,21 @@ namespace Title{
             if(GameObject.Find("TapManager(Clone)") == null){
                 DontDestroyOnLoad(Instantiate(_tapManagerPrefab));
             }
+            // チュートリアルもう一回みるボタン
+            _tutorialButton.onClick.AddListener(()=>{
+                _movieManager.Init(()=>{
+                    // チュートリアル閲覧保存
+                    _movieManager.Close();
+                });
+
+            });
+            var tutorialFlg = PlayerPrefs.GetInt(Common.Const.TUTORIAL_PLAY_KEY, 0);
+            if(tutorialFlg == 0) _tutorialButton.gameObject.SetActive(false);
+
+            //PlayerPrefs.DeleteAll();
+
+            // チュートリアル
+            TutorialCheck();
         }
 
         void Update()
@@ -203,8 +220,8 @@ namespace Title{
             _startButton.onClick.RemoveAllListeners();
             _startButton.onClick.AddListener(()=>{
                 _movieManager.Init(()=>{
-                    // FIXME: 確認用にコメントアウト
-                    // PlayerPrefs.SetInt(Common.Const.TUTORIAL_PLAY_KEY, 1);
+                    // チュートリアル閲覧保存
+                    PlayerPrefs.SetInt(Common.Const.TUTORIAL_PLAY_KEY, 1);
                     StartGame();
                 });
             });

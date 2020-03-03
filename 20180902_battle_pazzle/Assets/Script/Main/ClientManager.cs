@@ -1057,7 +1057,7 @@ public class ClientManager : MonoBehaviour {
                 StopTimeLimitCoroutine();
                 // 切断制御
                 // 退出
-                PhotonNetwork.LeaveRoom();
+                if(PhotonNetwork.inRoom) PhotonNetwork.LeaveRoom();
                 // 切断
                 PhotonNetwork.Disconnect();
             }

@@ -43,14 +43,21 @@ public class PushedEffect : MonoBehaviour {
         var moveFrame = Block.kMoveFrame;
         var addPosition = new Vector3(0.0f, 0.32f * (_nowTurnFlg ? 1 : -1), 0.0f) / moveFrame;
         var addScale = -localScale / moveFrame;
-
-        while(localScale.y > 0.0f){
+        
+        // while(localScale.y > 0.0f){
+        //     yield return null;
+        //     localPosition += addPosition;
+        //     localScale    += addScale;
+        // }
+        // Destroy(gameObject);
+        // yield return null;
+        var frameCount = 0;
+        while(frameCount < moveFrame){
             yield return null;
-            localPosition += addPosition;
-            localScale    += addScale;
+            ++frameCount;
         }
+        
         Destroy(gameObject);
-        yield return null;
     }
     #endregion
 }
