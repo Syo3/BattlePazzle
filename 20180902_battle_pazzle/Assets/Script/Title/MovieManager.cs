@@ -26,6 +26,7 @@ public class MovieManager : MonoBehaviour {
     private Action _movieEndCallback;
     private bool _initFlg = false;
     private bool _seekFlg = false;
+    private bool _moviePlay = false;
     #endregion
 
     /// <summary>
@@ -39,7 +40,6 @@ public class MovieManager : MonoBehaviour {
         _seekFlg          = false;
         _videoLength      = (float)_videoPlayer.clip.length;
         _resetTime        = 0.0f;
-        _videoPlayer.time = 0.0f;
         _movieEndCallback = endCallback;
 
         _canvasGroup.interactable   = true;
@@ -51,8 +51,37 @@ public class MovieManager : MonoBehaviour {
 	
     void Start()
     {
+
+        // ロード官僚のせんで調べる
+
+        // #if UNITY_EDITOR
+        // var path         = "file:///"+Application.streamingAssetsPath+"/20200303_PaneonMovie.mp4";
+        // #endif
+
+        // #if !UNITY_EDITOR && UNITY_ANDROID
+        // var path         = Application.streamingAssetsPath+"/20200303_PaneonMovie.mp4";
+        // path = "jar:file://" + Application.dataPath + "!/assets" + "/20200303_PaneonMovie.mp4";
+        // #endif
+        // #if !UNITY_EDITOR && UNITY_IOS
+        // var path         = "file:///"+Application.streamingAssetsPath+"/20200303_PaneonMovie.mp4";
+        // #endif
+        // _videoPlayer.url = path;
+        
+        // _videoPlayer.Play();
+        // StartCoroutine(Test());
+        // _videoPlayer.errorReceived += ErrorReceived;
+
+        // return;
         _videoPlayer.time = 0.0f;
         _videoLength      = (float)_videoPlayer.clip.length;
+
+        _videoPlayer.errorReceived += delegate (VideoPlayer videoPlayer, string message)
+        {
+            Debug.LogWarning("[VideoPlayer] Play Movie Error: " + message);
+            //Handheld.PlayFullScreenMovie(_videoPlayer.clip.originalPath, Color.black, FullScreenMovieControlMode.CancelOnInput, FullScreenMovieScalingMode.AspectFit);
+            _videoPlayer.Stop();
+            _videoPlayer.Play();
+        };
     }
 
 	// Update is called once per frame
@@ -65,6 +94,9 @@ public class MovieManager : MonoBehaviour {
             _seekFlg       = true;
             _seekBar.value = now / _videoLength;
             _dragFlg       = false;
+            if(!_videoPlayer.isPlaying && _moviePlay){
+                _videoPlayer.Play();
+            }
         }
         else{
             _resetTime += Time.deltaTime;
@@ -133,6 +165,7 @@ public class MovieManager : MonoBehaviour {
             fadeInTime += Time.deltaTime;
         }
         _canvasGroup.alpha = 1.0f;
+        _videoPlayer.gameObject.SetActive(true);
         StartCoroutine(MovieEndCheck());
     }
 
@@ -152,6 +185,7 @@ public class MovieManager : MonoBehaviour {
     private IEnumerator MovieEndCheck()
     {
         _videoPlayer.Play();
+        _moviePlay = true;
         while(!_videoPlayer.isPlaying){
             yield return null;
         }
@@ -166,6 +200,8 @@ public class MovieManager : MonoBehaviour {
             _movieEndCallback = null;
             StartCoroutine(HiddenMovie());
         }
+        _videoPlayer.gameObject.SetActive(false);
+
         Debug.Log("MovieEnd");
     }
 }

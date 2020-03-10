@@ -43,6 +43,7 @@ public class ClientManager : MonoBehaviour {
     private int _lightCreateInterval;
     private bool _initFlg;
     private string _enemyPlayerName;
+    private int _enemyPanelID;
     private bool _enemyInitFlg;
     private bool _deleteNowFlg;
     private Block _spawnCheckBlock;
@@ -208,7 +209,7 @@ public class ClientManager : MonoBehaviour {
 		}
         StartCoroutine(StartAnimationEndCheck());        
         // プレイヤーネームとレートを送信
-        PhotonNetwork.RaiseEvent( (byte)EEventType.PlayerName, PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player")+":"+PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500"), true, RaiseEventOptions.Default );
+        PhotonNetwork.RaiseEvent( (byte)EEventType.PlayerName, PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player")+":"+PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500")+":"+_mainManager.PanelID.ToString(), true, RaiseEventOptions.Default );
 	}
 
 	// Update is called once per frame
@@ -243,6 +244,7 @@ public class ClientManager : MonoBehaviour {
 			list.Reverse();
 		}
 
+        var blockSprite   = _playerType == playerType ? _mainManager.PanelResourceManager.GetPlayerSprite() : _mainManager.PanelResourceManager.GetSprite(_enemyPanelID);
         var worldPosition = _mainManager.WorldTransform.position;
 		for(var i = 0; i < Common.Const.NUM_HEIGHT; ++i){
 
@@ -251,7 +253,7 @@ public class ClientManager : MonoBehaviour {
 				if(list[i][j] > 0 && _areaList[i][j].Block == null /*&& _areaList[i][j].Panel.State == list[i][j]*/){
 
 					var block = Instantiate(_mainManager.BlockPrefab, new Vector3(j * Common.Const.BLOCK_SIZE + Common.Const.START_POS_X, i * Common.Const.BLOCK_SIZE + Common.Const.START_POS_Y, 0.0f) * _mainManager.WorldTransform.localScale.x + worldPosition, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<Block>();
-					block.Init(list[i][j], this, j, i, playerType != _playerType);
+					block.Init(list[i][j], this, j, i, playerType != _playerType, blockSprite);
 					_areaList[i][j].Block = block;
                     _spawnCheckBlock      = block;
 				}
@@ -297,6 +299,7 @@ public class ClientManager : MonoBehaviour {
 			_territoryLineNum += lineCnt;
 		}
 		// 列が揃ったブロック削除
+        
 		var destroyStart    = 0;
         var worldPosition   = _mainManager.WorldTransform.position;
         var lastDestroyTime = 0.0f;
@@ -309,8 +312,9 @@ public class ClientManager : MonoBehaviour {
 					if(destroyStart == -1){
 						destroyStart = i + j;
 					}
-					var effect = Instantiate(_mainManager.DestroyEffectPrefab, _areaList[i][j].Block.transform.position, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<DestroyEffect>();
-					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (i+j-destroyStart)*0.1f, _mainManager.ParticleManager);
+					var effect      = Instantiate(_mainManager.DestroyEffectPrefab, _areaList[i][j].Block.transform.position, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<DestroyEffect>();
+                    var blockSprite = _playerType == (Common.Const.PLAYER_TYPE)_areaList[i][j].Block.State ? _mainManager.PanelResourceManager.GetPlayerSprite() : _mainManager.PanelResourceManager.GetSprite(_enemyPanelID);
+					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (i+j-destroyStart)*0.1f, _mainManager.ParticleManager, blockSprite);
 //					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (+Mathf.Abs(i - Common.Const.NUM_HEIGHT / 2) + Mathf.Abs(j - Common.Const.NUM_HEIGHT / 2) + destroyStart)*0.2f);
 					Destroy(_areaList[i][j].Block.gameObject);
 					_areaList[i][j].Block = null;
@@ -603,6 +607,10 @@ public class ClientManager : MonoBehaviour {
 
                 victoryString = "Win";
                 rate         += 15;
+                // ガチャ
+                var skinGachaPoint  = PlayerPrefs.GetInt(Common.Const.PANEL_GACHA_POINT, 0);
+                PlayerPrefs.SetInt(Common.Const.PANEL_GACHA_POINT, skinGachaPoint+1);
+
 			}
 			// 負け
 			else{
@@ -932,7 +940,8 @@ public class ClientManager : MonoBehaviour {
 					}
 					var effect = Instantiate(_mainManager.DestroyEffectPrefab, _areaList[i][j].Block.transform.position, Quaternion.identity, _mainManager.PanelParentTransform).GetComponent<DestroyEffect>();
 					Debug.Log(_areaList[i][j].Block.State);
-					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (i+j-destroyStart)*0.1f, _mainManager.ParticleManager);
+                    var blockSprite = _playerType == (Common.Const.PLAYER_TYPE)_areaList[i][j].Block.State ? _mainManager.PanelResourceManager.GetPlayerSprite() : _mainManager.PanelResourceManager.GetSprite(_enemyPanelID);
+					effect.Init(_areaList[i][j].Block.State, _mainManager.SoundManager, (i+j-destroyStart)*0.1f, _mainManager.ParticleManager, blockSprite);
 					Destroy(_areaList[i][j].Block.gameObject);
 					_areaList[i][j].Block = null;
 				}
@@ -1035,6 +1044,7 @@ public class ClientManager : MonoBehaviour {
             var contentList  = content.ToString().Split(':');
             _enemyPlayerName = contentList[0];
             var enemyRate    = contentList[1];
+            _enemyPanelID    = int.Parse(contentList[2]);
             _mainManager.StartViewManager.Init(PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player"), _enemyPlayerName, PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500"), enemyRate);
             System.Action callback = () => {
                 _initFlg = true;
@@ -1079,8 +1089,8 @@ public class ClientManager : MonoBehaviour {
             // 片方だけ送られない場合があったため再送チェック処理
             if(_initFlg){
                 _initCheckCount += Time.deltaTime;
-                if(_initCheckCount > 5.0f){
-                    PhotonNetwork.RaiseEvent( (byte)EEventType.PlayerName, PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player")+":"+PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500"), true, RaiseEventOptions.Default );
+                if(_initCheckCount > 0.5f){
+                    PhotonNetwork.RaiseEvent( (byte)EEventType.PlayerName, PlayerPrefs.GetString(Common.Const.PLAYER_NAME_KEY, "player")+":"+PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500")+":"+_mainManager.PanelID.ToString(), true, RaiseEventOptions.Default );
                     _initCheckCount = 0.0f;
                 }
             }

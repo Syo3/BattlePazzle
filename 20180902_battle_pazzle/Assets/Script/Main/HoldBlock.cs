@@ -23,6 +23,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
     private bool _holdFlg;
     private Coroutine _scaleAnimation;
     private Coroutine _rotateAnimation;
+    
     #endregion
 
     #region access
@@ -307,7 +308,7 @@ public class HoldBlock : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoi
 
                 if(blcokData[i][j] == 1){
                     var block = Instantiate(_mainManager.PlacementBlockPrefab, new Vector3(j * Common.Const.BLOCK_SIZE - Common.Const.BLOCK_SIZE * 2.0f, i * Common.Const.BLOCK_SIZE - Common.Const.BLOCK_SIZE * 2.0f, 0.0f) * _mainManager.WorldTransform.localScale.x + _blockParent.transform.position, Quaternion.identity, _blockParent.transform).GetComponent<PlacementBlock>();
-                    block.Init(j, i, _mainManager.ClientManager.PlayerTypeint);
+                    block.Init(j, i, _mainManager.ClientManager.PlayerTypeint, _mainManager.PanelResourceManager.GetPlayerSprite());
                     _blockList[i].Add(block);
                 }
             }

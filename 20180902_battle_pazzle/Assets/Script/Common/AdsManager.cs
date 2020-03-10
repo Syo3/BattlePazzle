@@ -11,9 +11,9 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener {
         if(Advertisement.IsReady("video"))return;
 
 #if UNITY_ANDROID
-        Advertisement.Initialize("3065696",testMode:true);
+        Advertisement.Initialize("3065696",testMode:false);
 #elif UNITY_IOS
-        Advertisement.Initialize("3065697",testMode:true);
+        Advertisement.Initialize("3065697",testMode:false);
         Debug.Log("Test_ios");
 #elif UNITY_EDITOR
         Advertisement.Initialize("3065697");
@@ -25,7 +25,6 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener {
     //広告呼び出し
     public void ShowRewardedAd()
     {
-        return;
         //GameObject.Find("ButtonTextText").GetComponent<UnityEngine.UI.Text>().text = "広告チェック";
         // TODO: ここでiOSが止まっている？
         if (Advertisement.IsReady("video"))

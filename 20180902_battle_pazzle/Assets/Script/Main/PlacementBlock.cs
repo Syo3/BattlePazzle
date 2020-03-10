@@ -36,13 +36,14 @@ public class PlacementBlock : MonoBehaviour {
 	/// <param name="x"></param>
 	/// <param name="y"></param>
 	/// <param name="playerType"></param>
-	public void Init(int x, int y, int playerType)
+	public void Init(int x, int y, int playerType, Sprite sprite)
 	{
-		_positionX  = x;
-		_positionY  = y;
-		_playerType = playerType;
-        _transform  = transform;
-        _coroutine  = null;
+		_positionX     = x;
+		_positionY     = y;
+		_playerType    = playerType;
+        _transform     = transform;
+        _coroutine     = null;
+        _sprite.sprite = sprite;
 		SetPlacementColor();
 	}
 

@@ -97,6 +97,9 @@ public class MainManager : MonoBehaviour {
     private TMPro.TextMeshProUGUI _turnChangeLimitText;
     [SerializeField, Tooltip("削除パーティクルマネージャ")]
     private DestroyParticleManager _particleManager;
+    [SerializeField, Tooltip("パネル管理")]
+    private PanelResourceManager _panelResourceManger;
+
 
 	// デバッグ用
 	[SerializeField]
@@ -109,7 +112,7 @@ public class MainManager : MonoBehaviour {
 	private List<int> _blockSelectedList;
 	private int _blockListKey;
 	private int debugCounter = 0;
-   private string _roomPassword;
+    private string _roomPassword;
 	#endregion
 
 	#region access
@@ -223,6 +226,12 @@ public class MainManager : MonoBehaviour {
     }
     public DestroyParticleManager ParticleManager{
         get{return _particleManager;}
+    }
+    public PanelResourceManager PanelResourceManager{
+        get{return _panelResourceManger;}
+    }
+    public int PanelID{
+        get{return _panelResourceManger.PanelID;}
     }
 	#endregion
 

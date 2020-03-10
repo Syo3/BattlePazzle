@@ -14,6 +14,7 @@ public class NetworkManager : MonoBehaviour {
 	private MainManager _mainManager;
     private string _roomPassword;
     private float _roomCheckTimer;
+    private bool _errorFlg;
 	#endregion
 
 	#region access
@@ -31,7 +32,8 @@ public class NetworkManager : MonoBehaviour {
 
     public void Init(string password)
     {
-		_state = 0;
+        _errorFlg     = false;
+		_state        = 0;
         _roomPassword = password;
         Debug.Log("password:"+_roomPassword);
 		// ネットワーク準備
@@ -42,7 +44,7 @@ public class NetworkManager : MonoBehaviour {
     void Update()
     {
         
-        if(_state != 0 || _roomPassword != "") return;
+        if(_state != 0 || _roomPassword != "" || _errorFlg) return;
         _roomCheckTimer += Time.deltaTime;
         if(_roomCheckTimer < kRoomCheckTime) return;
         // 退出してルーム検索
@@ -65,6 +67,17 @@ public class NetworkManager : MonoBehaviour {
     }
 
 	#region photon function
+    /// <summary>
+    /// ネットワーク接続失敗
+    /// </summary>
+    /// <param name="cause"></param>
+    void OnFailedToConnectToPhoton(DisconnectCause cause)
+    {
+        _errorFlg = true;
+        _mainManager.PopupView.SetNetworkErrorView();
+        _mainManager.PopupView.Open();
+    }
+
 	/// <summary>
 	/// ロビーに入ると呼ばれる
 	/// </summary>

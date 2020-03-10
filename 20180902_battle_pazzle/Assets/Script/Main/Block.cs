@@ -46,7 +46,7 @@ public class Block : MonoBehaviour, IPointerClickHandler {
 	/// 初期設定
 	/// </summary>
 	/// <param name="set_state">Set state.</param>
-	public void Init(int set_state, ClientManager clientManager, int listX, int listY, bool spawnAnimationFlg=false)
+	public void Init(int set_state, ClientManager clientManager, int listX, int listY, bool spawnAnimationFlg=false, Sprite sprite=null)
 	{
         _moveFlg       = false;
         _clientManager = clientManager;
@@ -54,6 +54,7 @@ public class Block : MonoBehaviour, IPointerClickHandler {
         Debug.Log("ListY:"+_listY);
         _listY         = listY;
 		_state         = set_state;
+        _sprite.sprite = sprite;
         Color setColor = Color.clear;
 		switch(_state){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:

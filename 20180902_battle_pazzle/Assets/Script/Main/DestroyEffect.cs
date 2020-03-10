@@ -30,13 +30,14 @@ public class DestroyEffect : MonoBehaviour {
 	/// </summary>
 	/// <param name="playerType"></param>
 	/// <param name="animationStart"></param>
-	public void Init(int playerType,SoundManager soundManager, float animationStart=0.0f, DestroyParticleManager particleManager=null)
+	public void Init(int playerType,SoundManager soundManager, float animationStart=0.0f, DestroyParticleManager particleManager=null, Sprite sprite=null)
 	{
         _animationType      = 0;
         _soundManager       = soundManager;
 		_animationStartTime = animationStart;
         _particleManager    = particleManager;
         _playerType         = playerType;
+        _sprite.sprite      = sprite;
 		switch(_playerType){
 		case (int)Common.Const.PLAYER_TYPE.MASTER:
 			//_sprite.sprite = ResourceManager.LoadSprite("Image/panel_2");

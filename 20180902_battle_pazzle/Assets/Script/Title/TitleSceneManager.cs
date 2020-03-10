@@ -51,6 +51,12 @@ namespace Title{
         private MovieManager _movieManager;
         [SerializeField, Tooltip("チュートリアルボタン")]
         private Button _tutorialButton;
+        [SerializeField, Tooltip("スキン表示")]
+        private SkinViewManager _skinViewManager;
+        [SerializeField, Tooltip("スキンボタン")]
+        private Button _skinButton;
+        [SerializeField, Tooltip("ボタンサウンド")]
+        private ButtonSoundManager _buttonSoundManager;
         #endregion
 
         private bool _lightModeFlg;
@@ -59,6 +65,9 @@ namespace Title{
         #region access
         public GameObject SceneContainer{
             get{return _sceneContainer;}
+        }
+        public ButtonSoundManager ButtonSoundManager{
+            get{return _buttonSoundManager;}
         }
         #endregion
 
@@ -132,9 +141,14 @@ namespace Title{
             if(tutorialFlg == 0) _tutorialButton.gameObject.SetActive(false);
 
             //PlayerPrefs.DeleteAll();
-
+            _skinViewManager.Init(this);
+            _skinButton.onClick.AddListener(()=>{
+                _skinViewManager.Show(true);
+                _nameArea.Show(false);
+            });
             // チュートリアル
             TutorialCheck();
+
         }
 
         void Update()

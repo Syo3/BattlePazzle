@@ -7,7 +7,11 @@
         public const string VOLUME_KEY      = "BGMVolumeKey";
         public const string LIGHT_MODE_KEY  = "LightModeKey";
         public const string TUTORIAL_PLAY_KEY = "TutorialPlayKey";
+        public const string PANEL_GET_LIST = "PanelGetList";
+        public const string NOW_PANEL_ID = "NowPanelID";
+        public const string PANEL_GACHA_POINT = "PanelGachaPoint";
 
+        public const int PANEL_SKIN_MAX = 35;
 		public const int NUM_WIDTH  = 8;
 		public const int NUM_HEIGHT = 8;
 

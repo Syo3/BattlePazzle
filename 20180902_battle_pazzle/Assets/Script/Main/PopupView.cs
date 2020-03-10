@@ -80,7 +80,26 @@ public class PopupView : MonoBehaviour {
         // レート
         var rate = int.Parse(PlayerPrefs.GetString(Common.Const.PLAYER_RATE_KEY, "1500"));
         PlayerPrefs.SetString(Common.Const.PLAYER_RATE_KEY, (rate+15).ToString());
+        // ガチャ
+        var skinGachaPoint  = PlayerPrefs.GetInt(Common.Const.PANEL_GACHA_POINT, 0);
+        PlayerPrefs.SetInt(Common.Const.PANEL_GACHA_POINT, skinGachaPoint+1);
+        _titleButton.onClick.RemoveAllListeners();
+        _titleButton.onClick.AddListener(()=>{
+            _mainManager.FadeManager.SetCallBack(()=>{
+    			SceneManager.LoadScene("Title");
+            });
+            StartCoroutine(_mainManager.FadeManager.FadeOut());
+		});
+    }
 
+    /// <summary>
+    /// ネットワークエラー表示
+    /// </summary>
+    public void SetNetworkErrorView()
+    {
+        _titleButtonText.text = "Title";
+        _closeButton.gameObject.SetActive(false);
+        _popupText.text = "ネットワーク接続に\n失敗しました。\n通信環境を確認してください。";
         _titleButton.onClick.RemoveAllListeners();
         _titleButton.onClick.AddListener(()=>{
             _mainManager.FadeManager.SetCallBack(()=>{
