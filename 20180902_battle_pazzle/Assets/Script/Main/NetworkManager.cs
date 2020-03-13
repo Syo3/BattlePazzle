@@ -78,6 +78,15 @@ public class NetworkManager : MonoBehaviour {
         _mainManager.PopupView.Open();
     }
 
+    /// <summary>
+    /// ルーム入室失敗時に呼ばれる
+    /// </summary>
+    /// <param name="codeAndMsg"></param>
+    void OnPhotonJoinRoomFailed(object[] codeAndMsg)
+    {
+        Debug.Log("入室に失敗しました");
+    }
+
 	/// <summary>
 	/// ロビーに入ると呼ばれる
 	/// </summary>
